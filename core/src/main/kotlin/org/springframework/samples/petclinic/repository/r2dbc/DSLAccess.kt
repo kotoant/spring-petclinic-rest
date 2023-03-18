@@ -6,6 +6,7 @@ import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.reactor.mono
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
+import org.jooq.conf.RenderQuotedNames
 import org.jooq.conf.Settings
 import org.jooq.impl.DSL
 import org.reactivestreams.Publisher
@@ -13,7 +14,7 @@ import org.springframework.r2dbc.core.DatabaseClient
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-private val settings = Settings()
+private val settings = Settings().withRenderQuotedNames(RenderQuotedNames.NEVER)
 
 private fun Connection.dsl() = DSL.using(this, SQLDialect.POSTGRES, settings)
 
