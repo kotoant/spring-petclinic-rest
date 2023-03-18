@@ -1,6 +1,6 @@
 # REST version of Spring PetClinic Sample Application (spring-framework-petclinic extend ) 
 
-[![Build Status](https://github.com/spring-petclinic/spring-petclinic-rest/actions/workflows/maven-build.yml/badge.svg)](https://github.com/spring-petclinic/spring-petclinic-rest/actions/workflows/maven-build.yml)
+[![Build Status](https://github.com/kotoant/spring-petclinic-rest/actions/workflows/maven-build.yml/badge.svg)](https://github.com/kotoant/spring-petclinic-rest/actions/workflows/maven-build.yml)
 
 This backend version of the Spring Petclinic application only provides a REST API. **There is no UI**.
 The [spring-petclinic-angular project](https://github.com/spring-petclinic/spring-petclinic-angular) is a Angular front-end application which consumes the REST API.
@@ -106,7 +106,7 @@ docker run --name postgres-petclinic -e POSTGRES_PASSWORD=petclinic -e POSTGRES_
 This API is built following some [API First approach principles](https://swagger.io/resources/articles/adopting-an-api-first-approach/).
 
 It is specified through the [OpenAPI](https://oai.github.io/Documentation/).
-It is specified in this [file](./src/main/resources/openapi.yml).
+It is specified in this [file](webmvc-jdbc/src/main/resources/openapi.yml).
 
 Some of the required classes are generated during the build time. 
 Here are the generated file types:
@@ -192,12 +192,12 @@ File -> Import -> Maven -> Existing Maven project
 
 | Layer | Source |
 |--|--|
-| REST API controllers | [REST folder](src/main/java/org/springframework/samples/petclinic/rest) |
-| Service | [ClinicServiceImpl.java](src/main/java/org/springframework/samples/petclinic/service/ClinicServiceImpl.java) |
-| JDBC | [jdbc folder](src/main/java/org/springframework/samples/petclinic/repository/jdbc) |
-| JPA | [jpa folder](src/main/java/org/springframework/samples/petclinic/repository/jpa) |
-| Spring Data JPA | [springdatajpa folder](src/main/java/org/springframework/samples/petclinic/repository/springdatajpa) |
-| Tests | [AbstractClinicServiceTests.java](src/test/java/org/springframework/samples/petclinic/service/AbstractClinicServiceTests.java) |
+| REST API controllers | [REST folder](webmvc-jdbc/src/main/java/org/springframework/samples/petclinic/rest) |
+| Service | [ClinicServiceImpl.java](webmvc-jdbc/src/main/java/org/springframework/samples/petclinic/service/ClinicServiceImpl.java) |
+| JDBC | [jdbc folder](webmvc-jdbc/src/main/java/org/springframework/samples/petclinic/repository/jdbc) |
+| JPA | [jpa folder](webmvc-jdbc/src/main/java/org/springframework/samples/petclinic/repository/jpa) |
+| Spring Data JPA | [springdatajpa folder](webmvc-jdbc/src/main/java/org/springframework/samples/petclinic/repository/springdatajpa) |
+| Tests | [AbstractClinicServiceTests.java](webmvc-jdbc/src/test/java/org/springframework/samples/petclinic/service/AbstractClinicServiceTests.java) |
 
 
 ## Publishing a Docker image

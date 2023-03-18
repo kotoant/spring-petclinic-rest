@@ -1,0 +1,3 @@
+package org.springframework.samples.petclinic.rest.webflux.r2dbc.coroutine
+
+class TomcatWebFluxR2dbcCoroutineOwnerControllerTest : WebFluxR2dbcCoroutineOwnerControllerTest()

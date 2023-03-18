@@ -1,0 +1,85 @@
+# Actuator
+management.endpoints.web.exposure.include: "*"
+
+server:
+  port: 9966
+  servlet:
+    context-path: /petclinic/
+
+spring:
+  web:
+    locale-resolver: fixed
+    locale: en
+  webflux:
+    base-path: /petclinic
+  main:
+    web-application-type: servlet
+  codec:
+    maxInMemorySize: 10MB
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+  liquibase:
+    enabled: false
+  profiles:
+    group:
+      webmvc-jdbc: jdbc
+      webmvc-jdbc-loom: jdbc,loom
+      webflux-jdbc-reactive: jdbc,reactive
+      webflux-jdbc-loom: jdbc,reactive,loom
+      webflux-jdbc-coroutine: jdbc,coroutine
+      webflux-r2dbc-reactive: r2dbc,reactive
+      webflux-r2dbc-coroutine: r2dbc,coroutine
+    default: webmvc-jdbc
+logging:
+  level:
+    ROOT: INFO
+
+---
+
+spring.config.activate.on-profile: reactive,coroutine
+spring:
+  main:
+    web-application-type: reactive
+
+---
+
+spring.config.activate.on-profile: jdbc
+spring:
+  jooq:
+    sql-dialect: postgres
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_JDBC_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      connection-timeout: 30000 # 30 seconds
+      idle-timeout: 300000 # 5 minutes
+      max-lifetime: 1800000 # 30 minutes
+      connection-test-query: select 1
+      minimum-idle: 10
+      maximum-pool-size: 30
+      pool-name: spring-hikari
+
+---
+
+spring.config.activate.on-profile: r2dbc
+spring:
+  r2dbc:
+    url: ${DB_R2DBC_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    pool:
+      maxIdleTime: PT5M
+      maxLifeTime: PT30M
+      maxAcquireTime: PT30S
+      maxCreateConnectionTime: PT30S
+      initialSize: 10
+      maxSize: 30
+      validationQuery: select 1
+    properties:
+      preparedStatementCacheQueries: 256
+      options: idle_in_transaction_session_timeout=30000;

@@ -1,4 +1,4 @@
-target/*
+target/
 .settings/*
 .classpath
 .project
@@ -6,7 +6,8 @@ target/*
 *.iml
 /target
 
-generated/
+pom.xml.versionsBackup
+.env
 
 # Easier branch switching
 springboot-petclinic-client/
