@@ -21,7 +21,6 @@
     <modules>
         <module>db</module>
         <module>core</module>
-        <module>webmvc-jdbc</module>
         <module>tomcat</module>
         <module>jetty</module>
         <module>undertow</module>
@@ -121,6 +120,8 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <pluginManagement>
             <plugins>
                 <plugin>
