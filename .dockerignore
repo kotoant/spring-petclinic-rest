@@ -1,0 +1,10 @@
+# excludes files and directories from the context the docker CLI sends to the docker daemon
+
+**/*
+!.dockerignore
+!Dockerfile
+!run-java.sh
+!jetty/target/*-exec.jar
+!netty/target/*-exec.jar
+!tomcat/target/*-exec.jar
+!undertow/target/*-exec.jar

@@ -28,6 +28,8 @@
     </modules>
 
     <properties>
+        <java.version>19</java.version>
+        <start-class>org.springframework.samples.petclinic.PetClinicApplicationKt</start-class>
         <!-- Third librairies -->
         <spring-data-jdbc.version>1.2.1.RELEASE</spring-data-jdbc.version>
         <springdoc-openapi-ui.version>2.0.2</springdoc-openapi-ui.version>
@@ -134,6 +136,33 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.10.1</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <!-- Spring Boot Actuator displays build-related information
+                              if a META-INF/build-info.properties file is present -->
+                            <goals>
+                                <goal>build-info</goal>
+                            </goals>
+                            <configuration>
+                                <additionalProperties>
+                                    <encoding.source>${project.build.sourceEncoding}</encoding.source>
+                                    <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
+                                    <java.source>${maven.compiler.source}</java.source>
+                                    <java.target>${maven.compiler.target}</java.target>
+                                </additionalProperties>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>repackage</id>
+                            <configuration>
+                                <classifier>exec</classifier>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -193,7 +222,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>19</jvmTarget>
+                    <jvmTarget>${java.version}</jvmTarget>
                     <compilerPlugins>
                         <plugin>spring</plugin>
                     </compilerPlugins>
@@ -224,8 +253,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>19</source>
-                    <target>19</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>
