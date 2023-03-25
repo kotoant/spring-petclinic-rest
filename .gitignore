@@ -7,7 +7,7 @@ target/
 /target
 
 pom.xml.versionsBackup
-.env
+*.env
 
 # Easier branch switching
 springboot-petclinic-client/
