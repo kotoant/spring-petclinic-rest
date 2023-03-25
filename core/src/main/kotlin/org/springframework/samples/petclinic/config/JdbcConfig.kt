@@ -23,7 +23,7 @@ class JdbcConfig {
 
     private fun newHikariDataSource(properties: DataSourceProperties): HikariDataSource {
         val dataSource = HikariDataSource()
-        dataSource.driverClassName = properties.driverClassName
+        properties.driverClassName?.let { dataSource.driverClassName = it }
         dataSource.jdbcUrl = properties.url
         dataSource.username = properties.username
         dataSource.password = properties.password

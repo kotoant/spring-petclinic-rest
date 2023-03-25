@@ -48,13 +48,10 @@ spring:
 
 spring.config.activate.on-profile: jdbc
 spring:
-  jooq:
-    sql-dialect: postgres
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: ${DB_JDBC_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST:localhost:5432}/${DB_NAME:petclinic}
+    username: ${DB_USERNAME:petclinic}
+    password: ${DB_PASSWORD:petclinic}
     hikari:
       connection-timeout: 30000 # 30 seconds
       idle-timeout: 300000 # 5 minutes
@@ -69,9 +66,9 @@ spring:
 spring.config.activate.on-profile: r2dbc
 spring:
   r2dbc:
-    url: ${DB_R2DBC_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: r2dbc:postgresql://${DB_HOST:localhost:5432}/${DB_NAME:petclinic}
+    username: ${DB_USERNAME:petclinic}
+    password: ${DB_PASSWORD:petclinic}
     pool:
       maxIdleTime: PT5M
       maxLifeTime: PT30M
