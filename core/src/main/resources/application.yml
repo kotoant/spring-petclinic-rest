@@ -1,17 +1,26 @@
 # Actuator
 management.endpoints.web.exposure.include: "*"
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+        add-additional-paths: true
 
 server:
   port: 9966
   servlet:
-    context-path: /petclinic/
+    context-path: /
+  forward-headers-strategy: framework
 
 spring:
+  config:
+    import: 'optional:configserver:'
   web:
     locale-resolver: fixed
     locale: en
   webflux:
-    base-path: /petclinic
+    base-path: /
   main:
     web-application-type: servlet
   codec:
