@@ -27,6 +27,7 @@
             <groupId>org.springframework.samples</groupId>
             <artifactId>core</artifactId>
             <classifier>tests</classifier>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>

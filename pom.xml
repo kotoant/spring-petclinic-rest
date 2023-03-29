@@ -91,6 +91,7 @@
                 <artifactId>core</artifactId>
                 <version>${project.version}</version>
                 <classifier>tests</classifier>
+                <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
