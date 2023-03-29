@@ -7,12 +7,12 @@
     <parent>
         <groupId>org.springframework.samples</groupId>
         <artifactId>spring-petclinic-rest</artifactId>
-        <version>3.0.4</version>
+        <version>SPR-SNAPSHOT</version>
     </parent>
 
     <groupId>org.springframework.samples</groupId>
     <artifactId>core</artifactId>
-    <version>3.0.4</version>
+    <version>SPR-SNAPSHOT</version>
 
     <properties>
         <jooq.generated.sources.directory>target/generated-sources/jooq</jooq.generated.sources.directory>
@@ -428,6 +428,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

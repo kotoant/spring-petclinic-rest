@@ -7,12 +7,12 @@
     <parent>
         <groupId>org.springframework.samples</groupId>
         <artifactId>spring-petclinic-rest</artifactId>
-        <version>3.0.4</version>
+        <version>SPR-SNAPSHOT</version>
     </parent>
 
     <groupId>org.springframework.samples</groupId>
     <artifactId>jetty</artifactId>
-    <version>3.0.4</version>
+    <version>SPR-SNAPSHOT</version>
 
     <properties>
         <jakarta-servlet.version>5.0.0</jakarta-servlet.version>
