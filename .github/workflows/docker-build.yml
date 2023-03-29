@@ -35,7 +35,7 @@ jobs:
           cache: maven
 
       - name: Set version
-        if: ${{ github.event.push && startsWith(github.event.ref, 'refs/tags/v') }}
+        if: ${{ github.event_name == 'push' && startsWith(github.ref_name, 'v') }}
         run: mvn -B versions:set -DnewVersion=${GITHUB_REF_NAME#"v"}
 
       - name: Build with Maven
