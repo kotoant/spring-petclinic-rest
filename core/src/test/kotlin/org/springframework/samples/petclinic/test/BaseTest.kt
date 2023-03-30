@@ -103,7 +103,7 @@ class BaseTest : BaseTestcontainersTest() {
     }
 
     fun visit(petId: Int) =
-        Visit(0, petId, LocalDate.of(2022, 3, 14), "description")
+        Visit(0, petId, LocalDate.of(2023, 3, 14), "description")
     fun assertVisit(visit: Visit, expected: Visit, id: Int = visit.id) {
         Assertions.assertThat(visit.id).isEqualTo(id)
         Assertions.assertThat(visit.petId).isEqualTo(expected.petId)

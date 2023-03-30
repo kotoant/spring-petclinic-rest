@@ -1,25 +1,30 @@
 package org.springframework.samples.petclinic.rest
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.samples.petclinic.model.PetType
-import org.springframework.samples.petclinic.rest.dto.PetTypeDto
+import org.springframework.samples.petclinic.rest.dto.PetTypeFieldsDto
 import org.springframework.samples.petclinic.test.BaseTest
+import org.springframework.samples.petclinic.test.RegexMatcher
 
 abstract class PetTypeControllerTest : BaseTest() {
 
 
     @Test
     fun addPetType() {
+        val locationMatcher = RegexMatcher(Regex("/api/petTypes/(\\d+)"))
+
         webClient
             .post()
             .uri("/api/pettypes")
-            .bodyValue(PetTypeDto(name = "rabbit"))
+            .bodyValue(PetTypeFieldsDto(name = "rabbit"))
             .exchange()
             .expectStatus()
             .isCreated
+            .expectHeader().value("location") { location -> locationMatcher.match(location) }
             .expectBody()
-            .jsonPath("$.id").value<Int> { id -> Assertions.assertThat(id).isPositive() }
+            .jsonPath("$.id")
+            .value<Int> { id -> assertThat(id).isPositive.isEqualTo(locationMatcher.destructed.component1().toInt()) }
             .jsonPath("$.name").isEqualTo("rabbit")
     }
 
@@ -34,7 +39,7 @@ abstract class PetTypeControllerTest : BaseTest() {
             .expectStatus()
             .isNoContent
 
-        Assertions.assertThat(petTypeRepository.fetchOneById(petType.id)).isNull()
+        assertThat(petTypeRepository.fetchOneById(petType.id)).isNull()
 
         webClient
             .delete()
@@ -87,7 +92,7 @@ abstract class PetTypeControllerTest : BaseTest() {
             .isOk
             .expectBody()
             .jsonPath("$.length()")
-            .value<Int> { numberOfPetTypes -> Assertions.assertThat(numberOfPetTypes).isGreaterThanOrEqualTo(6) }
+            .value<Int> { numberOfPetTypes -> assertThat(numberOfPetTypes).isGreaterThanOrEqualTo(6) }
 
             .jsonPath("$[0].id").isEqualTo(1)
             .jsonPath("$[0].name").isEqualTo("cat")
@@ -143,7 +148,7 @@ abstract class PetTypeControllerTest : BaseTest() {
         webClient
             .put()
             .uri("/api/pettypes/{id}", petType.id)
-            .bodyValue(petTypeMapper.toPetTypeDto(petType.copy(name = "chinchilla")))
+            .bodyValue(PetTypeFieldsDto(name = "chinchilla"))
             .exchange()
             .expectStatus()
             .isOk
@@ -158,11 +163,8 @@ abstract class PetTypeControllerTest : BaseTest() {
             .put()
             .uri("/api/petTypes/{id}", 100500)
             .bodyValue(
-                petTypeMapper.toPetTypeDto(
-                    testPetType.copy(
-                        id = 100500,
-                        name = "guinea pig"
-                    )
+                PetTypeFieldsDto(
+                    name = "guinea pig"
                 )
             )
             .exchange()

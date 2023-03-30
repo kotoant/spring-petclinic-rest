@@ -2,14 +2,18 @@ package org.springframework.samples.petclinic.rest
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.springframework.samples.petclinic.model.PetType
+import org.springframework.samples.petclinic.rest.dto.PetFieldsDto
+import org.springframework.samples.petclinic.rest.dto.PetTypeDto
 import org.springframework.samples.petclinic.test.BaseTest
+import org.springframework.samples.petclinic.test.RegexMatcher
 import java.time.LocalDate
 
 abstract class PetControllerTest : BaseTest() {
 
     @Test
     fun addPet() {
+        val locationMatcher = RegexMatcher(Regex("/api/pets/(\\d+)"))
+
         webClient
             .post()
             .uri("/api/pets")
@@ -17,8 +21,10 @@ abstract class PetControllerTest : BaseTest() {
             .exchange()
             .expectStatus()
             .isCreated
+            .expectHeader().value("location") { location -> locationMatcher.match(location) }
             .expectBody()
-            .jsonPath("$.id").value<Int> { id -> assertThat(id).isPositive() }
+            .jsonPath("$.id")
+            .value<Int> { id -> assertThat(id).isPositive.isEqualTo(locationMatcher.destructed.component1().toInt()) }
             .jsonPath("$.ownerId").isEqualTo(testOwner.id)
             .jsonPath("$.birthDate").isEqualTo("2023-03-14")
             .jsonPath("$.type.id").isEqualTo(1)
@@ -205,12 +211,10 @@ abstract class PetControllerTest : BaseTest() {
             .put()
             .uri("/api/pets/{id}", pet.id)
             .bodyValue(
-                petMapper.toPetDto(
-                    pet.copy(
-                        name = "Freddy",
-                        birthDate = LocalDate.of(2002, 6, 8),
-                        type = PetType(2, "dog")
-                    )
+                PetFieldsDto(
+                    name = "Freddy",
+                    birthDate = LocalDate.of(2002, 6, 8),
+                    type = PetTypeDto(id = 2, name = "dog")
                 )
             )
             .exchange()
@@ -230,13 +234,10 @@ abstract class PetControllerTest : BaseTest() {
             .put()
             .uri("/api/pets/{id}", 100500)
             .bodyValue(
-                petMapper.toPetDto(
-                    testPet.copy(
-                        id = 100500,
-                        name = "Freddy",
-                        birthDate = LocalDate.of(2002, 6, 8),
-                        type = PetType(2, "dog")
-                    )
+                PetFieldsDto(
+                    name = "Freddy",
+                    birthDate = LocalDate.of(2002, 6, 8),
+                    type = PetTypeDto(id = 2, name = "dog")
                 )
             )
             .exchange()

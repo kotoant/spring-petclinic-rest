@@ -27,14 +27,14 @@ class CoroutineOwnerController(
     private val visitMapper: VisitMapper
 ) : OwnersCoroutineApi {
 
-    override suspend fun addOwner(ownerDto: OwnerDto): ResponseEntity<OwnerDto> {
-        val owner = clinicService.saveOwner(ownerMapper.toOwner(ownerDto))
+    override suspend fun addOwner(ownerFieldsDto: OwnerFieldsDto): ResponseEntity<OwnerDto> {
+        val owner = clinicService.saveOwner(ownerMapper.toOwner(ownerFieldsDto))
         val headers = HttpHeaders()
         headers.location = UriComponentsBuilder.newInstance().path("/api/owners/{id}").buildAndExpand(owner.id).toUri()
         return ResponseEntity(ownerMapper.toOwnerDto(owner), headers, HttpStatus.CREATED)
     }
 
-    override suspend fun deleteOwner(ownerId: Int): ResponseEntity<OwnerDto> {
+    override suspend fun deleteOwner(ownerId: Int): ResponseEntity<Unit> {
         return if (clinicService.deleteOwner(ownerId)) {
             ResponseEntity(HttpStatus.NO_CONTENT)
         } else {

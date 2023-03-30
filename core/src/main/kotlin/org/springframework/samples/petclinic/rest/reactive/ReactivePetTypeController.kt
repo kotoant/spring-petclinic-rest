@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.samples.petclinic.mapper.PetTypeMapper
 import org.springframework.samples.petclinic.rest.api.reactive.PettypesReactiveApi
 import org.springframework.samples.petclinic.rest.dto.PetTypeDto
+import org.springframework.samples.petclinic.rest.dto.PetTypeFieldsDto
 import org.springframework.samples.petclinic.service.reactive.ReactiveClinicService
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
@@ -19,8 +20,8 @@ class ReactivePetTypeController(
     private val clinicService: ReactiveClinicService, private val petTypeMapper: PetTypeMapper
 ) : PettypesReactiveApi {
 
-    override fun addPetType(petTypeDto: PetTypeDto): Mono<ResponseEntity<PetTypeDto>> {
-        return clinicService.savePetType(petTypeMapper.toPetType(petTypeDto)).map { petType ->
+    override fun addPetType(petTypeFieldsDto: PetTypeFieldsDto): Mono<ResponseEntity<PetTypeDto>> {
+        return clinicService.savePetType(petTypeMapper.toPetType(petTypeFieldsDto)).map { petType ->
             val headers = HttpHeaders()
             headers.location =
                 UriComponentsBuilder.newInstance().path("/api/petTypes/{id}").buildAndExpand(petType.id).toUri()
@@ -28,7 +29,7 @@ class ReactivePetTypeController(
         }
     }
 
-    override fun deletePetType(petTypeId: Int): Mono<ResponseEntity<PetTypeDto>> {
+    override fun deletePetType(petTypeId: Int): Mono<ResponseEntity<Unit>> {
         return clinicService.deletePetType(petTypeId).map { deleted ->
             if (deleted) {
                 ResponseEntity(HttpStatus.NO_CONTENT)
@@ -54,9 +55,9 @@ class ReactivePetTypeController(
         }
     }
 
-    override fun updatePetType(petTypeId: Int, petTypeDto: PetTypeDto): Mono<ResponseEntity<PetTypeDto>> {
+    override fun updatePetType(petTypeId: Int, petTypeFieldsDto: PetTypeFieldsDto): Mono<ResponseEntity<PetTypeDto>> {
         return clinicService.findPetTypeById(petTypeId).flatMap { currentPetType ->
-            clinicService.savePetType(currentPetType.copy(name = petTypeDto.name))
+            clinicService.savePetType(currentPetType.copy(name = petTypeFieldsDto.name))
         }.map { petType -> ResponseEntity(petTypeMapper.toPetTypeDto(petType), HttpStatus.OK) }
             .switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
     }

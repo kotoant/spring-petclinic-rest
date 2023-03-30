@@ -12,9 +12,11 @@ import org.springframework.samples.petclinic.rest.dto.VisitFieldsDto
 @Mapper(config = CentralConfig::class)
 interface VisitMapper {
     fun toVisit(visitDto: VisitDto): Visit
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "petId", ignore = true)
+
+    @Mapping(target = "id", expression = "java(0)")
+    @Mapping(target = "petId", expression = "java(0)")
     fun toVisit(visitFieldsDto: VisitFieldsDto): Visit
     fun toVisitDto(visit: Visit): VisitDto
+    fun toVisitFieldsDto(visit: Visit): VisitFieldsDto
     fun toVisitsDto(visits: List<Visit>): List<VisitDto>
 }

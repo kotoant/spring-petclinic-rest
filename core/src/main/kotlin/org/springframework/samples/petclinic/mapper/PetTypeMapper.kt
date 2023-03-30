@@ -12,7 +12,8 @@ import org.springframework.samples.petclinic.rest.dto.PetTypeFieldsDto
 @Mapper(config = CentralConfig::class)
 interface PetTypeMapper {
     fun toPetType(petTypeDto: PetTypeDto): PetType
-    @Mapping(target = "id", ignore = true)
+
+    @Mapping(target = "id", expression = "java(0)")
     fun toPetType(petTypeFieldsDto: PetTypeFieldsDto): PetType
     fun toPetTypeDto(petType: PetType): PetTypeDto
     fun toPetTypesDto(petTypes: List<PetType>): List<PetTypeDto>

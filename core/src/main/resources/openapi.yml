@@ -28,7 +28,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Owner'
+              $ref: '#/components/schemas/OwnerFields'
         required: true
       responses:
         201:
@@ -227,24 +227,8 @@ paths:
             minimum: 0
             example: 1
       responses:
-        200:
-          description: Owner details found and returned.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Owner'
-        304:
-          description: Not modified.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
+        204:
+          description: The resource was deleted successfully.
         400:
           description: Bad request.
           content:
@@ -550,7 +534,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetType'
+              $ref: '#/components/schemas/PetTypeFields'
         required: true
       responses:
         200:
@@ -664,7 +648,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetType'
+              $ref: '#/components/schemas/PetTypeFields'
         required: true
       responses:
         200:
@@ -720,24 +704,8 @@ paths:
             minimum: 0
             example: 1
       responses:
-        200:
-          description: Pet type details found and returned.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PetType'
-        304:
-          description: Not modified.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
+        204:
+          description: The resource was deleted successfully.
         400:
           description: Bad request.
           content:
@@ -934,7 +902,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Pet'
+              $ref: '#/components/schemas/PetFields'
         required: true
       responses:
         200:
@@ -990,24 +958,8 @@ paths:
             minimum: 0
             example: 1
       responses:
-        200:
-          description: Pet details found and returned.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
-        304:
-          description: Not modified.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
+        204:
+          description: The resource was deleted successfully.
         400:
           description: Bad request.
           content:
@@ -1203,7 +1155,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Visit'
+              $ref: '#/components/schemas/VisitFields'
         required: true
       responses:
         200:
@@ -1259,24 +1211,8 @@ paths:
             minimum: 0
             example: 1
       responses:
-        200:
-          description: Visit details found and returned.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Visit'
-        304:
-          description: Not modified.
-          headers:
-            ETag:
-              description: An ID for this version of the response.
-              schema:
-                type: string
+        204:
+          description: The resource was deleted successfully.
         400:
           description: Bad request.
           content:

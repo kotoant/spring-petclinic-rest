@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.samples.petclinic.mapper.VisitMapper
 import org.springframework.samples.petclinic.rest.api.reactive.VisitsReactiveApi
 import org.springframework.samples.petclinic.rest.dto.VisitDto
+import org.springframework.samples.petclinic.rest.dto.VisitFieldsDto
 import org.springframework.samples.petclinic.service.reactive.ReactiveClinicService
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
@@ -27,7 +28,7 @@ class ReactiveVisitController(private val clinicService: ReactiveClinicService, 
         }
     }
 
-    override fun deleteVisit(visitId: Int): Mono<ResponseEntity<VisitDto>> {
+    override fun deleteVisit(visitId: Int): Mono<ResponseEntity<Unit>> {
         return clinicService.deleteVisit(visitId).map { deleted ->
             if (deleted) {
                 ResponseEntity(HttpStatus.NO_CONTENT)
@@ -53,9 +54,9 @@ class ReactiveVisitController(private val clinicService: ReactiveClinicService, 
         }
     }
 
-    override fun updateVisit(visitId: Int, visitDto: VisitDto): Mono<ResponseEntity<VisitDto>> {
+    override fun updateVisit(visitId: Int, visitFieldsDto: VisitFieldsDto): Mono<ResponseEntity<VisitDto>> {
         return clinicService.findVisitById(visitId).flatMap { currentVisit ->
-            clinicService.saveVisit(currentVisit.copy(date = visitDto.date, description = visitDto.description))
+            clinicService.saveVisit(currentVisit.copy(date = visitFieldsDto.date, description = visitFieldsDto.description))
         }.map { visit -> ResponseEntity(visitMapper.toVisitDto(visit), HttpStatus.OK) }
             .switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
     }

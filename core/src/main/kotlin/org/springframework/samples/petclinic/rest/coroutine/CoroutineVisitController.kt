@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.samples.petclinic.mapper.VisitMapper
 import org.springframework.samples.petclinic.rest.api.coroutine.VisitsCoroutineApi
 import org.springframework.samples.petclinic.rest.dto.VisitDto
+import org.springframework.samples.petclinic.rest.dto.VisitFieldsDto
 import org.springframework.samples.petclinic.service.coroutine.CoroutineClinicService
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
@@ -24,7 +25,7 @@ class CoroutineVisitController(
         return ResponseEntity(visitMapper.toVisitDto(visit), headers, HttpStatus.CREATED)
     }
 
-    override suspend fun deleteVisit(visitId: Int): ResponseEntity<VisitDto> {
+    override suspend fun deleteVisit(visitId: Int): ResponseEntity<Unit> {
         return if (clinicService.deleteVisit(visitId)) {
             ResponseEntity(HttpStatus.NO_CONTENT)
         } else {
@@ -44,9 +45,9 @@ class CoroutineVisitController(
         } else ResponseEntity(visitMapper.toVisitsDto(visits), HttpStatus.OK)
     }
 
-    override suspend fun updateVisit(visitId: Int, visitDto: VisitDto): ResponseEntity<VisitDto> {
+    override suspend fun updateVisit(visitId: Int, visitFieldsDto: VisitFieldsDto): ResponseEntity<VisitDto> {
         val currentVisit = clinicService.findVisitById(visitId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-        val visit = clinicService.saveVisit(currentVisit.copy(date = visitDto.date, description = visitDto.description))
+        val visit = clinicService.saveVisit(currentVisit.copy(date = visitFieldsDto.date, description = visitFieldsDto.description))
         return ResponseEntity(visitMapper.toVisitDto(visit), HttpStatus.OK)
     }
 }

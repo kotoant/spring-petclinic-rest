@@ -5,15 +5,21 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.samples.petclinic.mapper.PetMapper
+import org.springframework.samples.petclinic.mapper.PetTypeMapper
 import org.springframework.samples.petclinic.rest.api.coroutine.PetsCoroutineApi
 import org.springframework.samples.petclinic.rest.dto.PetDto
+import org.springframework.samples.petclinic.rest.dto.PetFieldsDto
 import org.springframework.samples.petclinic.service.coroutine.CoroutineClinicService
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @Profile("coroutine")
-class CoroutinePetController(private val clinicService: CoroutineClinicService, private val petMapper: PetMapper) :
+class CoroutinePetController(
+    private val clinicService: CoroutineClinicService,
+    private val petMapper: PetMapper,
+    private val petTypeMapper: PetTypeMapper
+) :
     PetsCoroutineApi {
 
     override suspend fun addPet(petDto: PetDto): ResponseEntity<PetDto> {
@@ -23,7 +29,7 @@ class CoroutinePetController(private val clinicService: CoroutineClinicService, 
         return ResponseEntity(petMapper.toPetDto(pet), headers, HttpStatus.CREATED)
     }
 
-    override suspend fun deletePet(petId: Int): ResponseEntity<PetDto> {
+    override suspend fun deletePet(petId: Int): ResponseEntity<Unit> {
         return if (clinicService.deletePet(petId)) {
             ResponseEntity(HttpStatus.NO_CONTENT)
         } else {
@@ -43,11 +49,13 @@ class CoroutinePetController(private val clinicService: CoroutineClinicService, 
         } else ResponseEntity(petMapper.toPetsDto(pets), HttpStatus.OK)
     }
 
-    override suspend fun updatePet(petId: Int, petDto: PetDto): ResponseEntity<PetDto> {
+    override suspend fun updatePet(petId: Int, petFieldsDto: PetFieldsDto): ResponseEntity<PetDto> {
         val currentPet = clinicService.findPetById(petId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         val pet = clinicService.savePet(
             currentPet.copy(
-                name = petDto.name, birthDate = petDto.birthDate, type = petMapper.toPetType(petDto.type)
+                name = petFieldsDto.name,
+                birthDate = petFieldsDto.birthDate,
+                type = petTypeMapper.toPetType(petFieldsDto.type)
             )
         )
         return ResponseEntity(petMapper.toPetDto(pet), HttpStatus.OK)

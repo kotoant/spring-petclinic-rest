@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.samples.petclinic.mapper.PetTypeMapper
 import org.springframework.samples.petclinic.rest.api.coroutine.PettypesCoroutineApi
 import org.springframework.samples.petclinic.rest.dto.PetTypeDto
+import org.springframework.samples.petclinic.rest.dto.PetTypeFieldsDto
 import org.springframework.samples.petclinic.service.coroutine.CoroutineClinicService
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
@@ -17,15 +18,15 @@ class CoroutinePetTypeController(
     private val clinicService: CoroutineClinicService, private val petTypeMapper: PetTypeMapper
 ) : PettypesCoroutineApi {
 
-    override suspend fun addPetType(petTypeDto: PetTypeDto): ResponseEntity<PetTypeDto> {
-        val petType = clinicService.savePetType(petTypeMapper.toPetType(petTypeDto))
+    override suspend fun addPetType(petTypeFieldsDto: PetTypeFieldsDto): ResponseEntity<PetTypeDto> {
+        val petType = clinicService.savePetType(petTypeMapper.toPetType(petTypeFieldsDto))
         val headers = HttpHeaders()
         headers.location =
             UriComponentsBuilder.newInstance().path("/api/petTypes/{id}").buildAndExpand(petType.id).toUri()
         return ResponseEntity(petTypeMapper.toPetTypeDto(petType), headers, HttpStatus.CREATED)
     }
 
-    override suspend fun deletePetType(petTypeId: Int): ResponseEntity<PetTypeDto> {
+    override suspend fun deletePetType(petTypeId: Int): ResponseEntity<Unit> {
         return if (clinicService.deletePetType(petTypeId)) {
             ResponseEntity(HttpStatus.NO_CONTENT)
         } else {
@@ -45,9 +46,9 @@ class CoroutinePetTypeController(
         } else ResponseEntity(petTypeMapper.toPetTypesDto(petTypes), HttpStatus.OK)
     }
 
-    override suspend fun updatePetType(petTypeId: Int, petTypeDto: PetTypeDto): ResponseEntity<PetTypeDto> {
+    override suspend fun updatePetType(petTypeId: Int, petTypeFieldsDto: PetTypeFieldsDto): ResponseEntity<PetTypeDto> {
         val currentPetType = clinicService.findPetTypeById(petTypeId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-        val petType = clinicService.savePetType(currentPetType.copy(name = petTypeDto.name))
+        val petType = clinicService.savePetType(currentPetType.copy(name = petTypeFieldsDto.name))
         return ResponseEntity(petTypeMapper.toPetTypeDto(petType), HttpStatus.OK)
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.samples.petclinic.mapper.VisitMapper
 import org.springframework.samples.petclinic.rest.api.VisitsApi
 import org.springframework.samples.petclinic.rest.dto.VisitDto
+import org.springframework.samples.petclinic.rest.dto.VisitFieldsDto
 import org.springframework.samples.petclinic.service.JdbcClinicService
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
@@ -25,7 +26,7 @@ class VisitController(private val clinicService: JdbcClinicService, private val 
         return ResponseEntity(visitMapper.toVisitDto(visit), headers, HttpStatus.CREATED)
     }
 
-    override fun deleteVisit(visitId: Int): ResponseEntity<VisitDto> {
+    override fun deleteVisit(visitId: Int): ResponseEntity<Unit> {
         return if (clinicService.deleteVisit(visitId)) {
             ResponseEntity(HttpStatus.NO_CONTENT)
         } else {
@@ -45,9 +46,9 @@ class VisitController(private val clinicService: JdbcClinicService, private val 
         } else ResponseEntity(visitMapper.toVisitsDto(visits), HttpStatus.OK)
     }
 
-    override fun updateVisit(visitId: Int, visitDto: VisitDto): ResponseEntity<VisitDto> {
+    override fun updateVisit(visitId: Int, visitFieldsDto: VisitFieldsDto): ResponseEntity<VisitDto> {
         val currentVisit = clinicService.findVisitById(visitId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-        val visit = clinicService.saveVisit(currentVisit.copy(date = visitDto.date, description = visitDto.description))
+        val visit = clinicService.saveVisit(currentVisit.copy(date = visitFieldsDto.date, description = visitFieldsDto.description))
         return ResponseEntity(visitMapper.toVisitDto(visit), HttpStatus.OK)
     }
 }

@@ -2,24 +2,28 @@ package org.springframework.samples.petclinic.rest
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.springframework.samples.petclinic.model.Visit
-import org.springframework.samples.petclinic.rest.dto.VisitDto
+import org.springframework.samples.petclinic.rest.dto.VisitFieldsDto
 import org.springframework.samples.petclinic.test.BaseTest
+import org.springframework.samples.petclinic.test.RegexMatcher
 import java.time.LocalDate
 
 abstract class VisitControllerTest : BaseTest() {
 
     @Test
     fun addVisit() {
+        val locationMatcher = RegexMatcher(Regex("/api/visits/(\\d+)"))
+
         webClient
             .post()
             .uri("/api/visits")
-            .bodyValue(VisitDto(LocalDate.of(2023, 3, 14), "description", null, testPet.id))
+            .bodyValue(visitMapper.toVisitDto(visit(testPet.id)))
             .exchange()
             .expectStatus()
             .isCreated
+            .expectHeader().value("location") { location -> locationMatcher.match(location) }
             .expectBody()
-            .jsonPath("$.id").value<Int> { id -> assertThat(id).isPositive() }
+            .jsonPath("$.id")
+            .value<Int> { id -> assertThat(id).isPositive.isEqualTo(locationMatcher.destructed.component1().toInt()) }
             .jsonPath("$.petId").isEqualTo(testPet.id)
             .jsonPath("$.date").isEqualTo("2023-03-14")
             .jsonPath("$.description").isEqualTo("description")
@@ -27,7 +31,7 @@ abstract class VisitControllerTest : BaseTest() {
 
     @Test
     fun `deleteVisit NoContent`() {
-        val visit = visitRepository.insert(Visit(0, testPet.id, LocalDate.of(2023, 3, 16), "description"))
+        val visit = visitRepository.insert(visit(testPet.id))
 
         webClient
             .delete()
@@ -148,12 +152,17 @@ abstract class VisitControllerTest : BaseTest() {
 
     @Test
     fun `updateVisit Ok`() {
-        val visit = visitRepository.insert(Visit(0, testPet.id, LocalDate.of(2023, 3, 16), "description"))
+        val visit = visitRepository.insert(visit(testPet.id))
 
         webClient
             .put()
             .uri("/api/visits/{id}", visit.id)
-            .bodyValue(visitMapper.toVisitDto(visit.copy(date = LocalDate.of(2023, 3, 15), description = "descr")))
+            .bodyValue(
+                VisitFieldsDto(
+                    date = LocalDate.of(2023, 3, 15),
+                    description = "descr"
+                )
+            )
             .exchange()
             .expectStatus()
             .isOk
@@ -170,12 +179,9 @@ abstract class VisitControllerTest : BaseTest() {
             .put()
             .uri("/api/visits/{id}", 100500)
             .bodyValue(
-                visitMapper.toVisitDto(
-                    testVisit.copy(
-                        id = 100500,
-                        date = LocalDate.of(2023, 3, 15),
-                        description = "descr"
-                    )
+                VisitFieldsDto(
+                    date = LocalDate.of(2023, 3, 15),
+                    description = "descr"
                 )
             )
             .exchange()

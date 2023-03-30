@@ -29,8 +29,8 @@ class ReactiveOwnerController(
     private val visitMapper: VisitMapper
 ) : OwnersReactiveApi {
 
-    override fun addOwner(ownerDto: OwnerDto): Mono<ResponseEntity<OwnerDto>> {
-        return clinicService.saveOwner(ownerMapper.toOwner(ownerDto)).map { owner ->
+    override fun addOwner(ownerFieldsDto: OwnerFieldsDto): Mono<ResponseEntity<OwnerDto>> {
+        return clinicService.saveOwner(ownerMapper.toOwner(ownerFieldsDto)).map { owner ->
             val headers = HttpHeaders()
             headers.location =
                 UriComponentsBuilder.newInstance().path("/api/owners/{id}").buildAndExpand(owner.id).toUri()
@@ -57,7 +57,7 @@ class ReactiveOwnerController(
         }
     }
 
-    override fun deleteOwner(ownerId: Int): Mono<ResponseEntity<OwnerDto>> {
+    override fun deleteOwner(ownerId: Int): Mono<ResponseEntity<Unit>> {
         return clinicService.deleteOwner(ownerId).map { deleted ->
             if (deleted) {
                 ResponseEntity(HttpStatus.NO_CONTENT)

@@ -5,8 +5,10 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.samples.petclinic.mapper.PetMapper
+import org.springframework.samples.petclinic.mapper.PetTypeMapper
 import org.springframework.samples.petclinic.rest.api.reactive.PetsReactiveApi
 import org.springframework.samples.petclinic.rest.dto.PetDto
+import org.springframework.samples.petclinic.rest.dto.PetFieldsDto
 import org.springframework.samples.petclinic.service.reactive.ReactiveClinicService
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
@@ -15,8 +17,11 @@ import reactor.kotlin.core.publisher.switchIfEmpty
 
 @RestController
 @Profile("reactive")
-class ReactivePetController(private val clinicService: ReactiveClinicService, private val petMapper: PetMapper) :
-    PetsReactiveApi {
+class ReactivePetController(
+    private val clinicService: ReactiveClinicService,
+    private val petMapper: PetMapper,
+    private val petTypeMapper: PetTypeMapper
+) : PetsReactiveApi {
 
     override fun addPet(petDto: PetDto): Mono<ResponseEntity<PetDto>> {
         return clinicService.savePet(petMapper.toPet(petDto)).map { pet ->
@@ -26,7 +31,7 @@ class ReactivePetController(private val clinicService: ReactiveClinicService, pr
         }
     }
 
-    override fun deletePet(petId: Int): Mono<ResponseEntity<PetDto>> {
+    override fun deletePet(petId: Int): Mono<ResponseEntity<Unit>> {
         return clinicService.deletePet(petId).map { deleted ->
             if (deleted) {
                 ResponseEntity(HttpStatus.NO_CONTENT)
@@ -52,11 +57,13 @@ class ReactivePetController(private val clinicService: ReactiveClinicService, pr
         }
     }
 
-    override fun updatePet(petId: Int, petDto: PetDto): Mono<ResponseEntity<PetDto>> {
+    override fun updatePet(petId: Int, petFieldsDto: PetFieldsDto): Mono<ResponseEntity<PetDto>> {
         return clinicService.findPetById(petId).flatMap { currentPet ->
             clinicService.savePet(
                 currentPet.copy(
-                    name = petDto.name, birthDate = petDto.birthDate, type = petMapper.toPetType(petDto.type)
+                    name = petFieldsDto.name,
+                    birthDate = petFieldsDto.birthDate,
+                    type = petTypeMapper.toPetType(petFieldsDto.type)
                 )
             )
         }.map { pet -> ResponseEntity(petMapper.toPetDto(pet), HttpStatus.OK) }
