@@ -38,11 +38,11 @@ class CoroutinePetController(
     }
 
     override suspend fun getPet(petId: Int): ResponseEntity<PetDto> {
-        val pet = clinicService.findPetById(petId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val pet = clinicService.findPetById(petId)
         return ResponseEntity(petMapper.toPetDto(pet), HttpStatus.OK)
     }
 
-    override suspend fun listPets(lastId: Int?, pageSize: Int?): ResponseEntity<List<PetDto>> {
+    override suspend fun listPets(lastId: Int, pageSize: Int): ResponseEntity<List<PetDto>> {
         val pets = clinicService.findAllPets(lastId, pageSize)
         return if (pets.isEmpty()) {
             ResponseEntity(HttpStatus.NOT_FOUND)
@@ -50,7 +50,7 @@ class CoroutinePetController(
     }
 
     override suspend fun updatePet(petId: Int, petFieldsDto: PetFieldsDto): ResponseEntity<PetDto> {
-        val currentPet = clinicService.findPetById(petId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val currentPet = clinicService.findPetById(petId)
         val pet = clinicService.savePet(
             currentPet.copy(
                 name = petFieldsDto.name,

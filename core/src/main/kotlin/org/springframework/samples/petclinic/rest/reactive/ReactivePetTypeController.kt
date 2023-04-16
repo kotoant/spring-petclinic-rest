@@ -42,10 +42,10 @@ class ReactivePetTypeController(
     override fun getPetType(petTypeId: Int): Mono<ResponseEntity<PetTypeDto>> {
         return clinicService.findPetTypeById(petTypeId).map { petType ->
             ResponseEntity(petTypeMapper.toPetTypeDto(petType), HttpStatus.OK)
-        }.switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
+        }
     }
 
-    override fun listPetTypes(lastId: Int?, pageSize: Int?): Mono<ResponseEntity<List<PetTypeDto>>> {
+    override fun listPetTypes(lastId: Int, pageSize: Int): Mono<ResponseEntity<List<PetTypeDto>>> {
         return clinicService.findAllPetTypes(lastId, pageSize).map { petTypes ->
             if (petTypes.isEmpty()) {
                 ResponseEntity(HttpStatus.NOT_FOUND)
@@ -59,6 +59,5 @@ class ReactivePetTypeController(
         return clinicService.findPetTypeById(petTypeId).flatMap { currentPetType ->
             clinicService.savePetType(currentPetType.copy(name = petTypeFieldsDto.name))
         }.map { petType -> ResponseEntity(petTypeMapper.toPetTypeDto(petType), HttpStatus.OK) }
-            .switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
     }
 }

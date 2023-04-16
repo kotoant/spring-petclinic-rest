@@ -70,10 +70,10 @@ class ReactiveOwnerController(
     override fun getOwner(ownerId: Int): Mono<ResponseEntity<OwnerDto>> {
         return clinicService.findOwnerById(ownerId).map { owner ->
             ResponseEntity(ownerMapper.toOwnerDto(owner), HttpStatus.OK)
-        }.switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
+        }
     }
 
-    override fun listOwners(lastName: String?, lastId: Int?, pageSize: Int?): Mono<ResponseEntity<List<OwnerDto>>> {
+    override fun listOwners(lastName: String?, lastId: Int, pageSize: Int): Mono<ResponseEntity<List<OwnerDto>>> {
         return if (lastName != null) {
             clinicService.findOwnerByLastName(lastName, lastId, pageSize)
         } else {
@@ -99,6 +99,5 @@ class ReactiveOwnerController(
                 )
             )
         }.map { owner -> ResponseEntity(ownerMapper.toOwnerDto(owner), HttpStatus.OK) }
-            .switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
     }
 }

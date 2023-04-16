@@ -19,7 +19,7 @@ class R2dbcVisitRepository(private val client: DatabaseClient) {
     fun fetchOneById(id: Int): Mono<Visit> = client.inContext { it.fetchOneVisitByIdReactive(id) }
     fun insert(visit: Visit): Mono<Visit> = client.inContext { it.insertVisitReactive(visit) }
     fun update(visit: Visit): Mono<Visit> = client.inContext { it.updateVisitReactive(visit) }
-    fun fetchAll(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): Mono<List<Visit>> =
+    fun fetchAll(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): Mono<List<Visit>> =
         client.inContext { it.fetchAllVisitsReactive(lastId, pageSize) }
 
     fun deleteById(id: Int): Mono<Boolean> = client.inContext { ctx -> ctx.deleteVisitById(id).map { it > 0 } }

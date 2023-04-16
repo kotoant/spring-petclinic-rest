@@ -44,10 +44,10 @@ class ReactivePetController(
     override fun getPet(petId: Int): Mono<ResponseEntity<PetDto>> {
         return clinicService.findPetById(petId).map { pet ->
             ResponseEntity(petMapper.toPetDto(pet), HttpStatus.OK)
-        }.switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
+        }
     }
 
-    override fun listPets(lastId: Int?, pageSize: Int?): Mono<ResponseEntity<List<PetDto>>> {
+    override fun listPets(lastId: Int, pageSize: Int): Mono<ResponseEntity<List<PetDto>>> {
         return clinicService.findAllPets(lastId, pageSize).map { pets ->
             if (pets.isEmpty()) {
                 ResponseEntity(HttpStatus.NOT_FOUND)
@@ -67,6 +67,5 @@ class ReactivePetController(
                 )
             )
         }.map { pet -> ResponseEntity(petMapper.toPetDto(pet), HttpStatus.OK) }
-            .switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
     }
 }

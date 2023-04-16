@@ -12,7 +12,7 @@ interface ReactiveClinicService {
 
     fun findPetById(id: Int): Mono<Pet>
 
-    fun findAllPets(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int?= DEFAULT_PAGE_SIZE): Mono<List<Pet>>
+    fun findAllPets(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): Mono<List<Pet>>
 
     fun savePet(pet: Pet): Mono<Pet>
 
@@ -20,7 +20,7 @@ interface ReactiveClinicService {
 
     fun findVisitById(id: Int): Mono<Visit>
 
-    fun findAllVisits(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): Mono<List<Visit>>
+    fun findAllVisits(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): Mono<List<Visit>>
 
     fun saveVisit(visit: Visit): Mono<Visit>
 
@@ -28,7 +28,7 @@ interface ReactiveClinicService {
 
     fun findOwnerById(id: Int): Mono<Owner>
 
-    fun findAllOwners(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): Mono<List<Owner>>
+    fun findAllOwners(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): Mono<List<Owner>>
 
     fun saveOwner(owner: Owner): Mono<Owner>
 
@@ -36,15 +36,17 @@ interface ReactiveClinicService {
 
     fun findOwnerByLastName(
         lastName: String,
-        lastId: Int? = DEFAULT_LAST_ID,
-        pageSize: Int? = DEFAULT_PAGE_SIZE
+        lastId: Int = DEFAULT_LAST_ID,
+        pageSize: Int = DEFAULT_PAGE_SIZE
     ): Mono<List<Owner>>
 
     fun findPetTypeById(id: Int): Mono<PetType>
 
-    fun findAllPetTypes(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): Mono<List<PetType>>
+    fun findAllPetTypes(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): Mono<List<PetType>>
 
     fun savePetType(petType: PetType): Mono<PetType>
 
     fun deletePetType(id: Int): Mono<Boolean>
+
+    fun sleep(times: Int, millis: Int): Mono<Unit>
 }

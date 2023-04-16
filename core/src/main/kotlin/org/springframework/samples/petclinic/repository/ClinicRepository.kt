@@ -9,6 +9,8 @@ import org.jooq.impl.DSL.multiset
 import org.jooq.impl.DSL.noCondition
 import org.jooq.impl.DSL.row
 import org.reactivestreams.Publisher
+import org.springframework.r2dbc.core.DatabaseClient
+import org.springframework.samples.petclinic.jooq.pg_catalog.Routines
 import org.springframework.samples.petclinic.jooq.public_.Tables.OWNERS
 import org.springframework.samples.petclinic.jooq.public_.Tables.PETS
 import org.springframework.samples.petclinic.jooq.public_.Tables.TYPES
@@ -21,6 +23,7 @@ import org.springframework.samples.petclinic.repository.r2dbc.thenReturn
 import org.springframework.samples.petclinic.repository.r2dbc.toFlux
 import org.springframework.samples.petclinic.repository.r2dbc.toMono
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 fun <R : Record, E : Any> Publisher<R>.fetchOneReactive(mapper: RecordMapper<in R, E>) = toMono().map(mapper)
 
@@ -120,7 +123,8 @@ private fun DSLContext.insert(owner: Owner) =
         .values(owner.firstName, owner.lastName, owner.address, owner.city, owner.telephone)
         .returningResult(OWNERS.ID)
 
-fun DSLContext.insertPetTypeReactive(petType: PetType) = insert(petType).fetchOneReactive { r -> petType.copy(id = r.value1()) }
+fun DSLContext.insertPetTypeReactive(petType: PetType) =
+    insert(petType).fetchOneReactive { r -> petType.copy(id = r.value1()) }
 
 fun DSLContext.insertPetType(petType: PetType) = insert(petType).fetchOne { r -> petType.copy(id = r.value1()!!) }!!
 
@@ -190,79 +194,79 @@ const val DEFAULT_LAST_ID = 0
 const val DEFAULT_PAGE_SIZE = 10
 
 fun DSLContext.fetchAllVisitsReactive(
-    lastId: Int? = DEFAULT_LAST_ID,
-    pageSize: Int? = DEFAULT_PAGE_SIZE
+    lastId: Int = DEFAULT_LAST_ID,
+    pageSize: Int = DEFAULT_PAGE_SIZE
 ): Mono<List<Visit>> = selectAllVisits(lastId, pageSize).fetchReactive(visitMapper())
 
-fun DSLContext.fetchAllVisits(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): List<Visit> =
+fun DSLContext.fetchAllVisits(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): List<Visit> =
     selectAllVisits(lastId, pageSize).fetch(visitMapper())
 
-private fun DSLContext.selectAllVisits(lastId: Int?, pageSize: Int?) =
+private fun DSLContext.selectAllVisits(lastId: Int, pageSize: Int) =
     selectVisits()
         .orderBy(VISITS.ID)
-        .seek(lastId ?: DEFAULT_LAST_ID)
-        .limit(pageSize ?: DEFAULT_PAGE_SIZE)
+        .seek(lastId)
+        .limit(pageSize)
 
 fun DSLContext.fetchAllPetsReactive(
-    lastId: Int? = DEFAULT_LAST_ID,
-    pageSize: Int? = DEFAULT_PAGE_SIZE
+    lastId: Int = DEFAULT_LAST_ID,
+    pageSize: Int = DEFAULT_PAGE_SIZE
 ): Mono<List<Pet>> = selectAllPets(lastId, pageSize).fetchReactive(petMapper())
 
-fun DSLContext.fetchAllPets(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): List<Pet> =
+fun DSLContext.fetchAllPets(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): List<Pet> =
     selectAllPets(lastId, pageSize).fetch(petMapper())
 
-private fun DSLContext.selectAllPets(lastId: Int?, pageSize: Int?) =
+private fun DSLContext.selectAllPets(lastId: Int, pageSize: Int) =
     selectPets()
         .orderBy(PETS.ID)
-        .seek(lastId ?: DEFAULT_LAST_ID)
-        .limit(pageSize ?: DEFAULT_PAGE_SIZE)
+        .seek(lastId)
+        .limit(pageSize)
 
 fun DSLContext.fetchAllOwnersReactive(
-    lastId: Int? = DEFAULT_LAST_ID,
-    pageSize: Int? = DEFAULT_PAGE_SIZE
+    lastId: Int = DEFAULT_LAST_ID,
+    pageSize: Int = DEFAULT_PAGE_SIZE
 ): Mono<List<Owner>> = selectAllOwners(lastId, pageSize).fetchReactive(ownerMapper())
 
-fun DSLContext.fetchAllOwners(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): List<Owner> =
+fun DSLContext.fetchAllOwners(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): List<Owner> =
     selectAllOwners(lastId, pageSize).fetch(ownerMapper())
 
-private fun DSLContext.selectAllOwners(lastId: Int?, pageSize: Int?) =
+private fun DSLContext.selectAllOwners(lastId: Int, pageSize: Int) =
     selectOwnersByCondition(noCondition(), lastId, pageSize)
 
-private fun DSLContext.selectOwnersByCondition(condition: Condition, lastId: Int?, pageSize: Int?) =
+private fun DSLContext.selectOwnersByCondition(condition: Condition, lastId: Int, pageSize: Int) =
     selectOwners()
         .where(condition)
         .orderBy(OWNERS.ID)
-        .seek(lastId ?: DEFAULT_LAST_ID)
-        .limit(pageSize ?: DEFAULT_PAGE_SIZE)
+        .seek(lastId)
+        .limit(pageSize)
 
 fun DSLContext.fetchOwnersByLastNameReactive(
     lastName: String,
-    lastId: Int? = DEFAULT_LAST_ID,
-    pageSize: Int? = DEFAULT_PAGE_SIZE
+    lastId: Int = DEFAULT_LAST_ID,
+    pageSize: Int = DEFAULT_PAGE_SIZE
 ): Mono<List<Owner>> = selectOwnersByLastName(lastName, lastId, pageSize).fetchReactive(ownerMapper())
 
 fun DSLContext.fetchOwnersByLastName(
     lastName: String,
-    lastId: Int? = DEFAULT_LAST_ID,
-    pageSize: Int? = DEFAULT_PAGE_SIZE
+    lastId: Int = DEFAULT_LAST_ID,
+    pageSize: Int = DEFAULT_PAGE_SIZE
 ): List<Owner> = selectOwnersByLastName(lastName, lastId, pageSize).fetch(ownerMapper())
 
-private fun DSLContext.selectOwnersByLastName(lastName: String, lastId: Int?, pageSize: Int?) =
+private fun DSLContext.selectOwnersByLastName(lastName: String, lastId: Int, pageSize: Int) =
     selectOwnersByCondition(OWNERS.LAST_NAME.like("$lastName%"), lastId, pageSize)
 
 fun DSLContext.fetchAllPetTypesReactive(
-    lastId: Int? = DEFAULT_LAST_ID,
-    pageSize: Int? = DEFAULT_PAGE_SIZE
+    lastId: Int = DEFAULT_LAST_ID,
+    pageSize: Int = DEFAULT_PAGE_SIZE
 ): Mono<List<PetType>> = selectAllPetTypes(lastId, pageSize).fetchReactive(petTypeMapper())
 
-fun DSLContext.fetchAllPetTypes(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): List<PetType> =
+fun DSLContext.fetchAllPetTypes(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): List<PetType> =
     selectAllPetTypes(lastId, pageSize).fetch(petTypeMapper())
 
-private fun DSLContext.selectAllPetTypes(lastId: Int?, pageSize: Int?) =
+private fun DSLContext.selectAllPetTypes(lastId: Int, pageSize: Int) =
     selectPetTypes()
         .orderBy(TYPES.ID)
-        .seek(lastId ?: DEFAULT_LAST_ID)
-        .limit(pageSize ?: DEFAULT_PAGE_SIZE)
+        .seek(lastId)
+        .limit(pageSize)
 
 
 fun DSLContext.deleteVisitById(id: Int) = delete(VISITS).where(VISITS.ID.eq(id))
@@ -290,3 +294,8 @@ fun DSLContext.deleteVisitsByPetTypeId(petTypeId: Int) = delete(VISITS).where(
 fun DSLContext.deletePetsByPetTypeId(petTypeId: Int) = delete(PETS).where(PETS.TYPE_ID.eq(petTypeId))
 
 fun DSLContext.deletePetTypeById(id: Int) = delete(TYPES).where(TYPES.ID.eq(id))
+
+fun DSLContext.sleep(millis: Int) = Routines.pgSleep(configuration(), millis / 1000.0)
+
+fun DatabaseClient.sleep(millis: Int) =
+    sql("select pg_sleep(:seconds)").bind("seconds", millis / 1000.0).then().then(Unit.toMono())

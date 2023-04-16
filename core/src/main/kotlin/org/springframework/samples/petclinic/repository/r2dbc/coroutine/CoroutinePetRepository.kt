@@ -26,7 +26,7 @@ class CoroutinePetRepository(private val client: DatabaseClient) {
 
     suspend fun insert(pet: Pet): Pet = client.inContextCoroutine { it.insertPetReactive(pet).awaitSingle() }
     suspend fun update(pet: Pet): Pet = client.inContextCoroutine { it.updatePetReactive(pet).awaitSingle() }
-    suspend fun fetchAll(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): List<Pet> =
+    suspend fun fetchAll(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): List<Pet> =
         client.inContextCoroutine { it.fetchAllPetsReactive(lastId, pageSize).awaitSingle() }
 
     suspend fun deleteById(id: Int): Boolean = client.inContextCoroutine {

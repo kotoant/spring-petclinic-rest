@@ -25,7 +25,7 @@ class JdbcReactiveClinicService(private val clinicService: JdbcClinicService, pr
         clinicService.findPetById(id)
     }
 
-    override fun findAllPets(lastId: Int?, pageSize: Int?): Mono<List<Pet>> = wrapBlockingCall {
+    override fun findAllPets(lastId: Int, pageSize: Int): Mono<List<Pet>> = wrapBlockingCall {
         clinicService.findAllPets(lastId, pageSize)
     }
 
@@ -41,7 +41,7 @@ class JdbcReactiveClinicService(private val clinicService: JdbcClinicService, pr
         clinicService.findVisitById(id)
     }
 
-    override fun findAllVisits(lastId: Int?, pageSize: Int?): Mono<List<Visit>> = wrapBlockingCall {
+    override fun findAllVisits(lastId: Int, pageSize: Int): Mono<List<Visit>> = wrapBlockingCall {
         clinicService.findAllVisits(lastId, pageSize)
     }
 
@@ -57,7 +57,7 @@ class JdbcReactiveClinicService(private val clinicService: JdbcClinicService, pr
         clinicService.findOwnerById(id)
     }
 
-    override fun findAllOwners(lastId: Int?, pageSize: Int?): Mono<List<Owner>> = wrapBlockingCall {
+    override fun findAllOwners(lastId: Int, pageSize: Int): Mono<List<Owner>> = wrapBlockingCall {
         clinicService.findAllOwners(lastId, pageSize)
     }
 
@@ -69,7 +69,7 @@ class JdbcReactiveClinicService(private val clinicService: JdbcClinicService, pr
         clinicService.deleteOwner(id)
     }
 
-    override fun findOwnerByLastName(lastName: String, lastId: Int?, pageSize: Int?): Mono<List<Owner>> =
+    override fun findOwnerByLastName(lastName: String, lastId: Int, pageSize: Int): Mono<List<Owner>> =
         wrapBlockingCall {
             clinicService.findOwnerByLastName(lastName, lastId, pageSize)
         }
@@ -78,7 +78,7 @@ class JdbcReactiveClinicService(private val clinicService: JdbcClinicService, pr
         clinicService.findPetTypeById(id)
     }
 
-    override fun findAllPetTypes(lastId: Int?, pageSize: Int?): Mono<List<PetType>> = wrapBlockingCall {
+    override fun findAllPetTypes(lastId: Int, pageSize: Int): Mono<List<PetType>> = wrapBlockingCall {
         clinicService.findAllPetTypes(lastId, pageSize)
     }
 
@@ -88,5 +88,9 @@ class JdbcReactiveClinicService(private val clinicService: JdbcClinicService, pr
 
     override fun deletePetType(id: Int): Mono<Boolean> = wrapBlockingCall {
         clinicService.deletePetType(id)
+    }
+
+    override fun sleep(times: Int, millis: Int): Mono<Unit> = wrapBlockingCall {
+        clinicService.sleep(times, millis)
     }
 }

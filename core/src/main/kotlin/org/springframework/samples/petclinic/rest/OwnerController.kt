@@ -46,11 +46,11 @@ class OwnerController(
     }
 
     override fun getOwner(ownerId: Int): ResponseEntity<OwnerDto> {
-        val owner = clinicService.findOwnerById(ownerId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val owner = clinicService.findOwnerById(ownerId)
         return ResponseEntity(ownerMapper.toOwnerDto(owner), HttpStatus.OK)
     }
 
-    override fun listOwners(lastName: String?, lastId: Int?, pageSize: Int?): ResponseEntity<List<OwnerDto>> {
+    override fun listOwners(lastName: String?, lastId: Int, pageSize: Int): ResponseEntity<List<OwnerDto>> {
         val owners = if (lastName != null) {
             clinicService.findOwnerByLastName(lastName, lastId, pageSize)
         } else {
@@ -62,7 +62,7 @@ class OwnerController(
     }
 
     override fun updateOwner(ownerId: Int, ownerFieldsDto: OwnerFieldsDto): ResponseEntity<OwnerDto> {
-        val currentOwner = clinicService.findOwnerById(ownerId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val currentOwner = clinicService.findOwnerById(ownerId)
         val owner = clinicService.saveOwner(
             currentOwner.copy(
                 firstName = ownerFieldsDto.firstName,

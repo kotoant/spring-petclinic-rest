@@ -20,7 +20,7 @@ class TestPetTypeRepository(private val repository: R2dbcPetTypeRepository) : Pe
         return repository.update(petType).block()!!
     }
 
-    override fun fetchAll(lastId: Int?, pageSize: Int?): List<PetType> {
+    override fun fetchAll(lastId: Int, pageSize: Int): List<PetType> {
         return repository.fetchAll(lastId, pageSize).block()!!
     }
 

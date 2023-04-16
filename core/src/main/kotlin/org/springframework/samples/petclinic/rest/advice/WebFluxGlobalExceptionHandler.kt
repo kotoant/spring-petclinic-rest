@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
+import org.springframework.samples.petclinic.service.exception.NotFoundException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.reactive.result.method.annotation.ResponseEntityExceptionHandler
@@ -17,10 +18,12 @@ import reactor.core.publisher.Mono
 class WebFluxGlobalExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(
         ConstraintViolationException::class,
+        NotFoundException::class,
     )
     fun handleExceptions(ex: Exception, exchange: ServerWebExchange): Mono<ResponseEntity<Any>> {
         return when (ex) {
             is ConstraintViolationException -> handleConstraintViolationException(ex, exchange)
+            is NotFoundException -> handleNotFoundException(ex, exchange)
             else -> {
                 if (logger.isWarnEnabled) {
                     logger.warn("Unexpected exception type: " + ex.javaClass.name)
@@ -35,6 +38,15 @@ class WebFluxGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         exchange: ServerWebExchange
     ): Mono<ResponseEntity<Any>> {
         val status = HttpStatus.BAD_REQUEST
+        val body = ProblemDetail.forStatusAndDetail(status, ex.localizedMessage)
+        return handleExceptionInternal(ex, body, null, status, exchange)
+    }
+
+    private fun handleNotFoundException(
+        ex: NotFoundException,
+        exchange: ServerWebExchange
+    ): Mono<ResponseEntity<Any>> {
+        val status = HttpStatus.NOT_FOUND
         val body = ProblemDetail.forStatusAndDetail(status, ex.localizedMessage)
         return handleExceptionInternal(ex, body, null, status, exchange)
     }

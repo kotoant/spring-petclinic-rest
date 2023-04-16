@@ -20,7 +20,7 @@ class TestVisitRepository(private val repository: R2dbcVisitRepository) : VisitR
         return repository.update(visit).block()!!
     }
 
-    override fun fetchAll(lastId: Int?, pageSize: Int?): List<Visit> {
+    override fun fetchAll(lastId: Int, pageSize: Int): List<Visit> {
         return repository.fetchAll(lastId, pageSize).block()!!
     }
 

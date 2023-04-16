@@ -20,11 +20,11 @@ class TestOwnerRepository(private val repository: R2dbcOwnerRepository) : OwnerR
         return repository.update(owner).block()!!
     }
 
-    override fun fetchAll(lastId: Int?, pageSize: Int?): List<Owner> {
+    override fun fetchAll(lastId: Int, pageSize: Int): List<Owner> {
         return repository.fetchAll(lastId, pageSize).block()!!
     }
 
-    override fun fetchByLastName(lastName: String, lastId: Int?, pageSize: Int?): List<Owner> {
+    override fun fetchByLastName(lastName: String, lastId: Int, pageSize: Int): List<Owner> {
         return repository.fetchByLastName(lastName, lastId, pageSize).block()!!
     }
 

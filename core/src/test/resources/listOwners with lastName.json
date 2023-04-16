@@ -1,0 +1,55 @@
+[
+  {
+    "firstName": "Maria",
+    "lastName": "Escobito",
+    "address": "345 Maple St.",
+    "city": "Madison",
+    "telephone": "6085557683",
+    "pets": [
+      {
+        "name": "Mulligan",
+        "birthDate": "1997-02-24",
+        "type": {
+          "name": "dog",
+          "id": 2
+        },
+        "id": 10,
+        "visits": [],
+        "ownerId": 8
+      }
+    ],
+    "id": 8
+  },
+  {
+    "firstName": "Carlos",
+    "lastName": "Estaban",
+    "address": "2335 Independence La.",
+    "city": "Waunakee",
+    "telephone": "6085555487",
+    "pets": [
+      {
+        "name": "Lucky",
+        "birthDate": "2000-06-24",
+        "type": {
+          "name": "dog",
+          "id": 2
+        },
+        "id": 12,
+        "visits": [],
+        "ownerId": 10
+      },
+      {
+        "name": "Sly",
+        "birthDate": "2002-06-08",
+        "type": {
+          "name": "cat",
+          "id": 1
+        },
+        "id": 13,
+        "visits": [],
+        "ownerId": 10
+      }
+    ],
+    "id": 10
+  }
+]

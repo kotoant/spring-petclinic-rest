@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.io.ClassPathResource
 import org.springframework.samples.petclinic.mapper.OwnerMapper
 import org.springframework.samples.petclinic.mapper.PetMapper
 import org.springframework.samples.petclinic.mapper.PetTypeMapper
@@ -112,6 +113,8 @@ class BaseTest : BaseTestcontainersTest() {
     }
 
     fun petType() = PetType(0, "parrot")
+
+    fun String.content() = ClassPathResource(this).getContentAsString(Charsets.UTF_8)
 }
 
 

@@ -17,7 +17,7 @@ class JdbcVisitRepository(private val ctx: DSLContext) : VisitRepository {
     override fun fetchOneById(id: Int): Visit? = ctx.fetchOneVisitById(id)
     override fun insert(visit: Visit): Visit = ctx.insertVisit(visit)
     override fun update(visit: Visit): Visit = ctx.updateVisit(visit)
-    override fun fetchAll(lastId: Int?, pageSize: Int?): List<Visit> = ctx.fetchAllVisits(lastId, pageSize)
+    override fun fetchAll(lastId: Int, pageSize: Int): List<Visit> = ctx.fetchAllVisits(lastId, pageSize)
     override fun deleteById(id: Int): Boolean {
         return ctx.deleteVisitById(id).execute() > 0
     }

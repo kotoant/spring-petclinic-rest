@@ -117,49 +117,7 @@ abstract class OwnerControllerTest : BaseTest() {
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.id").isEqualTo(6)
-            .jsonPath("$.firstName").isEqualTo("Jean")
-            .jsonPath("$.lastName").isEqualTo("Coleman")
-            .jsonPath("$.address").isEqualTo("105 N. Lake St.")
-            .jsonPath("$.city").isEqualTo("Monona")
-            .jsonPath("$.telephone").isEqualTo("6085552654")
-            .jsonPath("$.pets.length()").isEqualTo(2)
-
-            .jsonPath("$.pets[0].id").isEqualTo(7)
-            .jsonPath("$.pets[0].name").isEqualTo("Samantha")
-            .jsonPath("$.pets[0].birthDate").isEqualTo("1995-09-04")
-            .jsonPath("$.pets[0].type.id").isEqualTo(1)
-            .jsonPath("$.pets[0].type.name").isEqualTo("cat")
-            .jsonPath("$.pets[0].ownerId").isEqualTo(6)
-            .jsonPath("$.pets[0].visits.length()").isEqualTo(2)
-
-            .jsonPath("$.pets[0].visits[0].id").isEqualTo(1)
-            .jsonPath("$.pets[0].visits[0].petId").isEqualTo(7)
-            .jsonPath("$.pets[0].visits[0].date").isEqualTo("2010-03-04")
-            .jsonPath("$.pets[0].visits[0].description").isEqualTo("rabies shot")
-
-            .jsonPath("$.pets[0].visits[1].id").isEqualTo(4)
-            .jsonPath("$.pets[0].visits[1].petId").isEqualTo(7)
-            .jsonPath("$.pets[0].visits[1].date").isEqualTo("2008-09-04")
-            .jsonPath("$.pets[0].visits[1].description").isEqualTo("spayed")
-
-            .jsonPath("$.pets[1].id").isEqualTo(8)
-            .jsonPath("$.pets[1].name").isEqualTo("Max")
-            .jsonPath("$.pets[1].birthDate").isEqualTo("1995-09-04")
-            .jsonPath("$.pets[1].type.id").isEqualTo(1)
-            .jsonPath("$.pets[1].type.name").isEqualTo("cat")
-            .jsonPath("$.pets[1].ownerId").isEqualTo(6)
-            .jsonPath("$.pets[1].visits.length()").isEqualTo(2)
-
-            .jsonPath("$.pets[1].visits[0].id").isEqualTo(2)
-            .jsonPath("$.pets[1].visits[0].petId").isEqualTo(8)
-            .jsonPath("$.pets[1].visits[0].date").isEqualTo("2011-03-04")
-            .jsonPath("$.pets[1].visits[0].description").isEqualTo("rabies shot")
-
-            .jsonPath("$.pets[1].visits[1].id").isEqualTo(3)
-            .jsonPath("$.pets[1].visits[1].petId").isEqualTo(8)
-            .jsonPath("$.pets[1].visits[1].date").isEqualTo("2009-06-04")
-            .jsonPath("$.pets[1].visits[1].description").isEqualTo("neutered")
+            .json("getOwner.json".content(), true)
     }
 
     @Test
@@ -170,6 +128,8 @@ abstract class OwnerControllerTest : BaseTest() {
             .exchange()
             .expectStatus()
             .isNotFound
+            .expectBody()
+            .jsonPath("$.detail").isEqualTo("Owner not found [id: 100500]")
     }
 
     @Test
@@ -181,40 +141,7 @@ abstract class OwnerControllerTest : BaseTest() {
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.length()")
-            .value<Int> { numberOfOwners -> assertThat(numberOfOwners).isGreaterThanOrEqualTo(10) }
-
-            .jsonPath("$.[0].id").isEqualTo(1)
-            .jsonPath("$.[0].firstName").isEqualTo("George")
-            .jsonPath("$.[0].lastName").isEqualTo("Franklin")
-            .jsonPath("$.[0].address").isEqualTo("110 W. Liberty St.")
-            .jsonPath("$.[0].city").isEqualTo("Madison")
-            .jsonPath("$.[0].telephone").isEqualTo("6085551023")
-            .jsonPath("$.[0].pets.length()").isEqualTo(1)
-
-            .jsonPath("$.[0].pets[0].id").isEqualTo(1)
-            .jsonPath("$.[0].pets[0].name").isEqualTo("Leo")
-            .jsonPath("$.[0].pets[0].birthDate").isEqualTo("2000-09-07")
-            .jsonPath("$.[0].pets[0].type.id").isEqualTo(1)
-            .jsonPath("$.[0].pets[0].type.name").isEqualTo("cat")
-            .jsonPath("$.[0].pets[0].ownerId").isEqualTo(1)
-            .jsonPath("$.[0].pets[0].visits").isEmpty
-
-            .jsonPath("$.[1].id").isEqualTo(2)
-            .jsonPath("$.[1].firstName").isEqualTo("Betty")
-            .jsonPath("$.[1].lastName").isEqualTo("Davis")
-            .jsonPath("$.[1].address").isEqualTo("638 Cardinal Ave.")
-            .jsonPath("$.[1].city").isEqualTo("Sun Prairie")
-            .jsonPath("$.[1].telephone").isEqualTo("6085551749")
-            .jsonPath("$.[1].pets.length()").isEqualTo(1)
-
-            .jsonPath("$.[1].pets[0].id").isEqualTo(2)
-            .jsonPath("$.[1].pets[0].name").isEqualTo("Basil")
-            .jsonPath("$.[1].pets[0].birthDate").isEqualTo("2002-08-06")
-            .jsonPath("$.[1].pets[0].type.id").isEqualTo(6)
-            .jsonPath("$.[1].pets[0].type.name").isEqualTo("hamster")
-            .jsonPath("$.[1].pets[0].ownerId").isEqualTo(2)
-            .jsonPath("$.[1].pets[0].visits").isEmpty
+            .json("listOwners.json".content(), true)
     }
 
     @Test
@@ -223,54 +150,24 @@ abstract class OwnerControllerTest : BaseTest() {
             .get()
             .uri("/api/owners?lastId={lastId}&pageSize={pageSize}", 5, 1)
             .exchange()
+            .expectAll()
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.length()").isEqualTo(1)
+            .json("listOwners with lastId and pageSize.json".content(), true)
+    }
 
-            .jsonPath("$.[0].id").isEqualTo(6)
-            .jsonPath("$.[0].firstName").isEqualTo("Jean")
-            .jsonPath("$.[0].lastName").isEqualTo("Coleman")
-            .jsonPath("$.[0].address").isEqualTo("105 N. Lake St.")
-            .jsonPath("$.[0].city").isEqualTo("Monona")
-            .jsonPath("$.[0].telephone").isEqualTo("6085552654")
-            .jsonPath("$.[0].pets.length()").isEqualTo(2)
-
-            .jsonPath("$.[0].pets[0].id").isEqualTo(7)
-            .jsonPath("$.[0].pets[0].name").isEqualTo("Samantha")
-            .jsonPath("$.[0].pets[0].birthDate").isEqualTo("1995-09-04")
-            .jsonPath("$.[0].pets[0].type.id").isEqualTo(1)
-            .jsonPath("$.[0].pets[0].type.name").isEqualTo("cat")
-            .jsonPath("$.[0].pets[0].ownerId").isEqualTo(6)
-            .jsonPath("$.[0].pets[0].visits.length()").isEqualTo(2)
-
-            .jsonPath("$.[0].pets[0].visits[0].id").isEqualTo(1)
-            .jsonPath("$.[0].pets[0].visits[0].petId").isEqualTo(7)
-            .jsonPath("$.[0].pets[0].visits[0].date").isEqualTo("2010-03-04")
-            .jsonPath("$.[0].pets[0].visits[0].description").isEqualTo("rabies shot")
-
-            .jsonPath("$.[0].pets[0].visits[1].id").isEqualTo(4)
-            .jsonPath("$.[0].pets[0].visits[1].petId").isEqualTo(7)
-            .jsonPath("$.[0].pets[0].visits[1].date").isEqualTo("2008-09-04")
-            .jsonPath("$.[0].pets[0].visits[1].description").isEqualTo("spayed")
-
-            .jsonPath("$.[0].pets[1].id").isEqualTo(8)
-            .jsonPath("$.[0].pets[1].name").isEqualTo("Max")
-            .jsonPath("$.[0].pets[1].birthDate").isEqualTo("1995-09-04")
-            .jsonPath("$.[0].pets[1].type.id").isEqualTo(1)
-            .jsonPath("$.[0].pets[1].type.name").isEqualTo("cat")
-            .jsonPath("$.[0].pets[1].ownerId").isEqualTo(6)
-            .jsonPath("$.[0].pets[1].visits.length()").isEqualTo(2)
-
-            .jsonPath("$.[0].pets[1].visits[0].id").isEqualTo(2)
-            .jsonPath("$.[0].pets[1].visits[0].petId").isEqualTo(8)
-            .jsonPath("$.[0].pets[1].visits[0].date").isEqualTo("2011-03-04")
-            .jsonPath("$.[0].pets[1].visits[0].description").isEqualTo("rabies shot")
-
-            .jsonPath("$.[0].pets[1].visits[1].id").isEqualTo(3)
-            .jsonPath("$.[0].pets[1].visits[1].petId").isEqualTo(8)
-            .jsonPath("$.[0].pets[1].visits[1].date").isEqualTo("2009-06-04")
-            .jsonPath("$.[0].pets[1].visits[1].description").isEqualTo("neutered")
+    @Test
+    fun `listOwners with lastName`() {
+        webClient
+            .get()
+            .uri("/api/owners?lastName={lastName}", "Es")
+            .exchange()
+            .expectAll()
+            .expectStatus()
+            .isOk
+            .expectBody()
+            .json("listOwners with lastName.json".content(), true)
     }
 
     @Test
@@ -328,5 +225,7 @@ abstract class OwnerControllerTest : BaseTest() {
             .exchange()
             .expectStatus()
             .isNotFound
+            .expectBody()
+            .jsonPath("$.detail").isEqualTo("Owner not found [id: 100500]")
     }
 }

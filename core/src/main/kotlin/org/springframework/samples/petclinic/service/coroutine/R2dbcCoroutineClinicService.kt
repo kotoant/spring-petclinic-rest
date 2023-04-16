@@ -8,7 +8,12 @@ import org.springframework.samples.petclinic.model.Visit
 import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutineOwnerRepository
 import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutinePetRepository
 import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutinePetTypeRepository
+import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutineSleepRepository
 import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutineVisitRepository
+import org.springframework.samples.petclinic.service.exception.OwnerNotFoundException
+import org.springframework.samples.petclinic.service.exception.PetNotFoundException
+import org.springframework.samples.petclinic.service.exception.PetTypeNotFoundException
+import org.springframework.samples.petclinic.service.exception.VisitNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,16 +23,17 @@ class R2dbcCoroutineClinicService(
     private val ownerRepository: CoroutineOwnerRepository,
     private val petRepository: CoroutinePetRepository,
     private val petTypeRepository: CoroutinePetTypeRepository,
-    private val visitRepository: CoroutineVisitRepository
+    private val visitRepository: CoroutineVisitRepository,
+    private val sleepRepository: CoroutineSleepRepository,
 ) : CoroutineClinicService {
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun findPetById(id: Int): Pet? {
-        return petRepository.fetchOneById(id)
+    override suspend fun findPetById(id: Int): Pet {
+        return petRepository.fetchOneById(id) ?: throw PetNotFoundException(id)
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun findAllPets(lastId: Int?, pageSize: Int?): List<Pet> {
+    override suspend fun findAllPets(lastId: Int, pageSize: Int): List<Pet> {
         return petRepository.fetchAll(lastId, pageSize)
     }
 
@@ -42,12 +48,12 @@ class R2dbcCoroutineClinicService(
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun findVisitById(id: Int): Visit? {
-        return visitRepository.fetchOneById(id)
+    override suspend fun findVisitById(id: Int): Visit {
+        return visitRepository.fetchOneById(id) ?: throw VisitNotFoundException(id)
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun findAllVisits(lastId: Int?, pageSize: Int?): List<Visit> {
+    override suspend fun findAllVisits(lastId: Int, pageSize: Int): List<Visit> {
         return visitRepository.fetchAll(lastId, pageSize)
     }
 
@@ -62,12 +68,12 @@ class R2dbcCoroutineClinicService(
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun findOwnerById(id: Int): Owner? {
-        return ownerRepository.fetchOneById(id)
+    override suspend fun findOwnerById(id: Int): Owner {
+        return ownerRepository.fetchOneById(id) ?: throw OwnerNotFoundException(id)
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun findAllOwners(lastId: Int?, pageSize: Int?): List<Owner> {
+    override suspend fun findAllOwners(lastId: Int, pageSize: Int): List<Owner> {
         return ownerRepository.fetchAll(lastId, pageSize)
     }
 
@@ -82,17 +88,17 @@ class R2dbcCoroutineClinicService(
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun findOwnerByLastName(lastName: String, lastId: Int?, pageSize: Int?): List<Owner> {
+    override suspend fun findOwnerByLastName(lastName: String, lastId: Int, pageSize: Int): List<Owner> {
         return ownerRepository.fetchByLastName(lastName, lastId, pageSize)
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun findPetTypeById(id: Int): PetType? {
-        return petTypeRepository.fetchOneById(id)
+    override suspend fun findPetTypeById(id: Int): PetType {
+        return petTypeRepository.fetchOneById(id) ?: throw PetTypeNotFoundException(id)
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun findAllPetTypes(lastId: Int?, pageSize: Int?): List<PetType> {
+    override suspend fun findAllPetTypes(lastId: Int, pageSize: Int): List<PetType> {
         return petTypeRepository.fetchAll(lastId, pageSize)
     }
 
@@ -104,5 +110,12 @@ class R2dbcCoroutineClinicService(
     @Transactional(transactionManager = "connectionFactoryTransactionManager")
     override suspend fun deletePetType(id: Int): Boolean {
         return petTypeRepository.deleteById(id)
+    }
+
+    @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
+    override suspend fun sleep(times: Int, millis: Int) {
+        for (i in 1..times) {
+            sleepRepository.sleep(millis)
+        }
     }
 }

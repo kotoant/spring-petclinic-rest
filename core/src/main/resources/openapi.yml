@@ -71,6 +71,7 @@ paths:
             type: integer
             minimum: 0
             example: 0
+            default: 0
         - name: pageSize
           in: query
           description: Page size.
@@ -80,6 +81,7 @@ paths:
             minimum: 1
             maximum: 20
             example: 10
+            default: 10
       responses:
         200:
           description: Owner details found and returned.
@@ -487,6 +489,7 @@ paths:
             type: integer
             minimum: 0
             example: 0
+            default: 0
         - name: pageSize
           in: query
           description: Page size.
@@ -496,6 +499,7 @@ paths:
             minimum: 1
             maximum: 20
             example: 10
+            default: 10
       responses:
         200:
           description: Pet types found and returned.
@@ -741,6 +745,7 @@ paths:
             type: integer
             minimum: 0
             example: 0
+            default: 0
         - name: pageSize
           in: query
           description: Page size.
@@ -750,6 +755,7 @@ paths:
             minimum: 1
             maximum: 20
             example: 10
+            default: 10
       responses:
         200:
           description: Pet types found and returned.
@@ -994,6 +1000,7 @@ paths:
             type: integer
             minimum: 0
             example: 0
+            default: 0
         - name: pageSize
           in: query
           description: Page size.
@@ -1003,6 +1010,7 @@ paths:
             minimum: 1
             maximum: 20
             example: 10
+            default: 10
       responses:
         200:
           description: visits found and returned.
@@ -1221,6 +1229,46 @@ paths:
                 $ref: '#/components/schemas/ProblemDetail'
         404:
           description: Visit not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+  /sleep:
+    get:
+      operationId: sleep
+      summary: Sleep
+      description: Sleep.
+      parameters:
+        - name: times
+          in: query
+          description: Number of times to sleep.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            example: 1
+            default: 1
+        - name: millis
+          in: query
+          description: Number of milliseconds to sleep.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            example: 100
+            default: 100
+      responses:
+        200:
+          description: Sleep successful.
+        400:
+          description: Bad request.
           content:
             application/json:
               schema:

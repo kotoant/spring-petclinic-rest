@@ -19,7 +19,7 @@ class JdbcPetTypeRepository(private val ctx: DSLContext) : PetTypeRepository {
     override fun fetchOneById(id: Int): PetType? = ctx.fetchOnePetTypeById(id)
     override fun insert(petType: PetType): PetType = ctx.insertPetType(petType)
     override fun update(petType: PetType): PetType = ctx.updatePetType(petType)
-    override fun fetchAll(lastId: Int?, pageSize: Int?): List<PetType> = ctx.fetchAllPetTypes(lastId, pageSize)
+    override fun fetchAll(lastId: Int, pageSize: Int): List<PetType> = ctx.fetchAllPetTypes(lastId, pageSize)
     override fun deleteById(id: Int): Boolean {
         ctx.deleteVisitsByPetTypeId(id).execute()
         ctx.deletePetsByPetTypeId(id).execute()

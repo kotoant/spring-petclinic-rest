@@ -8,10 +8,17 @@ import org.springframework.samples.petclinic.model.Visit
 import org.springframework.samples.petclinic.repository.r2dbc.R2dbcOwnerRepository
 import org.springframework.samples.petclinic.repository.r2dbc.R2dbcPetRepository
 import org.springframework.samples.petclinic.repository.r2dbc.R2dbcPetTypeRepository
+import org.springframework.samples.petclinic.repository.r2dbc.R2dbcSleepRepository
 import org.springframework.samples.petclinic.repository.r2dbc.R2dbcVisitRepository
+import org.springframework.samples.petclinic.service.exception.OwnerNotFoundException
+import org.springframework.samples.petclinic.service.exception.PetNotFoundException
+import org.springframework.samples.petclinic.service.exception.PetTypeNotFoundException
+import org.springframework.samples.petclinic.service.exception.VisitNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.switchIfEmpty
+import reactor.kotlin.core.publisher.toMono
 
 @Service
 @Profile("r2dbc & reactive")
@@ -19,16 +26,17 @@ class R2dbcReactiveClinicService(
     private val ownerRepository: R2dbcOwnerRepository,
     private val petRepository: R2dbcPetRepository,
     private val petTypeRepository: R2dbcPetTypeRepository,
-    private val visitRepository: R2dbcVisitRepository
+    private val visitRepository: R2dbcVisitRepository,
+    private val sleepRepository: R2dbcSleepRepository,
 ) : ReactiveClinicService {
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
     override fun findPetById(id: Int): Mono<Pet> {
-        return petRepository.fetchOneById(id)
+        return petRepository.fetchOneById(id).switchIfEmpty { Mono.error(PetNotFoundException(id)) }
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override fun findAllPets(lastId: Int?, pageSize: Int?): Mono<List<Pet>> {
+    override fun findAllPets(lastId: Int, pageSize: Int): Mono<List<Pet>> {
         return petRepository.fetchAll(lastId, pageSize)
     }
 
@@ -44,11 +52,11 @@ class R2dbcReactiveClinicService(
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
     override fun findVisitById(id: Int): Mono<Visit> {
-        return visitRepository.fetchOneById(id)
+        return visitRepository.fetchOneById(id).switchIfEmpty { Mono.error(VisitNotFoundException(id)) }
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override fun findAllVisits(lastId: Int?, pageSize: Int?): Mono<List<Visit>> {
+    override fun findAllVisits(lastId: Int, pageSize: Int): Mono<List<Visit>> {
         return visitRepository.fetchAll(lastId, pageSize)
     }
 
@@ -64,11 +72,11 @@ class R2dbcReactiveClinicService(
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
     override fun findOwnerById(id: Int): Mono<Owner> {
-        return ownerRepository.fetchOneById(id)
+        return ownerRepository.fetchOneById(id).switchIfEmpty { Mono.error(OwnerNotFoundException(id)) }
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override fun findAllOwners(lastId: Int?, pageSize: Int?): Mono<List<Owner>> {
+    override fun findAllOwners(lastId: Int, pageSize: Int): Mono<List<Owner>> {
         return ownerRepository.fetchAll(lastId, pageSize)
     }
 
@@ -83,17 +91,17 @@ class R2dbcReactiveClinicService(
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override fun findOwnerByLastName(lastName: String, lastId: Int?, pageSize: Int?): Mono<List<Owner>> {
+    override fun findOwnerByLastName(lastName: String, lastId: Int, pageSize: Int): Mono<List<Owner>> {
         return ownerRepository.fetchByLastName(lastName, lastId, pageSize)
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
     override fun findPetTypeById(id: Int): Mono<PetType> {
-        return petTypeRepository.fetchOneById(id)
+        return petTypeRepository.fetchOneById(id).switchIfEmpty { Mono.error(PetTypeNotFoundException(id)) }
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override fun findAllPetTypes(lastId: Int?, pageSize: Int?): Mono<List<PetType>> {
+    override fun findAllPetTypes(lastId: Int, pageSize: Int): Mono<List<PetType>> {
         return petTypeRepository.fetchAll(lastId, pageSize)
     }
 
@@ -105,5 +113,10 @@ class R2dbcReactiveClinicService(
     @Transactional(transactionManager = "connectionFactoryTransactionManager")
     override fun deletePetType(id: Int): Mono<Boolean> {
         return petTypeRepository.deleteById(id)
+    }
+
+    @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
+    override fun sleep(times: Int, millis: Int): Mono<Unit> {
+        return sleepRepository.sleep(millis).repeat(times - 1L).then().then(Unit.toMono())
     }
 }

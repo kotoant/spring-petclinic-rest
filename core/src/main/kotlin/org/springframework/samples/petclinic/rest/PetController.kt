@@ -40,11 +40,11 @@ class PetController(
     }
 
     override fun getPet(petId: Int): ResponseEntity<PetDto> {
-        val pet = clinicService.findPetById(petId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val pet = clinicService.findPetById(petId)
         return ResponseEntity(petMapper.toPetDto(pet), HttpStatus.OK)
     }
 
-    override fun listPets(lastId: Int?, pageSize: Int?): ResponseEntity<List<PetDto>> {
+    override fun listPets(lastId: Int, pageSize: Int): ResponseEntity<List<PetDto>> {
         val pets = clinicService.findAllPets(lastId, pageSize)
         return if (pets.isEmpty()) {
             ResponseEntity(HttpStatus.NOT_FOUND)
@@ -52,7 +52,7 @@ class PetController(
     }
 
     override fun updatePet(petId: Int, petFieldsDto: PetFieldsDto): ResponseEntity<PetDto> {
-        val currentPet = clinicService.findPetById(petId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val currentPet = clinicService.findPetById(petId)
         val pet = clinicService.savePet(
             currentPet.copy(
                 name = petFieldsDto.name,

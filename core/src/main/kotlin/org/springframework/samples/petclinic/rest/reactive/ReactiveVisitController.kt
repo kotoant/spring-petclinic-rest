@@ -41,10 +41,10 @@ class ReactiveVisitController(private val clinicService: ReactiveClinicService, 
     override fun getVisit(visitId: Int): Mono<ResponseEntity<VisitDto>> {
         return clinicService.findVisitById(visitId).map { visit ->
             ResponseEntity(visitMapper.toVisitDto(visit), HttpStatus.OK)
-        }.switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
+        }
     }
 
-    override fun listVisits(lastId: Int?, pageSize: Int?): Mono<ResponseEntity<List<VisitDto>>> {
+    override fun listVisits(lastId: Int, pageSize: Int): Mono<ResponseEntity<List<VisitDto>>> {
         return clinicService.findAllVisits(lastId, pageSize).map { visits ->
             if (visits.isEmpty()) {
                 ResponseEntity(HttpStatus.NOT_FOUND)
@@ -58,6 +58,5 @@ class ReactiveVisitController(private val clinicService: ReactiveClinicService, 
         return clinicService.findVisitById(visitId).flatMap { currentVisit ->
             clinicService.saveVisit(currentVisit.copy(date = visitFieldsDto.date, description = visitFieldsDto.description))
         }.map { visit -> ResponseEntity(visitMapper.toVisitDto(visit), HttpStatus.OK) }
-            .switchIfEmpty { Mono.just(ResponseEntity(HttpStatus.NOT_FOUND)) }
     }
 }

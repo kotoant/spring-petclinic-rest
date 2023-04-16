@@ -8,7 +8,12 @@ import org.springframework.samples.petclinic.model.Visit
 import org.springframework.samples.petclinic.repository.jdbc.JdbcOwnerRepository
 import org.springframework.samples.petclinic.repository.jdbc.JdbcPetRepository
 import org.springframework.samples.petclinic.repository.jdbc.JdbcPetTypeRepository
+import org.springframework.samples.petclinic.repository.jdbc.JdbcSleepRepository
 import org.springframework.samples.petclinic.repository.jdbc.JdbcVisitRepository
+import org.springframework.samples.petclinic.service.exception.OwnerNotFoundException
+import org.springframework.samples.petclinic.service.exception.PetNotFoundException
+import org.springframework.samples.petclinic.service.exception.PetTypeNotFoundException
+import org.springframework.samples.petclinic.service.exception.VisitNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,16 +23,17 @@ class JdbcClinicServiceImpl(
     private val ownerRepository: JdbcOwnerRepository,
     private val petRepository: JdbcPetRepository,
     private val petTypeRepository: JdbcPetTypeRepository,
-    private val visitRepository: JdbcVisitRepository
+    private val visitRepository: JdbcVisitRepository,
+    private val sleepRepository: JdbcSleepRepository,
 ) : JdbcClinicService {
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun findPetById(id: Int): Pet? {
-        return petRepository.fetchOneById(id)
+    override fun findPetById(id: Int): Pet {
+        return petRepository.fetchOneById(id) ?: throw PetNotFoundException(id)
     }
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun findAllPets(lastId: Int?, pageSize: Int?): List<Pet> {
+    override fun findAllPets(lastId: Int, pageSize: Int): List<Pet> {
         return petRepository.fetchAll(lastId, pageSize)
     }
 
@@ -42,12 +48,12 @@ class JdbcClinicServiceImpl(
     }
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun findVisitById(id: Int): Visit? {
-        return visitRepository.fetchOneById(id)
+    override fun findVisitById(id: Int): Visit {
+        return visitRepository.fetchOneById(id) ?: throw VisitNotFoundException(id)
     }
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun findAllVisits(lastId: Int?, pageSize: Int?): List<Visit> {
+    override fun findAllVisits(lastId: Int, pageSize: Int): List<Visit> {
         return visitRepository.fetchAll(lastId, pageSize)
     }
 
@@ -62,12 +68,12 @@ class JdbcClinicServiceImpl(
     }
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun findOwnerById(id: Int): Owner? {
-        return ownerRepository.fetchOneById(id)
+    override fun findOwnerById(id: Int): Owner {
+        return ownerRepository.fetchOneById(id) ?: throw OwnerNotFoundException(id)
     }
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun findAllOwners(lastId: Int?, pageSize: Int?): List<Owner> {
+    override fun findAllOwners(lastId: Int, pageSize: Int): List<Owner> {
         return ownerRepository.fetchAll(lastId, pageSize)
     }
 
@@ -82,17 +88,17 @@ class JdbcClinicServiceImpl(
     }
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun findOwnerByLastName(lastName: String, lastId: Int?, pageSize: Int?): List<Owner> {
+    override fun findOwnerByLastName(lastName: String, lastId: Int, pageSize: Int): List<Owner> {
         return ownerRepository.fetchByLastName(lastName, lastId, pageSize)
     }
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun findPetTypeById(id: Int): PetType? {
-        return petTypeRepository.fetchOneById(id)
+    override fun findPetTypeById(id: Int): PetType {
+        return petTypeRepository.fetchOneById(id) ?: throw PetTypeNotFoundException(id)
     }
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun findAllPetTypes(lastId: Int?, pageSize: Int?): List<PetType> {
+    override fun findAllPetTypes(lastId: Int, pageSize: Int): List<PetType> {
         return petTypeRepository.fetchAll(lastId, pageSize)
     }
 
@@ -104,5 +110,12 @@ class JdbcClinicServiceImpl(
     @Transactional(transactionManager = "transactionManager")
     override fun deletePetType(id: Int): Boolean {
         return petTypeRepository.deleteById(id)
+    }
+
+    @Transactional(transactionManager = "transactionManager", readOnly = true)
+    override fun sleep(times: Int, millis: Int) {
+        for (i in 1..times) {
+            sleepRepository.sleep(millis)
+        }
     }
 }

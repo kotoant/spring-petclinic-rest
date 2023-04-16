@@ -1,0 +1,138 @@
+[
+  {
+    "name": "Leo",
+    "birthDate": "2000-09-07",
+    "type": {
+      "name": "cat",
+      "id": 1
+    },
+    "id": 1,
+    "visits": [],
+    "ownerId": 1
+  },
+  {
+    "name": "Basil",
+    "birthDate": "2002-08-06",
+    "type": {
+      "name": "hamster",
+      "id": 6
+    },
+    "id": 2,
+    "visits": [],
+    "ownerId": 2
+  },
+  {
+    "name": "Rosy",
+    "birthDate": "2001-04-17",
+    "type": {
+      "name": "dog",
+      "id": 2
+    },
+    "id": 3,
+    "visits": [],
+    "ownerId": 3
+  },
+  {
+    "name": "Jewel",
+    "birthDate": "2000-03-07",
+    "type": {
+      "name": "dog",
+      "id": 2
+    },
+    "id": 4,
+    "visits": [],
+    "ownerId": 3
+  },
+  {
+    "name": "Iggy",
+    "birthDate": "2000-11-30",
+    "type": {
+      "name": "lizard",
+      "id": 3
+    },
+    "id": 5,
+    "visits": [],
+    "ownerId": 4
+  },
+  {
+    "name": "George",
+    "birthDate": "2000-01-20",
+    "type": {
+      "name": "snake",
+      "id": 4
+    },
+    "id": 6,
+    "visits": [],
+    "ownerId": 5
+  },
+  {
+    "name": "Samantha",
+    "birthDate": "1995-09-04",
+    "type": {
+      "name": "cat",
+      "id": 1
+    },
+    "id": 7,
+    "visits": [
+      {
+        "date": "2010-03-04",
+        "description": "rabies shot",
+        "id": 1,
+        "petId": 7
+      },
+      {
+        "date": "2008-09-04",
+        "description": "spayed",
+        "id": 4,
+        "petId": 7
+      }
+    ],
+    "ownerId": 6
+  },
+  {
+    "name": "Max",
+    "birthDate": "1995-09-04",
+    "type": {
+      "name": "cat",
+      "id": 1
+    },
+    "id": 8,
+    "visits": [
+      {
+        "date": "2011-03-04",
+        "description": "rabies shot",
+        "id": 2,
+        "petId": 8
+      },
+      {
+        "date": "2009-06-04",
+        "description": "neutered",
+        "id": 3,
+        "petId": 8
+      }
+    ],
+    "ownerId": 6
+  },
+  {
+    "name": "Lucky",
+    "birthDate": "1999-08-06",
+    "type": {
+      "name": "bird",
+      "id": 5
+    },
+    "id": 9,
+    "visits": [],
+    "ownerId": 7
+  },
+  {
+    "name": "Mulligan",
+    "birthDate": "1997-02-24",
+    "type": {
+      "name": "dog",
+      "id": 2
+    },
+    "id": 10,
+    "visits": [],
+    "ownerId": 8
+  }
+]

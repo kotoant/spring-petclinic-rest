@@ -34,11 +34,11 @@ class CoroutineVisitController(
     }
 
     override suspend fun getVisit(visitId: Int): ResponseEntity<VisitDto> {
-        val visit = clinicService.findVisitById(visitId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val visit = clinicService.findVisitById(visitId)
         return ResponseEntity(visitMapper.toVisitDto(visit), HttpStatus.OK)
     }
 
-    override suspend fun listVisits(lastId: Int?, pageSize: Int?): ResponseEntity<List<VisitDto>> {
+    override suspend fun listVisits(lastId: Int, pageSize: Int): ResponseEntity<List<VisitDto>> {
         val visits = clinicService.findAllVisits(lastId, pageSize)
         return if (visits.isEmpty()) {
             ResponseEntity(HttpStatus.NOT_FOUND)
@@ -46,7 +46,7 @@ class CoroutineVisitController(
     }
 
     override suspend fun updateVisit(visitId: Int, visitFieldsDto: VisitFieldsDto): ResponseEntity<VisitDto> {
-        val currentVisit = clinicService.findVisitById(visitId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+        val currentVisit = clinicService.findVisitById(visitId)
         val visit = clinicService.saveVisit(currentVisit.copy(date = visitFieldsDto.date, description = visitFieldsDto.description))
         return ResponseEntity(visitMapper.toVisitDto(visit), HttpStatus.OK)
     }

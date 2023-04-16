@@ -20,10 +20,10 @@ class JdbcOwnerRepository(private val ctx: DSLContext) : OwnerRepository {
     override fun fetchOneById(id: Int): Owner? = ctx.fetchOneOwnerById(id)
     override fun insert(owner: Owner): Owner = ctx.insertOwner(owner)
     override fun update(owner: Owner): Owner = ctx.updateOwner(owner)
-    override fun fetchAll(lastId: Int?, pageSize: Int?): List<Owner> =
+    override fun fetchAll(lastId: Int, pageSize: Int): List<Owner> =
         ctx.fetchAllOwners(lastId, pageSize)
 
-    override fun fetchByLastName(lastName: String, lastId: Int?, pageSize: Int?): List<Owner> =
+    override fun fetchByLastName(lastName: String, lastId: Int, pageSize: Int): List<Owner> =
         ctx.fetchOwnersByLastName(lastName, lastId, pageSize)
 
     override fun deleteById(id: Int): Boolean {

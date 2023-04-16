@@ -18,11 +18,11 @@ class JdbcCoroutineClinicService(private val clinicService: JdbcClinicService) :
     private suspend fun <T> wrapBlockingCall(block: suspend CoroutineScope.() -> T): T =
         withContext(Dispatchers.IO, block)
 
-    override suspend fun findPetById(id: Int): Pet? = wrapBlockingCall {
+    override suspend fun findPetById(id: Int): Pet = wrapBlockingCall {
         clinicService.findPetById(id)
     }
 
-    override suspend fun findAllPets(lastId: Int?, pageSize: Int?): List<Pet> = wrapBlockingCall {
+    override suspend fun findAllPets(lastId: Int, pageSize: Int): List<Pet> = wrapBlockingCall {
         clinicService.findAllPets(lastId, pageSize)
     }
 
@@ -34,11 +34,11 @@ class JdbcCoroutineClinicService(private val clinicService: JdbcClinicService) :
         clinicService.deletePet(id)
     }
 
-    override suspend fun findVisitById(id: Int): Visit? = wrapBlockingCall {
+    override suspend fun findVisitById(id: Int): Visit = wrapBlockingCall {
         clinicService.findVisitById(id)
     }
 
-    override suspend fun findAllVisits(lastId: Int?, pageSize: Int?): List<Visit> = wrapBlockingCall {
+    override suspend fun findAllVisits(lastId: Int, pageSize: Int): List<Visit> = wrapBlockingCall {
         clinicService.findAllVisits(lastId, pageSize)
     }
 
@@ -50,11 +50,11 @@ class JdbcCoroutineClinicService(private val clinicService: JdbcClinicService) :
         clinicService.deleteVisit(id)
     }
 
-    override suspend fun findOwnerById(id: Int): Owner? = wrapBlockingCall {
+    override suspend fun findOwnerById(id: Int): Owner = wrapBlockingCall {
         clinicService.findOwnerById(id)
     }
 
-    override suspend fun findAllOwners(lastId: Int?, pageSize: Int?): List<Owner> = wrapBlockingCall {
+    override suspend fun findAllOwners(lastId: Int, pageSize: Int): List<Owner> = wrapBlockingCall {
         clinicService.findAllOwners(lastId, pageSize)
     }
 
@@ -66,16 +66,16 @@ class JdbcCoroutineClinicService(private val clinicService: JdbcClinicService) :
         clinicService.deleteOwner(id)
     }
 
-    override suspend fun findOwnerByLastName(lastName: String, lastId: Int?, pageSize: Int?): List<Owner> =
+    override suspend fun findOwnerByLastName(lastName: String, lastId: Int, pageSize: Int): List<Owner> =
         wrapBlockingCall {
             clinicService.findOwnerByLastName(lastName, lastId, pageSize)
         }
 
-    override suspend fun findPetTypeById(id: Int): PetType? = wrapBlockingCall {
+    override suspend fun findPetTypeById(id: Int): PetType = wrapBlockingCall {
         clinicService.findPetTypeById(id)
     }
 
-    override suspend fun findAllPetTypes(lastId: Int?, pageSize: Int?): List<PetType> = wrapBlockingCall {
+    override suspend fun findAllPetTypes(lastId: Int, pageSize: Int): List<PetType> = wrapBlockingCall {
         clinicService.findAllPetTypes(lastId, pageSize)
     }
 
@@ -85,5 +85,9 @@ class JdbcCoroutineClinicService(private val clinicService: JdbcClinicService) :
 
     override suspend fun deletePetType(id: Int): Boolean = wrapBlockingCall {
         clinicService.deletePetType(id)
+    }
+
+    override suspend fun sleep(times: Int, millis: Int) = wrapBlockingCall {
+        clinicService.sleep(times, millis)
     }
 }

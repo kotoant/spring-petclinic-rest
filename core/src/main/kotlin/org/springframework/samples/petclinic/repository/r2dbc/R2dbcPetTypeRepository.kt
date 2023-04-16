@@ -21,7 +21,7 @@ class R2dbcPetTypeRepository(private val client: DatabaseClient) {
     fun fetchOneById(id: Int): Mono<PetType> = client.inContext { it.fetchOnePetTypeByIdReactive(id) }
     fun insert(petType: PetType): Mono<PetType> = client.inContext { it.insertPetTypeReactive(petType) }
     fun update(petType: PetType): Mono<PetType> = client.inContext { it.updatePetTypeReactive(petType) }
-    fun fetchAll(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): Mono<List<PetType>> =
+    fun fetchAll(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): Mono<List<PetType>> =
         client.inContext { it.fetchAllPetTypesReactive(lastId, pageSize) }
 
     fun deleteById(id: Int): Mono<Boolean> = client.inContext { ctx ->

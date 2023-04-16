@@ -65,46 +65,46 @@ export const options = {
             // ],
 
             executor: 'ramping-vus',
-            startVUs: 0,
+            startVUs: 100,
             stages: [
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
                 { target: 100, duration: '20s' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 200, duration: '1m' },
-
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 200, duration: '1m' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 300, duration: '1m' },
-
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 300, duration: '1m' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 400, duration: '1m' },
-
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 400, duration: '1m' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
                 { target: 500, duration: '1m' },
 
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
                 { target: 500, duration: '1m' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 600, duration: '1m' },
+                { target: 1000, duration: '1m' },
 
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 600, duration: '1m' },
+                { target: 1000, duration: '1m' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 700, duration: '1m' },
+                { target: 1500, duration: '1m' },
 
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 700, duration: '1m' },
+                { target: 1500, duration: '1m' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 2000, duration: '1m' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 2000, duration: '1m' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 2500, duration: '1m' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 2500, duration: '1m' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 3000, duration: '1m' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 3000, duration: '1m' },
 
                 // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
                 { target: 0, duration: '1m' },
@@ -128,11 +128,11 @@ function colName(n) {
 }
 
 export default function () {
-    // const BASE_API_URL = 'https://springpetclinicrest.ru/api'
-    const BASE_API_URL = 'http://localhost:9966/api'
+    const BASE_API_URL = 'https://springpetclinicrest.ru/api'
+    // const BASE_API_URL = 'http://localhost:9966/api'
     const params = {
         headers: { 'Content-Type': 'application/json' },
-        timeout: '5s',
+        timeout: '10s',
     };
     const lastName = `Last${colName(scenario.iterationInTest)}name`
     const owner = {

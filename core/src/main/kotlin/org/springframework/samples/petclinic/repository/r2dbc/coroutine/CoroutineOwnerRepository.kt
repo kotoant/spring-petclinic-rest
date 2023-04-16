@@ -28,13 +28,13 @@ class CoroutineOwnerRepository(private val client: DatabaseClient) {
 
     suspend fun insert(owner: Owner): Owner = client.inContextCoroutine { it.insertOwnerReactive(owner).awaitSingle() }
     suspend fun update(owner: Owner): Owner = client.inContextCoroutine { it.updateOwnerReactive(owner).awaitSingle() }
-    suspend fun fetchAll(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): List<Owner> =
+    suspend fun fetchAll(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): List<Owner> =
         client.inContextCoroutine { it.fetchAllOwnersReactive(lastId, pageSize).awaitSingle() }
 
     suspend fun fetchByLastName(
         lastName: String,
-        lastId: Int? = DEFAULT_LAST_ID,
-        pageSize: Int? = DEFAULT_PAGE_SIZE
+        lastId: Int = DEFAULT_LAST_ID,
+        pageSize: Int = DEFAULT_PAGE_SIZE
     ): List<Owner> =
         client.inContextCoroutine { it.fetchOwnersByLastNameReactive(lastName, lastId, pageSize).awaitSingle() }
 

@@ -71,23 +71,7 @@ abstract class PetControllerTest : BaseTest() {
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.id").isEqualTo(7)
-            .jsonPath("$.name").isEqualTo("Samantha")
-            .jsonPath("$.birthDate").isEqualTo("1995-09-04")
-            .jsonPath("$.type.id").isEqualTo(1)
-            .jsonPath("$.type.name").isEqualTo("cat")
-            .jsonPath("$.ownerId").isEqualTo(6)
-            .jsonPath("$.visits.length()").isEqualTo(2)
-
-            .jsonPath("$.visits[0].id").isEqualTo(1)
-            .jsonPath("$.visits[0].petId").isEqualTo(7)
-            .jsonPath("$.visits[0].date").isEqualTo("2010-03-04")
-            .jsonPath("$.visits[0].description").isEqualTo("rabies shot")
-
-            .jsonPath("$.visits[1].id").isEqualTo(4)
-            .jsonPath("$.visits[1].petId").isEqualTo(7)
-            .jsonPath("$.visits[1].date").isEqualTo("2008-09-04")
-            .jsonPath("$.visits[1].description").isEqualTo("spayed")
+            .json("getPet.json".content(), true)
     }
 
     @Test
@@ -98,6 +82,8 @@ abstract class PetControllerTest : BaseTest() {
             .exchange()
             .expectStatus()
             .isNotFound
+            .expectBody()
+            .jsonPath("$.detail").isEqualTo("Pet not found [id: 100500]")
     }
 
     @Test
@@ -109,40 +95,7 @@ abstract class PetControllerTest : BaseTest() {
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.length()")
-            .value<Int> { numberOfPets -> assertThat(numberOfPets).isGreaterThanOrEqualTo(4) }
-
-            .jsonPath("$[0].id").isEqualTo(1)
-            .jsonPath("$[0].name").isEqualTo("Leo")
-            .jsonPath("$[0].birthDate").isEqualTo("2000-09-07")
-            .jsonPath("$[0].type.id").isEqualTo(1)
-            .jsonPath("$[0].type.name").isEqualTo("cat")
-            .jsonPath("$[0].ownerId").isEqualTo(1)
-            .jsonPath("$[0].visits").isEmpty
-
-            .jsonPath("$[1].id").isEqualTo(2)
-            .jsonPath("$[1].name").isEqualTo("Basil")
-            .jsonPath("$[1].birthDate").isEqualTo("2002-08-06")
-            .jsonPath("$[1].type.id").isEqualTo(6)
-            .jsonPath("$[1].type.name").isEqualTo("hamster")
-            .jsonPath("$[1].ownerId").isEqualTo(2)
-            .jsonPath("$[1].visits").isEmpty
-
-            .jsonPath("$[2].id").isEqualTo(3)
-            .jsonPath("$[2].name").isEqualTo("Rosy")
-            .jsonPath("$[2].birthDate").isEqualTo("2001-04-17")
-            .jsonPath("$[2].type.id").isEqualTo(2)
-            .jsonPath("$[2].type.name").isEqualTo("dog")
-            .jsonPath("$[2].ownerId").isEqualTo(3)
-            .jsonPath("$[2].visits").isEmpty
-
-            .jsonPath("$[3].id").isEqualTo(4)
-            .jsonPath("$[3].name").isEqualTo("Jewel")
-            .jsonPath("$[3].birthDate").isEqualTo("2000-03-07")
-            .jsonPath("$[3].type.id").isEqualTo(2)
-            .jsonPath("$[3].type.name").isEqualTo("dog")
-            .jsonPath("$[3].ownerId").isEqualTo(3)
-            .jsonPath("$[3].visits").isEmpty
+            .json("listPets.json".content(), true)
     }
 
     @Test
@@ -154,43 +107,7 @@ abstract class PetControllerTest : BaseTest() {
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.length()").isEqualTo(2)
-
-            .jsonPath("$[0].id").isEqualTo(7)
-            .jsonPath("$[0].name").isEqualTo("Samantha")
-            .jsonPath("$[0].birthDate").isEqualTo("1995-09-04")
-            .jsonPath("$[0].type.id").isEqualTo(1)
-            .jsonPath("$[0].type.name").isEqualTo("cat")
-            .jsonPath("$[0].ownerId").isEqualTo(6)
-            .jsonPath("$[0].visits.length()").isEqualTo(2)
-
-            .jsonPath("$[0].visits[0].id").isEqualTo(1)
-            .jsonPath("$[0].visits[0].petId").isEqualTo(7)
-            .jsonPath("$[0].visits[0].date").isEqualTo("2010-03-04")
-            .jsonPath("$[0].visits[0].description").isEqualTo("rabies shot")
-
-            .jsonPath("$[0].visits[1].id").isEqualTo(4)
-            .jsonPath("$[0].visits[1].petId").isEqualTo(7)
-            .jsonPath("$[0].visits[1].date").isEqualTo("2008-09-04")
-            .jsonPath("$[0].visits[1].description").isEqualTo("spayed")
-
-            .jsonPath("$[1].id").isEqualTo(8)
-            .jsonPath("$[1].name").isEqualTo("Max")
-            .jsonPath("$[1].birthDate").isEqualTo("1995-09-04")
-            .jsonPath("$[1].type.id").isEqualTo(1)
-            .jsonPath("$[1].type.name").isEqualTo("cat")
-            .jsonPath("$[1].ownerId").isEqualTo(6)
-            .jsonPath("$[1].visits.length()").isEqualTo(2)
-
-            .jsonPath("$[1].visits[0].id").isEqualTo(2)
-            .jsonPath("$[1].visits[0].petId").isEqualTo(8)
-            .jsonPath("$[1].visits[0].date").isEqualTo("2011-03-04")
-            .jsonPath("$[1].visits[0].description").isEqualTo("rabies shot")
-
-            .jsonPath("$[1].visits[1].id").isEqualTo(3)
-            .jsonPath("$[1].visits[1].petId").isEqualTo(8)
-            .jsonPath("$[1].visits[1].date").isEqualTo("2009-06-04")
-            .jsonPath("$[1].visits[1].description").isEqualTo("neutered")
+            .json("listPets with lastId and pageSize.json".content(), true)
     }
 
     @Test
@@ -243,5 +160,7 @@ abstract class PetControllerTest : BaseTest() {
             .exchange()
             .expectStatus()
             .isNotFound
+            .expectBody()
+            .jsonPath("$.detail").isEqualTo("Pet not found [id: 100500]")
     }
 }

@@ -69,10 +69,7 @@ abstract class VisitControllerTest : BaseTest() {
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.id").isEqualTo(1)
-            .jsonPath("$.petId").isEqualTo(7)
-            .jsonPath("$.date").isEqualTo("2010-03-04")
-            .jsonPath("$.description").isEqualTo("rabies shot")
+            .json("getVisit.json".content(), true)
     }
 
     @Test
@@ -83,6 +80,8 @@ abstract class VisitControllerTest : BaseTest() {
             .exchange()
             .expectStatus()
             .isNotFound
+            .expectBody()
+            .jsonPath("$.detail").isEqualTo("Visit not found [id: 100500]")
     }
 
     @Test
@@ -127,17 +126,7 @@ abstract class VisitControllerTest : BaseTest() {
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.length()").isEqualTo(2)
-
-            .jsonPath("$.[0].id").isEqualTo(2)
-            .jsonPath("$.[0].petId").isEqualTo(8)
-            .jsonPath("$.[0].date").isEqualTo("2011-03-04")
-            .jsonPath("$.[0].description").isEqualTo("rabies shot")
-
-            .jsonPath("$.[1].id").isEqualTo(3)
-            .jsonPath("$.[1].petId").isEqualTo(8)
-            .jsonPath("$.[1].date").isEqualTo("2009-06-04")
-            .jsonPath("$.[1].description").isEqualTo("neutered")
+            .json("listVisits with lastId and pageSize.json".content(), true)
     }
 
     @Test
@@ -187,5 +176,7 @@ abstract class VisitControllerTest : BaseTest() {
             .exchange()
             .expectStatus()
             .isNotFound
+            .expectBody()
+            .jsonPath("$.detail").isEqualTo("Visit not found [id: 100500]")
     }
 }

@@ -68,8 +68,7 @@ abstract class PetTypeControllerTest : BaseTest() {
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.id").isEqualTo(1)
-            .jsonPath("$.name").isEqualTo("cat")
+            .json("getPetType.json".content(), true)
     }
 
     @Test
@@ -80,6 +79,8 @@ abstract class PetTypeControllerTest : BaseTest() {
             .exchange()
             .expectStatus()
             .isNotFound
+            .expectBody()
+            .jsonPath("$.detail").isEqualTo("Pet type not found [id: 100500]")
     }
 
     @Test
@@ -122,13 +123,7 @@ abstract class PetTypeControllerTest : BaseTest() {
             .expectStatus()
             .isOk
             .expectBody()
-            .jsonPath("$.length()").isEqualTo(2)
-
-            .jsonPath("$[0].id").isEqualTo(2)
-            .jsonPath("$[0].name").isEqualTo("dog")
-
-            .jsonPath("$[1].id").isEqualTo(3)
-            .jsonPath("$[1].name").isEqualTo("lizard")
+            .json("listPetTypes with lastId and pageSize.json".content(), true)
     }
 
     @Test
@@ -161,7 +156,7 @@ abstract class PetTypeControllerTest : BaseTest() {
     fun `updatePetType NotFound`() {
         webClient
             .put()
-            .uri("/api/petTypes/{id}", 100500)
+            .uri("/api/pettypes/{id}", 100500)
             .bodyValue(
                 PetTypeFieldsDto(
                     name = "guinea pig"
@@ -170,5 +165,7 @@ abstract class PetTypeControllerTest : BaseTest() {
             .exchange()
             .expectStatus()
             .isNotFound
+            .expectBody()
+            .jsonPath("$.detail").isEqualTo("Pet type not found [id: 100500]")
     }
 }

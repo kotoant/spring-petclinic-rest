@@ -25,7 +25,7 @@ class CoroutineVisitRepository(private val client: DatabaseClient) {
 
     suspend fun insert(visit: Visit): Visit = client.inContextCoroutine { it.insertVisitReactive(visit).awaitSingle() }
     suspend fun update(visit: Visit): Visit = client.inContextCoroutine { it.updateVisitReactive(visit).awaitSingle() }
-    suspend fun fetchAll(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): List<Visit> =
+    suspend fun fetchAll(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): List<Visit> =
         client.inContextCoroutine { it.fetchAllVisitsReactive(lastId, pageSize).awaitSingle() }
 
     suspend fun deleteById(id: Int): Boolean =

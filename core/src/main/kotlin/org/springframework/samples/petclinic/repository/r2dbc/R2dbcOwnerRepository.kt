@@ -22,13 +22,13 @@ class R2dbcOwnerRepository(private val client: DatabaseClient) {
     fun fetchOneById(id: Int): Mono<Owner> = client.inContext { it.fetchOneOwnerByIdReactive(id) }
     fun insert(owner: Owner): Mono<Owner> = client.inContext { it.insertOwnerReactive(owner) }
     fun update(owner: Owner): Mono<Owner> = client.inContext { it.updateOwnerReactive(owner) }
-    fun fetchAll(lastId: Int? = DEFAULT_LAST_ID, pageSize: Int? = DEFAULT_PAGE_SIZE): Mono<List<Owner>> =
+    fun fetchAll(lastId: Int = DEFAULT_LAST_ID, pageSize: Int = DEFAULT_PAGE_SIZE): Mono<List<Owner>> =
         client.inContext { it.fetchAllOwnersReactive(lastId, pageSize) }
 
     fun fetchByLastName(
         lastName: String,
-        lastId: Int? = DEFAULT_LAST_ID,
-        pageSize: Int? = DEFAULT_PAGE_SIZE
+        lastId: Int = DEFAULT_LAST_ID,
+        pageSize: Int = DEFAULT_PAGE_SIZE
     ): Mono<List<Owner>> = client.inContext { it.fetchOwnersByLastNameReactive(lastName, lastId, pageSize) }
 
     fun deleteById(id: Int): Mono<Boolean> = client.inContext { ctx ->
