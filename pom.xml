@@ -40,9 +40,9 @@
         <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 
-        <testcontainers.version>1.18.0</testcontainers.version>
-        <kotlin.version>1.8.20</kotlin.version>
-        <jooq.version>3.18.3</jooq.version>
+        <testcontainers.version>1.17.6</testcontainers.version>
+        <kotlin.version>1.8.10</kotlin.version>
+        <jooq.version>3.18.0</jooq.version>
         <postgresql.version>42.6.0-SNAPSHOT</postgresql.version>
         <spring-cloud-starter-config.version>4.0.1</spring-cloud-starter-config.version>
         <kotlin-logging-jvm.version>3.0.5</kotlin-logging-jvm.version>
