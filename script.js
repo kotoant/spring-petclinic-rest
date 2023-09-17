@@ -178,7 +178,7 @@ export default function () {
     const getVisitRes = http.get(http.url`${BASE_API_URL}/visits/${visitId}`, params);
     check(getVisitRes, { 'get visit status was 200': (r) => r.status === 200 });
 
-    const findOwnerRes = http.get(http.url`${BASE_API_URL}/owners?lastName=${lastName}`, params);
+    const findOwnerRes = http.get(http.url`${BASE_API_URL}/owners?lastName=${lastName}&lastId=${ownerId - 1}&pageSize=1`, params);
     check(findOwnerRes, { 'find owners status was 200': (r) => r.status === 200 });
 
     pet.name = 'Leopold'
