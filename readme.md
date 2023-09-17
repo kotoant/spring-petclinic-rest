@@ -229,6 +229,10 @@ The [issue tracker](https://github.com/spring-petclinic/spring-petclinic-rest/is
 
 For pull requests, editor preferences are available in the [editor config](https://github.com/spring-petclinic/spring-petclinic-rest/blob/master/.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>.
 
+# Run k6 stress test
 
+```bash
+K6_PROMETHEUS_RW_SERVER_URL=https://prometheus.catbro.keenetic.pro/api/v1/write k6 run script.js -o experimental-prometheus-rw
+```
 
 
