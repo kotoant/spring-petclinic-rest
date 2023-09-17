@@ -14,11 +14,11 @@ export const options = {
             timeUnit: '1s',
 
             // It should preallocate `preAllocatedVUs` VUs before starting the test.
-            preAllocatedVUs: 1000,
+            preAllocatedVUs: 10,
 
             // It is allowed to spin up to `maxVUs` maximum VUs in order to sustain the defined
             // constant arrival rate.
-            maxVUs: 10000,
+            maxVUs: 40,
 
             stages: [
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
