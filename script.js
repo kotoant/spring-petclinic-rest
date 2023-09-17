@@ -109,7 +109,7 @@ export const options = {
             //     // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
             //     { target: 0, duration: '1m' },
             // ],
-            gracefulRampDown: '0s',
+            // gracefulRampDown: '0s',
         },
     },
 };
