@@ -60,15 +60,15 @@ export const options = {
             //     // It should stay at `target` iterations per `timeUnit` for the following `duration`.
             //     { target: 300, duration: '1m' },
             //
-            //     // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
-            //     { target: 0, duration: '1m' },
+            // //     // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
+            // //     { target: 0, duration: '1m' },
             // ],
 
             executor: 'ramping-vus',
-            startVUs: 100,
+            startVUs: 10,
             stages: [
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 100, duration: '20s' },
+                { target: 10, duration: '20s' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
                 { target: 500, duration: '1m' },
@@ -106,8 +106,8 @@ export const options = {
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
                 { target: 3000, duration: '1m' },
 
-                // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 0, duration: '1m' },
+                // // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
+                // { target: 0, duration: '1m' },
             ],
             gracefulRampDown: '0s',
         },
