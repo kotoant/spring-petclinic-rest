@@ -1,0 +1,51 @@
+
+          /\      |‾‾| /‾‾/   /‾‾/   
+     /\  /  \     |  |/  /   /  /    
+    /  \/    \    |     (   /   ‾‾\  
+   /          \   |  |\  \ |  (‾)  | 
+  / __________ \  |__| \__\ \_____/ .io
+
+  execution: local
+     script: script.js
+     output: Prometheus remote write (https://prometheus.catbro.keenetic.pro/api/v1/write), csv (webmvc-jdbc-undertow-ramping-vus.gz)
+
+  scenarios: (100.00%) 1 scenario, 3000 max VUs, 12m40s max duration (incl. graceful stop):
+           * petclinic: Up to 3000 looping VUs for 12m40s over 14 stages (gracefulRampDown: 0s, gracefulStop: 30s)
+
+WARN[0119] Request Failed                                error="Get \"https://springpetclinicrest.ru/api/visits/27442\": read tcp 10.166.0.54:43714->34.110.223.40:443: read: connection reset by peer"
+WARN[0607] Request Failed                                error="Get \"https://springpetclinicrest.ru/api/owners/168820\": read tcp 10.166.0.54:60012->34.110.223.40:443: read: connection reset by peer"
+
+     ✓ post owner status was 201
+     ✓ post pet status was 201
+     ✓ post visit status was 201
+     ✗ get owner status was 200
+      ↳  99% — ✓ 209938 / ✗ 1
+     ✓ get pet status was 200
+     ✗ get visit status was 200
+      ↳  99% — ✓ 209328 / ✗ 1
+     ✓ find owners status was 200
+     ✓ put pet status was 200
+     ✓ put visit status was 200
+     ✓ put owner status was 200
+
+     checks.........................: 99.99%  ✓ 2094776     ✗ 2      
+     data_received..................: 737 MB  970 kB/s
+     data_sent......................: 333 MB  438 kB/s
+     http_req_blocked...............: avg=15.28µs  min=159ns    med=403ns    max=413.27ms p(90)=510ns    p(95)=556ns   
+     http_req_connecting............: avg=1.29µs   min=0s       med=0s       max=42.61ms  p(90)=0s       p(95)=0s      
+     http_req_duration..............: avg=572.34ms min=468.68µs med=546.87ms max=1.79s    p(90)=1.06s    p(95)=1.11s   
+       { expected_response:true }...: avg=572.34ms min=3.12ms   med=546.87ms max=1.79s    p(90)=1.06s    p(95)=1.11s   
+     http_req_failed................: 0.00%   ✓ 2           ✗ 2094777
+     http_req_receiving.............: avg=224.94µs min=0s       med=54.18µs  max=584.11ms p(90)=203.19µs p(95)=469.42µs
+     http_req_sending...............: avg=53.19µs  min=14.97µs  med=45.13µs  max=839.14ms p(90)=69.33µs  p(95)=83.91µs 
+     http_req_tls_handshaking.......: avg=13.08µs  min=0s       med=0s       max=391.12ms p(90)=0s       p(95)=0s      
+     http_req_waiting...............: avg=572.07ms min=419.98µs med=546.61ms max=1.53s    p(90)=1.06s    p(95)=1.11s   
+     http_reqs......................: 2094779 2756.268389/s
+     iteration_duration.............: avg=5.71s    min=48.52ms  med=5.43s    max=12.07s   p(90)=10.54s   p(95)=11.22s  
+     iterations.....................: 208126  273.848036/s
+     vus............................: 32      min=0         max=3000 
+     vus_max........................: 3000    min=2279      max=3000 
+
+
+running (12m40.0s), 0000/3000 VUs, 208126 complete and 3000 interrupted iterations
+petclinic ✓ [======================================] 0001/3000 VUs  12m40s
