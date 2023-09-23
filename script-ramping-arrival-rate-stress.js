@@ -18,7 +18,7 @@ export const options = {
 
             // It is allowed to spin up to `maxVUs` maximum VUs in order to sustain the defined
             // constant arrival rate.
-            maxVUs: 1000,
+            maxVUs: 100,
 
             stages: [
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
