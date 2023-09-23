@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.autoconfigure
 
+import mu.KotlinLogging
 import org.apache.coyote.ProtocolHandler
 import org.eclipse.jetty.util.thread.ThreadPool
 import org.springframework.boot.autoconfigure.AutoConfiguration
@@ -20,6 +21,8 @@ import reactor.core.scheduler.Schedulers
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
+private val log = KotlinLogging.logger {}
+
 @AutoConfiguration
 @AutoConfigureBefore(TaskExecutionAutoConfiguration::class)
 @Profile("loom")
@@ -36,6 +39,7 @@ class LoomAutoConfiguration {
     @Bean
     @Profile("jdbc & reactive & loom")
     fun reactiveJdbcServiceScheduler(): Scheduler {
+        log.info("Loom JDBC Reactive enabled")
         return Schedulers.fromExecutorService(Executors.newVirtualThreadPerTaskExecutor())
     }
 
@@ -46,6 +50,7 @@ class LoomAutoConfiguration {
         fun loomTomcatProtocolHandlerVirtualThreadExecutorCustomizer(): TomcatProtocolHandlerCustomizer<ProtocolHandler> =
             TomcatProtocolHandlerCustomizer { protocolHandler ->
                 protocolHandler.executor = Executors.newVirtualThreadPerTaskExecutor()
+                log.info("Loom Tomcat enabled")
             }
     }
 
@@ -78,6 +83,7 @@ class LoomAutoConfiguration {
                         return false
                     }
                 })
+                log.info("Loom Jetty enabled")
             }
     }
 }
