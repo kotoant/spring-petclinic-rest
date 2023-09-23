@@ -20,8 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder
 @Profile("jdbc")
 class PetController(
     private val clinicService: JdbcClinicService,
-    private val petMapper: PetMapper,
-    private val petTypeMapper: PetTypeMapper
+    private val petMapper: PetMapper
 ) : PetsApi {
 
     override fun addPet(petDto: PetDto): ResponseEntity<PetDto> {
@@ -52,14 +51,7 @@ class PetController(
     }
 
     override fun updatePet(petId: Int, petFieldsDto: PetFieldsDto): ResponseEntity<PetDto> {
-        val currentPet = clinicService.findPetById(petId)
-        val pet = clinicService.savePet(
-            currentPet.copy(
-                name = petFieldsDto.name,
-                birthDate = petFieldsDto.birthDate,
-                type = petTypeMapper.toPetType(petFieldsDto.type)
-            )
-        )
+        val pet = clinicService.savePet(petMapper.toPet(petId, petFieldsDto))
         return ResponseEntity(petMapper.toPetDto(pet), HttpStatus.OK)
     }
 }

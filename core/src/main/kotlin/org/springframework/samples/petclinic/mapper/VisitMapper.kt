@@ -13,6 +13,9 @@ import org.springframework.samples.petclinic.rest.dto.VisitFieldsDto
 interface VisitMapper {
     fun toVisit(visitDto: VisitDto): Visit
 
+    @Mapping(target = "petId", expression = "java(0)")
+    fun toVisit(id: Int, visitFieldsDto: VisitFieldsDto): Visit
+
     @Mapping(target = "id", expression = "java(0)")
     @Mapping(target = "petId", expression = "java(0)")
     fun toVisit(visitFieldsDto: VisitFieldsDto): Visit

@@ -17,6 +17,10 @@ interface PetMapper {
     fun toPets(pets: List<PetDto>): List<Pet>
     fun toPet(petDto: PetDto): Pet
 
+    @Mapping(target = "visits", expression = "java(List.of())")
+    @Mapping(target = "ownerId", expression = "java(0)")
+    fun toPet(id: Int, petFieldsDto: PetFieldsDto): Pet
+
     @Mapping(target = "id", expression = "java(0)")
     @Mapping(target = "visits", expression = "java(List.of())")
     @Mapping(target = "ownerId", expression = "java(0)")

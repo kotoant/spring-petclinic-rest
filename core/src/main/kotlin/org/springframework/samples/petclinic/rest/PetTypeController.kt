@@ -49,8 +49,7 @@ class PetTypeController(private val clinicService: JdbcClinicService, private va
     }
 
     override fun updatePetType(petTypeId: Int, petTypeFieldsDto: PetTypeFieldsDto): ResponseEntity<PetTypeDto> {
-        val currentPetType = clinicService.findPetTypeById(petTypeId)
-        val petType = clinicService.savePetType(currentPetType.copy(name = petTypeFieldsDto.name))
+        val petType = clinicService.savePetType(petTypeMapper.toPetType(petTypeId, petTypeFieldsDto))
         return ResponseEntity(petTypeMapper.toPetTypeDto(petType), HttpStatus.OK)
     }
 }

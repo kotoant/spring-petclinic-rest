@@ -15,6 +15,9 @@ interface OwnerMapper {
     fun toOwnerFieldsDto(owner: Owner): OwnerFieldsDto
     fun toOwner(ownerDto: OwnerDto): Owner
 
+    @Mapping(target = "pets", expression = "java(List.of())")
+    fun toOwner(id: Int, ownerFieldsDto: OwnerFieldsDto): Owner
+
     @Mapping(target = "id", expression = "java(0)")
     @Mapping(target = "pets", expression = "java(List.of())")
     fun toOwner(ownerFieldsDto: OwnerFieldsDto): Owner

@@ -47,8 +47,7 @@ class VisitController(private val clinicService: JdbcClinicService, private val 
     }
 
     override fun updateVisit(visitId: Int, visitFieldsDto: VisitFieldsDto): ResponseEntity<VisitDto> {
-        val currentVisit = clinicService.findVisitById(visitId)
-        val visit = clinicService.saveVisit(currentVisit.copy(date = visitFieldsDto.date, description = visitFieldsDto.description))
+        val visit = clinicService.saveVisit(visitMapper.toVisit(visitId, visitFieldsDto))
         return ResponseEntity(visitMapper.toVisitDto(visit), HttpStatus.OK)
     }
 }

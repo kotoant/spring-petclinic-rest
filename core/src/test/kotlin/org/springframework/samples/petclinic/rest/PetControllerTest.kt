@@ -139,6 +139,7 @@ abstract class PetControllerTest : BaseTest() {
             .isOk
             .expectBody()
             .jsonPath("$.id").isEqualTo(pet.id)
+            .jsonPath("$.ownerId").isEqualTo(testOwner.id)
             .jsonPath("$.name").isEqualTo("Freddy")
             .jsonPath("$.birthDate").isEqualTo("2002-06-08")
             .jsonPath("$.type.id").isEqualTo(2)

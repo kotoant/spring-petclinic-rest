@@ -19,9 +19,13 @@ import org.springframework.samples.petclinic.model.Owner
 import org.springframework.samples.petclinic.model.Pet
 import org.springframework.samples.petclinic.model.PetType
 import org.springframework.samples.petclinic.model.Visit
-import org.springframework.samples.petclinic.repository.r2dbc.thenReturn
+import org.springframework.samples.petclinic.repository.r2dbc.ifZeroThrowElseReturn
 import org.springframework.samples.petclinic.repository.r2dbc.toFlux
 import org.springframework.samples.petclinic.repository.r2dbc.toMono
+import org.springframework.samples.petclinic.service.exception.OwnerNotFoundException
+import org.springframework.samples.petclinic.service.exception.PetNotFoundException
+import org.springframework.samples.petclinic.service.exception.PetTypeNotFoundException
+import org.springframework.samples.petclinic.service.exception.VisitNotFoundException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
 
@@ -134,11 +138,12 @@ private fun DSLContext.insert(petType: PetType) =
         .returningResult(TYPES.ID)
 
 
-fun DSLContext.updateVisitReactive(visit: Visit) = update(visit).thenReturn(visit)
+fun DSLContext.updateVisitReactive(visit: Visit) =
+    update(visit).fetchOneReactive { r -> visit.copy(petId = r.value1()) }
+        .switchIfEmpty(Mono.error(VisitNotFoundException(visit.id)))
 
 fun DSLContext.updateVisit(visit: Visit): Visit {
-    update(visit).execute()
-    return visit
+    return update(visit).fetchOne { r -> visit.copy(petId = r.value1()) } ?: throw VisitNotFoundException(visit.id)
 }
 
 private fun DSLContext.update(visit: Visit) =
@@ -146,12 +151,13 @@ private fun DSLContext.update(visit: Visit) =
         .set(VISITS.VISIT_DATE, visit.date)
         .set(VISITS.DESCRIPTION, visit.description)
         .where(VISITS.ID.eq(visit.id))
+        .returningResult(VISITS.PET_ID)
 
-fun DSLContext.updatePetReactive(pet: Pet) = update(pet).thenReturn(pet)
+fun DSLContext.updatePetReactive(pet: Pet) = update(pet).fetchOneReactive { r -> pet.copy(ownerId = r.value1()) }
+    .switchIfEmpty(Mono.error(PetNotFoundException(pet.id)))
 
 fun DSLContext.updatePet(pet: Pet): Pet {
-    update(pet).execute()
-    return pet
+    return update(pet).fetchOne { r -> pet.copy(ownerId = r.value1()) } ?: throw PetNotFoundException(pet.id)
 }
 
 private fun DSLContext.update(pet: Pet) =
@@ -160,11 +166,15 @@ private fun DSLContext.update(pet: Pet) =
         .set(PETS.BIRTH_DATE, pet.birthDate)
         .set(PETS.TYPE_ID, pet.type.id)
         .where(PETS.ID.eq(pet.id))
+        .returningResult(PETS.OWNER_ID)
 
-fun DSLContext.updateOwnerReactive(owner: Owner) = update(owner).thenReturn(owner)
+fun DSLContext.updateOwnerReactive(owner: Owner) =
+    update(owner).ifZeroThrowElseReturn(owner) { OwnerNotFoundException(owner.id) }
 
 fun DSLContext.updateOwner(owner: Owner): Owner {
-    update(owner).execute()
+    if (update(owner).execute() == 0) {
+        throw OwnerNotFoundException(owner.id)
+    }
     return owner
 }
 
@@ -177,10 +187,13 @@ private fun DSLContext.update(owner: Owner) =
         .set(OWNERS.TELEPHONE, owner.telephone)
         .where(OWNERS.ID.eq(owner.id))
 
-fun DSLContext.updatePetTypeReactive(petType: PetType) = update(petType).thenReturn(petType)
+fun DSLContext.updatePetTypeReactive(petType: PetType) =
+    update(petType).ifZeroThrowElseReturn(petType) { PetTypeNotFoundException(petType.id) }
 
 fun DSLContext.updatePetType(petType: PetType): PetType {
-    update(petType).execute()
+    if (update(petType).execute() == 0) {
+        throw PetTypeNotFoundException(petType.id)
+    }
     return petType
 }
 

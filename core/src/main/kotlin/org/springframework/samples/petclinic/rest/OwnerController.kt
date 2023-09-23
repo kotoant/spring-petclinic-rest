@@ -62,16 +62,7 @@ class OwnerController(
     }
 
     override fun updateOwner(ownerId: Int, ownerFieldsDto: OwnerFieldsDto): ResponseEntity<OwnerDto> {
-        val currentOwner = clinicService.findOwnerById(ownerId)
-        val owner = clinicService.saveOwner(
-            currentOwner.copy(
-                firstName = ownerFieldsDto.firstName,
-                lastName = ownerFieldsDto.lastName,
-                address = ownerFieldsDto.address,
-                city = ownerFieldsDto.city,
-                telephone = ownerFieldsDto.telephone
-            )
-        )
+        val owner = clinicService.saveOwner(ownerMapper.toOwner(ownerId, ownerFieldsDto))
         return ResponseEntity(ownerMapper.toOwnerDto(owner), HttpStatus.OK)
     }
 

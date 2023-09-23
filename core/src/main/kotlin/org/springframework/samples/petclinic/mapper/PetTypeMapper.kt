@@ -13,6 +13,8 @@ import org.springframework.samples.petclinic.rest.dto.PetTypeFieldsDto
 interface PetTypeMapper {
     fun toPetType(petTypeDto: PetTypeDto): PetType
 
+    fun toPetType(id: Int, petTypeFieldsDto: PetTypeFieldsDto): PetType
+
     @Mapping(target = "id", expression = "java(0)")
     fun toPetType(petTypeFieldsDto: PetTypeFieldsDto): PetType
     fun toPetTypeDto(petType: PetType): PetTypeDto

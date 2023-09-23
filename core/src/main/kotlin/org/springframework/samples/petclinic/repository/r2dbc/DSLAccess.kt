@@ -10,8 +10,10 @@ import org.jooq.conf.Settings
 import org.jooq.impl.DSL
 import org.reactivestreams.Publisher
 import org.springframework.r2dbc.core.DatabaseClient
+import org.springframework.samples.petclinic.service.exception.OwnerNotFoundException
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 private val settings = Settings()
 
@@ -39,4 +41,13 @@ fun <T : Any, V : Any> Publisher<T>.then(other: Publisher<V>) = toMono().then(ot
 fun <T : Any> Publisher<T>.then() = toMono().then()
 
 fun <T : Any, V : Any> Publisher<T>.thenReturn(value: V) = toMono().thenReturn(value)
+
+fun <V : Any> Publisher<Int>.ifZeroThrowElseReturn(value: V, error: () -> Throwable) = toMono().handle { res, sink ->
+    if (res == 0) {
+        sink.error(error.invoke())
+    } else {
+        sink.next(value)
+        sink.complete()
+    }
+}
 
