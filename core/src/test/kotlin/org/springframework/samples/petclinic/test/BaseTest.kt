@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.test
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,7 +23,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.Duration
 import java.time.LocalDate
 
-@TestInstance(Lifecycle.PER_CLASS)
+//@TestInstance(Lifecycle.PER_CLASS)
 class BaseTest : BaseTestcontainersTest() {
     @Autowired
     protected lateinit var ownerRepository: OwnerRepository
@@ -53,8 +54,8 @@ class BaseTest : BaseTestcontainersTest() {
     @Autowired
     protected lateinit var webClient: WebTestClient
 
-    @BeforeAll
-    internal fun beforeAll() {
+    @BeforeEach
+    internal fun before() {
         val owner = ownerRepository.insert(owner())
         val pet = petRepository.insert(pet(owner.id))
         val visit = visitRepository.insert(visit(pet.id))
