@@ -27,9 +27,12 @@ server:
   forward-headers-strategy: framework
   undertow:
     threads:
-      io: 4
+      io: 8
       worker: 100
   tomcat:
+    threads:
+      max: 100
+  jetty:
     threads:
       max: 100
 

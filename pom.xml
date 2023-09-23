@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.10</version>
+        <version>3.1.4</version>
         <relativePath/> <!-- lookup parent from Maven repository -->
     </parent>
 
@@ -37,14 +37,14 @@
 
         <!-- Maven plugins -->
         <openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
-        <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
+        <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 
-        <testcontainers.version>1.17.6</testcontainers.version>
+        <testcontainers.version>1.19.0</testcontainers.version>
         <kotlin.version>1.9.10</kotlin.version>
-        <jooq.version>3.18.0</jooq.version>
+        <jooq.version>3.18.6</jooq.version>
         <postgresql.version>42.6.0</postgresql.version>
-        <spring-cloud-starter-config.version>4.0.1</spring-cloud-starter-config.version>
+        <spring-cloud-starter-config.version>4.0.4</spring-cloud-starter-config.version>
         <kotlin-logging-jvm.version>3.0.5</kotlin-logging-jvm.version>
         <reactor-kotlin-extensions.version>1.2.2</reactor-kotlin-extensions.version>
     </properties>
