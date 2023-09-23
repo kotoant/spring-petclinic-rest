@@ -25,9 +25,9 @@ export const options = {
                 { target: 10, duration: '20s' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 550, duration: '3m' },
+                { target: 500, duration: '3m' },
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 550, duration: '20s' },
+                { target: 500, duration: '20s' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
                 { target: 520, duration: '20s' },
