@@ -25,6 +25,7 @@ class BaseTestcontainersTest {
                 .withPassword("petclinic")
 
         init {
+            System.setProperty("jdk.httpclient.keepalive.timeout", "10")
             POSTGRESQL_CONTAINER.start()
             val port = POSTGRESQL_CONTAINER.getMappedPort(POSTGRESQL_PORT)
             log.info("Postgresql container started. Address: {}, port: {}", POSTGRESQL_CONTAINER.host, port)
