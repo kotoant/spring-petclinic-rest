@@ -1,0 +1,49 @@
+-o csv=webmvc-jdbc-tomcat-16-ramping-arrival-rate.gz --tag profile=webmvc-jdbc-tomcat-ramping-arrival-rate --tag threads=16
+
+          /\      |‾‾| /‾‾/   /‾‾/
+     /\  /  \     |  |/  /   /  /
+    /  \/    \    |     (   /   ‾‾\
+   /          \   |  |\  \ |  (‾)  |
+  / __________ \  |__| \__\ \_____/ .io
+
+  execution: local
+     script: script-ramping-arrival-rate.js
+     output: Prometheus remote write (https://prometheus.catbro.keenetic.pro/api/v1/write), csv (webmvc-jdbc-tomcat-16-ramping-arrival-rate.gz)
+
+  scenarios: (100.00%) 1 scenario, 1000 max VUs, 14m30s max duration (incl. graceful stop):
+           * petclinic: Up to 360.00 iterations/s for 14m0s over 42 stages (maxVUs: 10-1000, gracefulStop: 30s)
+
+
+     ✓ post owner status was 201
+     ✓ post pet status was 201
+     ✓ post visit status was 201
+     ✓ get owner status was 200
+     ✓ get pet status was 200
+     ✓ get visit status was 200
+     ✓ find owners status was 200
+     ✓ put pet status was 200
+     ✓ put visit status was 200
+     ✓ put owner status was 200
+
+     checks.........................: 100.00% ✓ 2094570    ✗ 0
+     data_received..................: 672 MB  800 kB/s
+     data_sent......................: 331 MB  394 kB/s
+     dropped_iterations.............: 43      0.051187/s
+     http_req_blocked...............: avg=697ns   min=160ns   med=401ns   max=29.8ms   p(90)=512ns    p(95)=552ns
+     http_req_connecting............: avg=15ns    min=0s      med=0s      max=2.65ms   p(90)=0s       p(95)=0s
+     http_req_duration..............: avg=4.67ms  min=2.36ms  med=4.47ms  max=333.68ms p(90)=5.7ms    p(95)=6.57ms
+       { expected_response:true }...: avg=4.67ms  min=2.36ms  med=4.47ms  max=333.68ms p(90)=5.7ms    p(95)=6.57ms
+     http_req_failed................: 0.00%   ✓ 0          ✗ 2094570
+     http_req_receiving.............: avg=87.27µs min=13.48µs med=53.16µs max=25.44ms  p(90)=168.09µs p(95)=255.49µs
+     http_req_sending...............: avg=45.54µs min=13.92µs med=41.21µs max=19.85ms  p(90)=62.67µs  p(95)=73.9µs
+     http_req_tls_handshaking.......: avg=205ns   min=0s      med=0s      max=12.57ms  p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=4.53ms  min=0s      med=4.34ms  max=332.96ms p(90)=5.54ms   p(95)=6.37ms
+     http_reqs......................: 2094570 2493.38677/s
+     iteration_duration.............: avg=48.4ms  min=37.59ms med=47.23ms max=1.01s    p(90)=54.39ms  p(95)=57.6ms
+     iterations.....................: 209457  249.338677/s
+     vus............................: 0       min=0        max=40
+     vus_max........................: 47      min=10       max=47
+
+
+running (14m00.1s), 0000/0047 VUs, 209457 complete and 0 interrupted iterations
+petclinic ✓ [======================================] 0000/0047 VUs  14m0s  003.00 iters/s

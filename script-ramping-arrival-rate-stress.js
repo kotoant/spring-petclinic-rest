@@ -30,92 +30,7 @@ export const options = {
                 { target: 100, duration: '20s' },
 
                 // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 180, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 180, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 190, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 190, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 200, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 200, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 210, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 210, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 220, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 220, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 230, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 230, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 240, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 240, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 250, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 250, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 260, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 260, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 270, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 270, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 280, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 280, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 290, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 290, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 300, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 300, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 310, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 310, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 320, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 320, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 330, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 330, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 340, duration: '20s' },
-                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
-                { target: 340, duration: '20s' },
-
-                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
-                { target: 350, duration: '20s' },
+                { target: 350, duration: '3m' },
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
                 { target: 350, duration: '20s' },
 
@@ -123,6 +38,76 @@ export const options = {
                 { target: 360, duration: '20s' },
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
                 { target: 360, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 370, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 370, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 380, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 380, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 390, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 390, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 400, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 400, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 410, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 410, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 420, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 420, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 430, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 430, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 440, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 440, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 450, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 450, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 460, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 460, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 470, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 470, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 480, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 480, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 490, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 490, duration: '20s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 500, duration: '20s' },
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 500, duration: '20s' },
 
                 // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
                 { target: 0, duration: '20s' },
