@@ -28,7 +28,7 @@
     </modules>
 
     <properties>
-        <java.version>19</java.version>
+        <java.version>20</java.version>
         <start-class>org.springframework.samples.petclinic.PetClinicApplicationKt</start-class>
         <!-- Third libraries -->
         <springdoc-openapi-ui.version>2.0.4</springdoc-openapi-ui.version>
