@@ -117,6 +117,6 @@ class R2dbcReactiveClinicService(
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
     override fun sleep(times: Int, millis: Int): Mono<Unit> {
-        return sleepRepository.sleep(millis).repeat(times - 1L).then().then(Unit.toMono())
+        return Mono.zip(List(times) { sleepRepository.sleep(millis) }) {}
     }
 }
