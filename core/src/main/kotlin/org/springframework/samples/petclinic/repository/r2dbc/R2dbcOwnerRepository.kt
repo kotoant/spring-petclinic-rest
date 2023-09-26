@@ -3,16 +3,7 @@ package org.springframework.samples.petclinic.repository.r2dbc
 import org.springframework.context.annotation.Profile
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.samples.petclinic.model.Owner
-import org.springframework.samples.petclinic.repository.DEFAULT_LAST_ID
-import org.springframework.samples.petclinic.repository.DEFAULT_PAGE_SIZE
-import org.springframework.samples.petclinic.repository.deleteOwnerById
-import org.springframework.samples.petclinic.repository.deletePetsByOwnerId
-import org.springframework.samples.petclinic.repository.deleteVisitsByOwnerId
-import org.springframework.samples.petclinic.repository.fetchAllOwnersReactive
-import org.springframework.samples.petclinic.repository.fetchOneOwnerByIdReactive
-import org.springframework.samples.petclinic.repository.fetchOwnersByLastNameReactive
-import org.springframework.samples.petclinic.repository.insertOwnerReactive
-import org.springframework.samples.petclinic.repository.updateOwnerReactive
+import org.springframework.samples.petclinic.repository.*
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
 
@@ -32,8 +23,10 @@ class R2dbcOwnerRepository(private val client: DatabaseClient) {
     ): Mono<List<Owner>> = client.inContext { it.fetchOwnersByLastNameReactive(lastName, lastId, pageSize) }
 
     fun deleteById(id: Int): Mono<Boolean> = client.inContext { ctx ->
-        ctx.deleteVisitsByOwnerId(id)
-            .then(ctx.deletePetsByOwnerId(id))
-            .then(ctx.deleteOwnerById(id)).map { it > 0 }
+        Mono.zip(
+            ctx.deleteVisitsByOwnerId(id).toMono(),
+            ctx.deletePetsByOwnerId(id).toMono(),
+            ctx.deleteOwnerById(id).toMono()
+        ).map { it.t3 > 0 }
     }
 }
