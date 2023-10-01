@@ -1,21 +1,20 @@
 package org.springframework.samples.petclinic.service.coroutine
 
+import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.context.annotation.Profile
 import org.springframework.samples.petclinic.model.Owner
 import org.springframework.samples.petclinic.model.Pet
 import org.springframework.samples.petclinic.model.PetType
 import org.springframework.samples.petclinic.model.Visit
-import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutineOwnerRepository
-import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutinePetRepository
-import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutinePetTypeRepository
-import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutineSleepRepository
-import org.springframework.samples.petclinic.repository.r2dbc.coroutine.CoroutineVisitRepository
+import org.springframework.samples.petclinic.repository.r2dbc.coroutine.*
 import org.springframework.samples.petclinic.service.exception.OwnerNotFoundException
 import org.springframework.samples.petclinic.service.exception.PetNotFoundException
 import org.springframework.samples.petclinic.service.exception.PetTypeNotFoundException
 import org.springframework.samples.petclinic.service.exception.VisitNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 @Service
 @Profile("r2dbc & coroutine")
@@ -114,8 +113,6 @@ class R2dbcCoroutineClinicService(
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
     override suspend fun sleep(times: Int, millis: Int) {
-        for (i in 1..times) {
-            sleepRepository.sleep(millis)
-        }
+        Mono.zip(List(times) { sleepRepository.sleep(millis).toMono() }) {}.awaitSingle()
     }
 }
