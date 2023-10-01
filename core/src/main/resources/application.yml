@@ -6,6 +6,8 @@ management:
       probes:
         enabled: true
         add-additional-paths: true
+    configprops:
+      show-values: ALWAYS
   info:
     defaults:
       enabled: true
@@ -32,6 +34,8 @@ server:
   tomcat:
     threads:
       max: 100
+    mbeanregistry:
+      enabled: true
   jetty:
     threads:
       max: 100
