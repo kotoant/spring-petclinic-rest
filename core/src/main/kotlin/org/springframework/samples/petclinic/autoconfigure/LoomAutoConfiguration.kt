@@ -34,6 +34,7 @@ class LoomAutoConfiguration {
             AsyncAnnotationBeanPostProcessor.DEFAULT_TASK_EXECUTOR_BEAN_NAME
         ]
     )
+    @Profile("loom")
     fun asyncTaskExecutor(): AsyncTaskExecutor = TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor())
 
     @Bean
@@ -45,8 +46,10 @@ class LoomAutoConfiguration {
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(ProtocolHandler::class)
+    @Profile("loom & !reactive")
     class TomcatConfiguration {
         @Bean
+        @Profile("loom & !reactive")
         fun loomTomcatProtocolHandlerVirtualThreadExecutorCustomizer(): TomcatProtocolHandlerCustomizer<ProtocolHandler> =
             TomcatProtocolHandlerCustomizer { protocolHandler ->
                 protocolHandler.executor = Executors.newVirtualThreadPerTaskExecutor()
@@ -59,6 +62,7 @@ class LoomAutoConfiguration {
     @Profile("loom & !reactive")
     class JettyConfiguration {
         @Bean
+        @Profile("loom & !reactive")
         fun loomJettyWebServerFactoryCustomizer(): WebServerFactoryCustomizer<ConfigurableJettyWebServerFactory> =
             WebServerFactoryCustomizer { factory ->
                 factory.setThreadPool(object : ThreadPool {
