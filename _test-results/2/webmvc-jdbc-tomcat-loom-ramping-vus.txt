@@ -1,0 +1,42 @@
+     ✗ post owner status was 201
+      ↳  95% — ✓ 223835 / ✗ 10518
+     ✗ post pet status was 201
+      ↳  96% — ✓ 214956 / ✗ 8513
+     ✗ post visit status was 201
+      ↳  96% — ✓ 206611 / ✗ 8050
+     ✗ get owner status was 200
+      ↳  96% — ✓ 199151 / ✗ 7182
+     ✗ get pet status was 200
+      ↳  96% — ✓ 198648 / ✗ 7407
+     ✗ get visit status was 200
+      ↳  96% — ✓ 198260 / ✗ 7531
+     ✗ find owners status was 200
+      ↳  96% — ✓ 198009 / ✗ 7481
+     ✗ put pet status was 200
+      ↳  96% — ✓ 197783 / ✗ 7409
+     ✗ put visit status was 200
+      ↳  96% — ✓ 197518 / ✗ 7409
+     ✗ put owner status was 200
+      ↳  96% — ✓ 197249 / ✗ 7403
+
+     checks.........................: 96.26%  ✓ 2032020     ✗ 78903
+     data_received..................: 1.0 GB  1.4 MB/s
+     data_sent......................: 381 MB  502 kB/s
+     http_req_blocked...............: avg=7.4ms    min=0s     med=399ns    max=1.99s  p(90)=546ns   p(95)=771ns
+     http_req_connecting............: avg=2.77ms   min=0s     med=0s       max=1.95s  p(90)=0s      p(95)=0s
+     http_req_duration..............: avg=519.21ms min=0s     med=324.88ms max=3.79s  p(90)=1.36s   p(95)=1.82s
+       { expected_response:true }...: avg=462.11ms min=2.79ms med=308.65ms max=3.61s  p(90)=1.16s   p(95)=1.46s
+     http_req_failed................: 3.74%   ✓ 79099       ✗ 2032023
+     http_req_receiving.............: avg=6.94ms   min=0s     med=87.04µs  max=1.21s  p(90)=19.17ms p(95)=40.23ms
+     http_req_sending...............: avg=149.98µs min=0s     med=46.01µs  max=1.54s  p(90)=85.38µs p(95)=122.89µs
+     http_req_tls_handshaking.......: avg=4.55ms   min=0s     med=0s       max=1.87s  p(90)=0s      p(95)=0s
+     http_req_waiting...............: avg=512.11ms min=0s     med=321.23ms max=3.79s  p(90)=1.33s   p(95)=1.81s
+     http_reqs......................: 2111122 2777.748925/s
+     iteration_duration.............: avg=5.06s    min=50.1ms med=4.21s    max=34.46s p(90)=9.94s   p(95)=11.56s
+     iterations.....................: 231732  304.905787/s
+     vus............................: 89      min=0         max=3000
+     vus_max........................: 3000    min=1995      max=3000
+
+
+running (12m40.0s), 0000/3000 VUs, 231732 complete and 2946 interrupted iterations
+petclinic ✓ [======================================] 0000/3000 VUs  12m40s
