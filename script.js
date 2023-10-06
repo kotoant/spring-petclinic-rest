@@ -132,7 +132,7 @@ export default function () {
     // const BASE_API_URL = 'http://localhost:9966/api'
     const params = {
         headers: { 'Content-Type': 'application/json' },
-        timeout: '2s',
+        timeout: '30s',
     };
     const lastName = `Last${colName(scenario.iterationInTest)}name`
     const owner = {
