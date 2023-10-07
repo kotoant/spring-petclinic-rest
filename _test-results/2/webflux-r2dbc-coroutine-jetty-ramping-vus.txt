@@ -1,0 +1,32 @@
+     ✓ post owner status was 201
+     ✓ post pet status was 201
+     ✓ post visit status was 201
+     ✓ get owner status was 200
+     ✓ get pet status was 200
+     ✓ get visit status was 200
+     ✓ find owners status was 200
+     ✓ put pet status was 200
+     ✓ put visit status was 200
+     ✓ put owner status was 200
+
+     checks.........................: 100.00% ✓ 1168186     ✗ 0
+     data_received..................: 397 MB  522 kB/s
+     data_sent......................: 186 MB  245 kB/s
+     http_req_blocked...............: avg=23.35µs min=171ns   med=416ns    max=208.25ms p(90)=537ns    p(95)=591ns
+     http_req_connecting............: avg=1.43µs  min=0s      med=0s       max=21.3ms   p(90)=0s       p(95)=0s
+     http_req_duration..............: avg=1.02s   min=4.68ms  med=883.17ms max=3.52s    p(90)=2s       p(95)=2.63s
+       { expected_response:true }...: avg=1.02s   min=4.68ms  med=883.17ms max=3.52s    p(90)=2s       p(95)=2.63s
+     http_req_failed................: 0.00%   ✓ 0           ✗ 1168187
+     http_req_receiving.............: avg=87.36µs min=18.09µs med=59.57µs  max=40.07ms  p(90)=127.01µs p(95)=190.53µs
+     http_req_sending...............: avg=52.05µs min=16.26µs med=46.58µs  max=207.25ms p(90)=71.15µs  p(95)=86.04µs
+     http_req_tls_handshaking.......: avg=20.78µs min=0s      med=0s       max=207.64ms p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=1.02s   min=4.53ms  med=883.04ms max=3.52s    p(90)=2s       p(95)=2.63s
+     http_reqs......................: 1168187 1537.078602/s
+     iteration_duration.............: avg=10.23s  min=84.1ms  med=9.18s    max=21.6s    p(90)=19.25s   p(95)=20.93s
+     iterations.....................: 115225  151.6109/s
+     vus............................: 25      min=0         max=3000
+     vus_max........................: 3000    min=2424      max=3000
+
+
+running (12m40.0s), 0000/3000 VUs, 115225 complete and 3000 interrupted iterations
+petclinic ✓ [======================================] 0000/3000 VUs  12m40s

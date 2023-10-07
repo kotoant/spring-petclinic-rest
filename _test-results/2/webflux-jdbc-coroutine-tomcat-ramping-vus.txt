@@ -1,0 +1,35 @@
+     ✓ post owner status was 201
+     ✓ post pet status was 201
+     ✓ post visit status was 201
+     ✗ get owner status was 200
+      ↳  99% — ✓ 198196 / ✗ 2
+     ✓ get pet status was 200
+     ✗ get visit status was 200
+      ↳  99% — ✓ 197695 / ✗ 2
+     ✗ find owners status was 200
+      ↳  99% — ✓ 197458 / ✗ 1
+     ✓ put pet status was 200
+     ✓ put visit status was 200
+     ✓ put owner status was 200
+
+     checks.........................: 99.99%  ✓ 1976838     ✗ 5
+     data_received..................: 666 MB  876 kB/s
+     data_sent......................: 314 MB  414 kB/s
+     http_req_blocked...............: avg=16.32µs  min=160ns   med=420ns    max=313.7ms  p(90)=539ns    p(95)=588ns
+     http_req_connecting............: avg=1.6µs    min=0s      med=0s       max=303.93ms p(90)=0s       p(95)=0s
+     http_req_duration..............: avg=606.43ms min=0s      med=518.16ms max=2.3s     p(90)=1.14s    p(95)=1.47s
+       { expected_response:true }...: avg=606.43ms min=3.34ms  med=518.16ms max=2.3s     p(90)=1.14s    p(95)=1.47s
+     http_req_failed................: 0.00%   ✓ 5           ✗ 1976838
+     http_req_receiving.............: avg=279.96µs min=0s      med=57.18µs  max=1.3s     p(90)=199.54µs p(95)=469.5µs
+     http_req_sending...............: avg=56.25µs  min=0s      med=46.21µs  max=1.36s    p(90)=72.43µs  p(95)=88.98µs
+     http_req_tls_handshaking.......: avg=13.77µs  min=0s      med=0s       max=146.12ms p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=606.09ms min=0s      med=517.77ms max=2.3s     p(90)=1.14s    p(95)=1.47s
+     http_reqs......................: 1976843 2601.091587/s
+     iteration_duration.............: avg=6.06s    min=53.11ms med=5.38s    max=12.96s   p(90)=11.35s   p(95)=12.38s
+     iterations.....................: 196086  258.006147/s
+     vus............................: 57      min=0         max=3000
+     vus_max........................: 3000    min=2158      max=3000
+
+
+running (12m40.0s), 0000/3000 VUs, 196086 complete and 3000 interrupted iterations
+petclinic ✓ [======================================] 0000/3000 VUs  12m40s

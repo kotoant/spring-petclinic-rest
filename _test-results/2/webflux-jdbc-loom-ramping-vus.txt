@@ -1,0 +1,32 @@
+     ✓ post owner status was 201
+     ✓ post pet status was 201
+     ✓ post visit status was 201
+     ✓ get owner status was 200
+     ✓ get pet status was 200
+     ✓ get visit status was 200
+     ✓ find owners status was 200
+     ✓ put pet status was 200
+     ✓ put visit status was 200
+     ✓ put owner status was 200
+
+     checks.........................: 100.00% ✓ 2121007     ✗ 0
+     data_received..................: 713 MB  938 kB/s
+     data_sent......................: 337 MB  444 kB/s
+     http_req_blocked...............: avg=14.93µs  min=153ns    med=405ns    max=104.05ms p(90)=523ns    p(95)=569ns
+     http_req_connecting............: avg=1.37µs   min=0s       med=0s       max=43ms     p(90)=0s       p(95)=0s
+     http_req_duration..............: avg=565ms    min=2.79ms   med=493.15ms max=7.57s    p(90)=1.29s    p(95)=1.56s
+       { expected_response:true }...: avg=565ms    min=2.79ms   med=493.15ms max=7.57s    p(90)=1.29s    p(95)=1.56s
+     http_req_failed................: 0.00%   ✓ 0           ✗ 2121008
+     http_req_receiving.............: avg=250.74µs min=16.21µs  med=56.6µs   max=420.83ms p(90)=264.56µs p(95)=612.97µs
+     http_req_sending...............: avg=52.52µs  min=14.38µs  med=44.39µs  max=209.69ms p(90)=69.23µs  p(95)=84.58µs
+     http_req_tls_handshaking.......: avg=12.66µs  min=0s       med=0s       max=103.17ms p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=564.69ms min=562.11µs med=492.85ms max=7.56s    p(90)=1.29s    p(95)=1.56s
+     http_reqs......................: 2121008 2790.748679/s
+     iteration_duration.............: avg=5.64s    min=66.06ms  med=5.38s    max=18.62s   p(90)=10.02s   p(95)=11.21s
+     iterations.....................: 210517  276.990959/s
+     vus............................: 62      min=0         max=3000
+     vus_max........................: 3000    min=2323      max=3000
+
+
+running (12m40.0s), 0000/3000 VUs, 210517 complete and 3000 interrupted iterations
+petclinic ✓ [======================================] 0000/3000 VUs  12m40s
