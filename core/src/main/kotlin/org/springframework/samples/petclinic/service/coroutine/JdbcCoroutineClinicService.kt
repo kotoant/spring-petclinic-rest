@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.service.coroutine
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.context.annotation.Profile
 import org.springframework.samples.petclinic.model.Owner
@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service
 
 @Service
 @Profile("jdbc & coroutine")
-class JdbcCoroutineClinicService(private val clinicService: JdbcClinicService) : CoroutineClinicService {
+class JdbcCoroutineClinicService(
+    private val clinicService: JdbcClinicService,
+    private val coroutineDispatcher: CoroutineDispatcher
+) : CoroutineClinicService {
 
     private suspend fun <T> wrapBlockingCall(block: suspend CoroutineScope.() -> T): T =
-        withContext(Dispatchers.IO, block)
+        withContext(coroutineDispatcher, block)
 
     override suspend fun findPetById(id: Int): Pet = wrapBlockingCall {
         clinicService.findPetById(id)

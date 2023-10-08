@@ -1,6 +1,9 @@
 package org.springframework.samples.petclinic.config
 
 import com.zaxxer.hikari.HikariDataSource
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -40,5 +43,13 @@ class JdbcConfig {
     fun reactiveJdbcServiceScheduler(dataSource: HikariDataSource): Scheduler {
         val threadCount = dataSource.maximumPoolSize
         return Schedulers.newBoundedElastic(threadCount, Int.MAX_VALUE, "reactiveJdbcServiceScheduler")
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Bean
+    @Profile("jdbc & coroutine & !loom")
+    fun coroutineJdbcServiceCoroutineDispatcher(dataSource: HikariDataSource): CoroutineDispatcher {
+        val parallelism = dataSource.maximumPoolSize
+        return Dispatchers.IO.limitedParallelism(parallelism)
     }
 }
