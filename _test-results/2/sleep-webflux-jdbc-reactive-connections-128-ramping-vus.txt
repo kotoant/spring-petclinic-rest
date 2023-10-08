@@ -1,0 +1,23 @@
+     ✓ get sleep status was 200
+
+     checks.........................: 100.00% ✓ 1586748     ✗ 0
+     data_received..................: 137 MB  180 kB/s
+     data_sent......................: 122 MB  161 kB/s
+     http_req_blocked...............: avg=19.02µs  min=170ns   med=355ns    max=220ms    p(90)=466ns   p(95)=540ns
+     http_req_connecting............: avg=2.31µs   min=0s      med=0s       max=133.49ms p(90)=0s      p(95)=0s
+     http_req_duration..............: avg=755.48ms min=26.35ms med=694.46ms max=3.52s    p(90)=1.43s   p(95)=1.68s
+       { expected_response:true }...: avg=755.48ms min=26.35ms med=694.46ms max=3.52s    p(90)=1.43s   p(95)=1.68s
+     http_req_failed................: 0.00%   ✓ 0           ✗ 1586749
+     http_req_receiving.............: avg=2.39ms   min=19.41µs med=837.57µs max=181.24ms p(90)=6.38ms  p(95)=10.23ms
+     http_req_sending...............: avg=53.83µs  min=10.58µs med=31.11µs  max=125.46ms p(90)=50.56µs p(95)=65.58µs
+     http_req_tls_handshaking.......: avg=15.69µs  min=0s      med=0s       max=144.2ms  p(90)=0s      p(95)=0s
+     http_req_waiting...............: avg=753.03ms min=26.23ms med=691.81ms max=3.52s    p(90)=1.43s   p(95)=1.68s
+     http_reqs......................: 1586749 2087.813203/s
+     iteration_duration.............: avg=755.67ms min=26.51ms med=694.65ms max=3.52s    p(90)=1.43s   p(95)=1.68s
+     iterations.....................: 1586748 2087.811887/s
+     vus............................: 48      min=0         max=3000
+     vus_max........................: 3000    min=2490      max=3000
+
+
+running (12m40.0s), 0000/3000 VUs, 1586748 complete and 3000 interrupted iterations
+petclinic ✓ [======================================] 0000/3000 VUs  12m40s

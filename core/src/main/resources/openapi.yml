@@ -1264,6 +1264,14 @@ paths:
             minimum: 0
             example: 100
             default: 100
+        - name: zip
+          in: query
+          description: Whether to use Mono.zip.
+          required: false
+          schema:
+            type: boolean
+            example: true
+            default: true
       responses:
         200:
           description: Sleep successful.

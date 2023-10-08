@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono
 @RestController
 @Profile("reactive")
 class ReactiveSleepController(private val clinicService: ReactiveClinicService) : SleepReactiveApi {
-    override fun sleep(times: Int, millis: Int): Mono<ResponseEntity<Unit>> {
-        return clinicService.sleep(times, millis).map { ResponseEntity(HttpStatus.OK) }
+    override fun sleep(times: Int, millis: Int, zip: Boolean): Mono<ResponseEntity<Unit>> {
+        return clinicService.sleep(times, millis, zip).map { ResponseEntity(HttpStatus.OK) }
     }
 }

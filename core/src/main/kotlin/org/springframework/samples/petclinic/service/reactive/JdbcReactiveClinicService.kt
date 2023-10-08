@@ -90,7 +90,7 @@ class JdbcReactiveClinicService(private val clinicService: JdbcClinicService, pr
         clinicService.deletePetType(id)
     }
 
-    override fun sleep(times: Int, millis: Int): Mono<Unit> = wrapBlockingCall {
+    override fun sleep(times: Int, millis: Int, zip: Boolean): Mono<Unit> = wrapBlockingCall {
         clinicService.sleep(times, millis)
     }
 }

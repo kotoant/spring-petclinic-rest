@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @ConditionalOnWebApplication(type = SERVLET)
 @Profile("jdbc")
 class SleepController(private val clinicService: JdbcClinicService) : SleepApi {
-    override fun sleep(times: Int, millis: Int): ResponseEntity<Unit> {
+    override fun sleep(times: Int, millis: Int, zip: Boolean): ResponseEntity<Unit> {
         clinicService.sleep(times, millis)
         return ResponseEntity(HttpStatus.OK)
     }

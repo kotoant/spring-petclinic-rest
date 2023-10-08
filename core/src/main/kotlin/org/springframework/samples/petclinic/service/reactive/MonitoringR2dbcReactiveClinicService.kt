@@ -55,5 +55,5 @@ class MonitoringR2dbcReactiveClinicService(
 
     override fun savePetType(petType: PetType): Mono<PetType> = recordTimer("savePetType", service.savePetType(petType))
     override fun deletePetType(id: Int): Mono<Boolean> = recordTimer("deletePetType", service.deletePetType(id))
-    override fun sleep(times: Int, millis: Int): Mono<Unit> = recordTimer("sleep", service.sleep(times, millis))
+    override fun sleep(times: Int, millis: Int, zip: Boolean): Mono<Unit> = recordTimer("sleep", service.sleep(times, millis, zip))
 }
