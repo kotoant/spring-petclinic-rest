@@ -90,7 +90,7 @@ class JdbcCoroutineClinicService(
         clinicService.deletePetType(id)
     }
 
-    override suspend fun sleep(times: Int, millis: Int) = wrapBlockingCall {
+    override suspend fun sleep(times: Int, millis: Int, zip: Boolean) = wrapBlockingCall {
         clinicService.sleep(times, millis)
     }
 }

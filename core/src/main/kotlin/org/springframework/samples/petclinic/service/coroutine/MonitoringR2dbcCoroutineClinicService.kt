@@ -60,5 +60,5 @@ class MonitoringR2dbcCoroutineClinicService(
         recordTimer("savePetType") { service.savePetType(petType) }
 
     override suspend fun deletePetType(id: Int): Boolean = recordTimer("deletePetType") { service.deletePetType(id) }
-    override suspend fun sleep(times: Int, millis: Int) = recordTimer("sleep") { service.sleep(times, millis) }
+    override suspend fun sleep(times: Int, millis: Int, zip: Boolean) = recordTimer("sleep") { service.sleep(times, millis, zip) }
 }

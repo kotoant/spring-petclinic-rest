@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 @Profile("coroutine")
 class CoroutineSleepController(private val clinicService: CoroutineClinicService) : SleepCoroutineApi {
     override suspend fun sleep(times: Int, millis: Int, zip: Boolean): ResponseEntity<Unit> {
-        clinicService.sleep(times, millis)
+        clinicService.sleep(times, millis, zip)
         return ResponseEntity(HttpStatus.OK)
     }
 }

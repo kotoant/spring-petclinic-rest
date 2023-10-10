@@ -1,23 +1,16 @@
 package org.springframework.samples.petclinic.repository.r2dbc.coroutine
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.context.annotation.Profile
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.samples.petclinic.model.Owner
-import org.springframework.samples.petclinic.repository.DEFAULT_LAST_ID
-import org.springframework.samples.petclinic.repository.DEFAULT_PAGE_SIZE
-import org.springframework.samples.petclinic.repository.deleteOwnerById
-import org.springframework.samples.petclinic.repository.deletePetsByOwnerId
-import org.springframework.samples.petclinic.repository.deleteVisitsByOwnerId
-import org.springframework.samples.petclinic.repository.fetchAllOwnersReactive
-import org.springframework.samples.petclinic.repository.fetchOneOwnerByIdReactive
-import org.springframework.samples.petclinic.repository.fetchOwnersByLastNameReactive
-import org.springframework.samples.petclinic.repository.insertOwnerReactive
+import org.springframework.samples.petclinic.repository.*
 import org.springframework.samples.petclinic.repository.r2dbc.inContextCoroutine
 import org.springframework.samples.petclinic.repository.r2dbc.inContextCoroutineNullable
-import org.springframework.samples.petclinic.repository.updateOwnerReactive
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -39,8 +32,13 @@ class CoroutineOwnerRepository(private val client: DatabaseClient) {
         client.inContextCoroutine { it.fetchOwnersByLastNameReactive(lastName, lastId, pageSize).awaitSingle() }
 
     suspend fun deleteById(id: Int): Boolean = client.inContextCoroutine {
-        it.deleteVisitsByOwnerId(id).awaitSingle()
-        it.deletePetsByOwnerId(id).awaitSingle()
-        return@inContextCoroutine it.deleteOwnerById(id).awaitSingle() > 0
+        coroutineScope {
+            val res1 = async { coroutineScope { it.deleteVisitsByOwnerId(id).awaitSingle() } }
+            val res2 = async { coroutineScope { it.deletePetsByOwnerId(id).awaitSingle() } }
+            val res3 = async { coroutineScope { it.deleteOwnerById(id).awaitSingle() } }
+            res1.await()
+            res2.await()
+            res3.await() > 0
+        }
     }
 }

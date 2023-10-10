@@ -1,5 +1,8 @@
 package org.springframework.samples.petclinic.service.coroutine
 
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.springframework.context.annotation.Profile
 import org.springframework.samples.petclinic.model.Owner
 import org.springframework.samples.petclinic.model.Pet
@@ -109,9 +112,19 @@ class R2dbcCoroutineClinicService(
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun sleep(times: Int, millis: Int) {
-        for (i in 1..times) {
-            sleepRepository.sleep(millis)
+    override suspend fun sleep(times: Int, millis: Int, zip: Boolean) {
+        return if (zip) {
+            coroutineScope {
+                val list = mutableListOf<Deferred<Unit>>()
+                for (i in 0 until times) {
+                    list += async { coroutineScope { sleepRepository.sleep(millis) } }
+                }
+                list.forEach { it.await() }
+            }
+        } else {
+            for (i in 1..times) {
+                sleepRepository.sleep(millis)
+            }
         }
     }
 }
