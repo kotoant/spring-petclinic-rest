@@ -116,8 +116,8 @@ class R2dbcCoroutineClinicService(
         return if (zip) {
             coroutineScope {
                 val list = mutableListOf<Deferred<Unit>>()
-                for (i in 0 until times) {
-                    list += async { coroutineScope { sleepRepository.sleep(millis) } }
+                for (i in 1..times) {
+                    list += async { sleepRepository.sleep(millis) }
                 }
                 list.forEach { it.await() }
             }
