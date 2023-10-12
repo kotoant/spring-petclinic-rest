@@ -33,9 +33,9 @@ class CoroutineOwnerRepository(private val client: DatabaseClient) {
 
     suspend fun deleteById(id: Int): Boolean = client.inContextCoroutine {
         coroutineScope {
-            val res1 = async { coroutineScope { it.deleteVisitsByOwnerId(id).awaitSingle() } }
-            val res2 = async { coroutineScope { it.deletePetsByOwnerId(id).awaitSingle() } }
-            val res3 = async { coroutineScope { it.deleteOwnerById(id).awaitSingle() } }
+            val res1 = async  { it.deleteVisitsByOwnerId(id).awaitSingle() }
+            val res2 = async  { it.deletePetsByOwnerId(id).awaitSingle() }
+            val res3 = async  { it.deleteOwnerById(id).awaitSingle() }
             res1.await()
             res2.await()
             res3.await() > 0
