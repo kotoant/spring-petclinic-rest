@@ -106,6 +106,66 @@ export const options = {
                 // It should stay at `target` iterations per `timeUnit` for the following `duration`.
                 { target: 3000, duration: '30s' },
 
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 3500, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 3500, duration: '30s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 4000, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 4000, duration: '30s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 4500, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 4500, duration: '30s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 5000, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 5000, duration: '30s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 5500, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 5500, duration: '30s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 6000, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 6000, duration: '30s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 6500, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 6500, duration: '30s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 7000, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 7000, duration: '30s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 7500, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 7500, duration: '30s' },
+
+                // It should linearly ramp-up to 'target' iterations per `timeUnit` over the following `duration`.
+                { target: 8000, duration: '30s' },
+
+                // It should stay at `target` iterations per `timeUnit` for the following `duration`.
+                { target: 8000, duration: '30s' },
+
                 // It should linearly ramp-down to 'target' iterations per `timeUnit` over the following `duration`.
                 { target: 0, duration: '20s' },
             ],
@@ -128,75 +188,14 @@ function colName(n) {
 }
 
 export default function () {
-    const BASE_URL = 'https://springpetclinicrest.ru'
     const BASE_API_URL = 'https://springpetclinicrest.ru/api'
     // const BASE_API_URL = 'http://localhost:9966/api'
     const params = {
         headers: { 'Content-Type': 'application/json' },
         timeout: '30s',
     };
-    const lastName = `Last${colName(scenario.iterationInTest)}name`
-    const owner = {
-        firstName: 'George',
-        lastName: lastName,
-        address: '110 W. Liberty St.',
-        city: 'Madison',
-        telephone: '6085551023'
-    };
-    const postOwnerPayload = JSON.stringify(owner);
-    const postOwnerRes = http.post(http.url`${BASE_API_URL}/owners`, postOwnerPayload, params);
-    check(postOwnerRes, { 'post owner status was 201': (r) => r.status === 201 });
-    const ownerId = postOwnerRes.json().id
 
-    const pet = {
-        name: 'Leo',
-        birthDate: '2023-03-03',
-        type: {
-            id: 1,
-            name: 'cat'
-        }
-    }
-    const postPetPayload = JSON.stringify(pet);
-    const postPetRes = http.post(http.url`${BASE_API_URL}/owners/${ownerId}/pets`, postPetPayload, params);
-    check(postPetRes, { 'post pet status was 201': (r) => r.status === 201 });
-    const petId = postPetRes.json().id
+    const getSleepRes = http.get(http.url`${BASE_API_URL}/sleep?times=10&millis=2`, params);
+    check(getSleepRes, { 'get sleep status was 200': (r) => r.status === 200 });
 
-    const visit = {
-        date: '2023-03-03',
-        description: 'rabies shot'
-    }
-    const postVisitPayload = JSON.stringify(visit);
-    const postVisitRes = http.post(http.url`${BASE_API_URL}/owners/${ownerId}/pets/${petId}/visits`, postVisitPayload, params);
-    check(postVisitRes, { 'post visit status was 201': (r) => r.status === 201 });
-    const visitId = postVisitRes.json().id
-
-    const getOwnerRes = http.get(http.url`${BASE_API_URL}/owners/${ownerId}`, params);
-    check(getOwnerRes, { 'get owner status was 200': (r) => r.status === 200 });
-
-    const getPetRes = http.get(http.url`${BASE_API_URL}/pets/${petId}`, params);
-    check(getPetRes, { 'get pet status was 200': (r) => r.status === 200 });
-
-    const getVisitRes = http.get(http.url`${BASE_API_URL}/visits/${visitId}`, params);
-    check(getVisitRes, { 'get visit status was 200': (r) => r.status === 200 });
-
-    const findOwnerRes = http.get(http.url`${BASE_API_URL}/owners?lastName=${lastName}&lastId=${ownerId - 1}&pageSize=1`, params);
-    check(findOwnerRes, { 'find owners status was 200': (r) => r.status === 200 });
-
-    pet.name = 'Leopold'
-    const putPetPayload = JSON.stringify(pet);
-    const putPetRes = http.put(http.url`${BASE_API_URL}/pets/${petId}`, putPetPayload, params);
-    check(putPetRes, { 'put pet status was 200': (r) => r.status === 200 });
-
-    visit.date = '2023-03-04'
-    const putVisitPayload = JSON.stringify(visit);
-    const putVisitRes = http.put(http.url`${BASE_API_URL}/visits/${visitId}`, putVisitPayload, params);
-    check(putVisitRes, { 'put visit status was 200': (r) => r.status === 200 });
-
-    owner.telephone = '6085551024'
-    const putOwnerPayload = JSON.stringify(owner);
-    const putOwnerRes = http.put(http.url`${BASE_API_URL}/owners/${ownerId}`, putOwnerPayload, params);
-    check(putOwnerRes, { 'put owner status was 200': (r) => r.status === 200 });
-
-    const getLivenessRes = http.get(http.url`${BASE_URL}/livez`, params);
-    check(getLivenessRes, { 'get liveness status was 200': (r) => r.status === 200 });
 }
