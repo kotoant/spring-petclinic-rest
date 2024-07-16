@@ -128,7 +128,7 @@ function colName(n) {
 }
 
 export default function () {
-    const BASE_API_URL = 'https://springpetclinicrest.ru/api'
+    const BASE_API_URL = 'https://petcli.ru/api'
     // const BASE_API_URL = 'http://localhost:9966/api'
     const params = {
         headers: { 'Content-Type': 'application/json' },
