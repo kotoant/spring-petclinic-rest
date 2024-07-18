@@ -48,4 +48,6 @@ interface CoroutineClinicService {
     suspend fun deletePetType(id: Int): Boolean
 
     suspend fun sleep(times: Int, millis: Int, zip: Boolean)
+
+    suspend fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): List<String>
 }

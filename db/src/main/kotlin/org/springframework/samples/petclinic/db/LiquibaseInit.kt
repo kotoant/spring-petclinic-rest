@@ -12,6 +12,6 @@ object LiquibaseInit {
     fun initFunction(connection: Connection) {
         val database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(JdbcConnection(connection))
         database.defaultSchemaName = "public"
-        Liquibase("db/schema.sql", ClassLoaderResourceAccessor(), database).update(Contexts())
+        Liquibase("db/changelog.xml", ClassLoaderResourceAccessor(), database).update(Contexts("schema"))
     }
 }

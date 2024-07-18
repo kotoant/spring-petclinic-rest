@@ -93,4 +93,8 @@ class JdbcCoroutineClinicService(
     override suspend fun sleep(times: Int, millis: Int, zip: Boolean) = wrapBlockingCall {
         clinicService.sleep(times, millis)
     }
+
+    override suspend fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int) = wrapBlockingCall {
+        clinicService.sleepAndFetch(times, millis, strings, length)
+    }
 }

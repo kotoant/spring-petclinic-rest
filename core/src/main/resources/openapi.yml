@@ -1242,6 +1242,8 @@ paths:
 
   /sleep:
     get:
+      tags:
+        - sleep
       operationId: sleep
       summary: Sleep
       description: Sleep.
@@ -1275,6 +1277,72 @@ paths:
       responses:
         200:
           description: Sleep successful.
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+  /sleep-and-fetch:
+    get:
+      tags:
+        - sleep
+      operationId: sleep-and-fetch
+      summary: sleep-and-fetch
+      description: Sleep and fetch.
+      parameters:
+        - name: times
+          in: query
+          description: Number of times to sleep.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            example: 1
+            default: 1
+        - name: millis
+          in: query
+          description: Number of milliseconds to sleep.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            example: 100
+            default: 100
+        - name: strings
+          in: query
+          description: Number of strings to fetch.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            example: 100
+            default: 100
+        - name: length
+          in: query
+          description: Length of strings to fetch.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            example: 100
+            default: 100
+      responses:
+        200:
+          description: Sleep and fetch.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
         400:
           description: Bad request.
           content:

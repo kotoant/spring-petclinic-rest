@@ -15,6 +15,7 @@ import org.springframework.samples.petclinic.jooq.public_.Tables.OWNERS
 import org.springframework.samples.petclinic.jooq.public_.Tables.PETS
 import org.springframework.samples.petclinic.jooq.public_.Tables.TYPES
 import org.springframework.samples.petclinic.jooq.public_.Tables.VISITS
+import org.springframework.samples.petclinic.jooq.public_.tables.SleepAndFetch.SLEEP_AND_FETCH
 import org.springframework.samples.petclinic.model.Owner
 import org.springframework.samples.petclinic.model.Pet
 import org.springframework.samples.petclinic.model.PetType
@@ -310,5 +311,18 @@ fun DSLContext.deletePetTypeById(id: Int) = delete(TYPES).where(TYPES.ID.eq(id))
 
 fun DSLContext.sleep(millis: Int) = Routines.pgSleep(configuration(), millis / 1000.0)
 
+fun DSLContext.sleepAndFetch(millis: Int, strings: Int, length: Int): List<String> = select(SLEEP_AND_FETCH.STRING)
+    .from(org.springframework.samples.petclinic.jooq.public_.Routines.sleepAndFetch(millis / 1000.0, strings, length))
+    .fetch { it.value1() }
+
 fun DatabaseClient.sleep(millis: Int) =
     sql("select pg_sleep(:seconds)").bind("seconds", millis / 1000.0).then().then(Unit.toMono())
+
+fun DatabaseClient.sleepAndFetch(millis: Int, strings: Int, length: Int) =
+    sql("select * from sleep_and_fetch(:seconds, :strings, :length)")
+        .bind("seconds", millis / 1000.0)
+        .bind("strings", strings)
+        .bind("length", length)
+        .map { row -> row.get(0, String::class.java)!! }
+        .all()
+        .collectList()

@@ -61,4 +61,5 @@ class MonitoringR2dbcCoroutineClinicService(
 
     override suspend fun deletePetType(id: Int): Boolean = recordTimer("deletePetType") { service.deletePetType(id) }
     override suspend fun sleep(times: Int, millis: Int, zip: Boolean) = recordTimer("sleep") { service.sleep(times, millis, zip) }
+    override suspend fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int) = recordTimer("sleepAndFetch") { service.sleepAndFetch(times, millis, strings, length) }
 }

@@ -127,4 +127,13 @@ class R2dbcCoroutineClinicService(
             }
         }
     }
+
+    @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
+    override suspend fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): List<String> {
+        var result = listOf<String>()
+        for (i in 1..times) {
+            result = sleepRepository.sleepAndFetch(millis, strings, length)
+        }
+        return result
+    }
 }

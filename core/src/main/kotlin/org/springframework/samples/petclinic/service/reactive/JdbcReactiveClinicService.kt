@@ -93,4 +93,8 @@ class JdbcReactiveClinicService(private val clinicService: JdbcClinicService, pr
     override fun sleep(times: Int, millis: Int, zip: Boolean): Mono<Unit> = wrapBlockingCall {
         clinicService.sleep(times, millis)
     }
+
+    override fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): Mono<List<String>> = wrapBlockingCall {
+        clinicService.sleepAndFetch(times, millis, strings, length)
+    }
 }

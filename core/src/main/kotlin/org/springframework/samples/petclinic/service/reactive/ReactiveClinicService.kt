@@ -49,4 +49,6 @@ interface ReactiveClinicService {
     fun deletePetType(id: Int): Mono<Boolean>
 
     fun sleep(times: Int, millis: Int, zip: Boolean): Mono<Unit>
+
+    fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): Mono<List<String>>
 }

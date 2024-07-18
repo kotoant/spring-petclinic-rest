@@ -48,4 +48,6 @@ interface JdbcClinicService {
     fun deletePetType(id: Int): Boolean
 
     fun sleep(times: Int, millis: Int)
+
+    fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): List<String>
 }

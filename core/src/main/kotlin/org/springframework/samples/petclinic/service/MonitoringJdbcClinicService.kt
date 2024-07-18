@@ -54,4 +54,6 @@ class MonitoringJdbcClinicService(@Qualifier("jdbcClinicServiceImpl") private va
     override fun savePetType(petType: PetType): PetType = recordTimer("savePetType") { service.savePetType(petType) }
     override fun deletePetType(id: Int): Boolean = recordTimer("deletePetType") { service.deletePetType(id) }
     override fun sleep(times: Int, millis: Int) = recordTimer("sleep") { service.sleep(times, millis) }
+    override fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): List<String> =
+        recordTimer("sleepAndFetch") { service.sleepAndFetch(times, millis, strings, length) }
 }

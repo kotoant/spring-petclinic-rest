@@ -118,4 +118,13 @@ class JdbcClinicServiceImpl(
             sleepRepository.sleep(millis)
         }
     }
+
+    @Transactional(transactionManager = "transactionManager", readOnly = true)
+    override fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): List<String> {
+        var res = listOf<String>()
+        for (i in 1..times) {
+            res = sleepRepository.sleepAndFetch(millis, strings, length)
+        }
+        return res
+    }
 }

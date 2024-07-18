@@ -123,4 +123,9 @@ class R2dbcReactiveClinicService(
             sleepRepository.sleep(millis).repeat(times - 1L).then().then(Unit.toMono())
         }
     }
+
+    @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
+    override fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): Mono<List<String>> {
+        return sleepRepository.sleepAndFetch(millis, strings, length).repeat(times - 1L).last()
+    }
 }
