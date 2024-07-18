@@ -18,4 +18,12 @@ class JdbcSleepRepositoryTest : BaseTest() {
         val elapsed = System.currentTimeMillis() - start
         Assertions.assertThat(elapsed).isGreaterThanOrEqualTo(100)
     }
+
+    @Test
+    fun sleepAndFetch() {
+        val start = System.currentTimeMillis()
+        repository.sleepAndFetch(100, 0, 0)
+        val elapsed = System.currentTimeMillis() - start
+        Assertions.assertThat(elapsed).isGreaterThanOrEqualTo(100)
+    }
 }
