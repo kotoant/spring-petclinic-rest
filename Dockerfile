@@ -1,4 +1,4 @@
-FROM eclipse-temurin:20-jdk
+FROM eclipse-temurin:21-jdk
 
 # cd /usr/local/app
 WORKDIR /usr/local/app
