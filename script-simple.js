@@ -134,65 +134,7 @@ export default function () {
         headers: { 'Content-Type': 'application/json' },
         timeout: '30s',
     };
-    // const lastName = `Last${colName(scenario.iterationInTest)}name`
-    // const owner = {
-    //     firstName: 'George',
-    //     lastName: lastName,
-    //     address: '110 W. Liberty St.',
-    //     city: 'Madison',
-    //     telephone: '6085551023'
-    // };
-    // const postOwnerPayload = JSON.stringify(owner);
-    // const postOwnerRes = http.post(http.url`${BASE_API_URL}/owners`, postOwnerPayload, params);
-    // check(postOwnerRes, { 'post owner status was 201': (r) => r.status === 201 });
-    // const ownerId = postOwnerRes.json().id
-    //
-    // const pet = {
-    //     name: 'Leo',
-    //     birthDate: '2023-03-03',
-    //     type: {
-    //         id: 1,
-    //         name: 'cat'
-    //     }
-    // }
-    // const postPetPayload = JSON.stringify(pet);
-    // const postPetRes = http.post(http.url`${BASE_API_URL}/owners/${ownerId}/pets`, postPetPayload, params);
-    // check(postPetRes, { 'post pet status was 201': (r) => r.status === 201 });
-    // const petId = postPetRes.json().id
-    //
-    // const visit = {
-    //     date: '2023-03-03',
-    //     description: 'rabies shot'
-    // }
-    // const postVisitPayload = JSON.stringify(visit);
-    // const postVisitRes = http.post(http.url`${BASE_API_URL}/owners/${ownerId}/pets/${petId}/visits`, postVisitPayload, params);
-    // check(postVisitRes, { 'post visit status was 201': (r) => r.status === 201 });
-    const visitId = 1
 
-    // const getOwnerRes = http.get(http.url`${BASE_API_URL}/owners/${ownerId}`, params);
-    // check(getOwnerRes, { 'get owner status was 200': (r) => r.status === 200 });
-    //
-    // const getPetRes = http.get(http.url`${BASE_API_URL}/pets/${petId}`, params);
-    // check(getPetRes, { 'get pet status was 200': (r) => r.status === 200 });
-
-    const getVisitRes = http.get(http.url`${BASE_API_URL}/visits/${visitId}`, params);
-    check(getVisitRes, { 'get visit status was 200': (r) => r.status === 200 });
-
-    // const findOwnerRes = http.get(http.url`${BASE_API_URL}/owners?lastName=${lastName}&lastId=${ownerId - 1}&pageSize=1`, params);
-    // check(findOwnerRes, { 'find owners status was 200': (r) => r.status === 200 });
-    //
-    // pet.name = 'Leopold'
-    // const putPetPayload = JSON.stringify(pet);
-    // const putPetRes = http.put(http.url`${BASE_API_URL}/pets/${petId}`, putPetPayload, params);
-    // check(putPetRes, { 'put pet status was 200': (r) => r.status === 200 });
-    //
-    // visit.date = '2023-03-04'
-    // const putVisitPayload = JSON.stringify(visit);
-    // const putVisitRes = http.put(http.url`${BASE_API_URL}/visits/${visitId}`, putVisitPayload, params);
-    // check(putVisitRes, { 'put visit status was 200': (r) => r.status === 200 });
-    //
-    // owner.telephone = '6085551024'
-    // const putOwnerPayload = JSON.stringify(owner);
-    // const putOwnerRes = http.put(http.url`${BASE_API_URL}/owners/${ownerId}`, putOwnerPayload, params);
-    // check(putOwnerRes, { 'put owner status was 200': (r) => r.status === 200 });
+    const getSleepRes = http.get(http.url`${BASE_API_URL}/sleep-and-fetch?times=1&millis=0&strings=10&length=10`, params);
+    check(getSleepRes, { 'get sleep status was 200': (r) => r.status === 200 });
 }
