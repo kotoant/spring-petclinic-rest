@@ -95,6 +95,7 @@ $$\
 
 CREATE
     OR REPLACE FUNCTION sleep_and_fetch(
+        sleep BOOLEAN,
         seconds DOUBLE PRECISION,
         strings INTEGER,
         string_length INTEGER
@@ -106,7 +107,9 @@ CREATE
 AS
 $$
 BEGIN
-    PERFORM pg_sleep(seconds);
+    IF sleep THEN
+        PERFORM pg_sleep(seconds);
+    END IF;
     RETURN QUERY SELECT get_random_string(string_length)
                  FROM generate_series(1, strings);
 END;

@@ -49,5 +49,6 @@ interface CoroutineClinicService {
 
     suspend fun sleep(times: Int, millis: Int, zip: Boolean)
 
-    suspend fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): List<String>
+    suspend fun sleepAndFetchWithDb(times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int, jooq: Boolean): List<String>
+    suspend fun sleepAndFetchWithoutDb(times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int): List<String>
 }

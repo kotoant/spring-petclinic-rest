@@ -49,5 +49,9 @@ interface JdbcClinicService {
 
     fun sleep(times: Int, millis: Int)
 
-    fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): List<String>
+    fun sleepAndFetchWithDb(
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int, jooq: Boolean
+    ): List<String>
+
+    fun sleepAndFetchWithoutDb(times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int): List<String>
 }

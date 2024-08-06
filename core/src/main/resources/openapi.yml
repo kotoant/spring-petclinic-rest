@@ -1300,13 +1300,20 @@ paths:
       parameters:
         - name: times
           in: query
-          description: Number of times to sleep.
+          description: Number of times to sleep and fetch.
           required: false
           schema:
             type: integer
             minimum: 1
             example: 1
             default: 1
+        - name: sleep
+          in: query
+          description: Whether to sleep.
+          required: false
+          schema:
+            type: boolean
+            default: true
         - name: millis
           in: query
           description: Number of milliseconds to sleep.
@@ -1334,6 +1341,20 @@ paths:
             minimum: 0
             example: 100
             default: 100
+        - name: jooq
+          in: query
+          description: Whether to use jooq or spring jdbc/r2dbc template.
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: db
+          in: query
+          description: Whether to use database or Thread.sleep().
+          required: false
+          schema:
+            type: boolean
+            default: true
       responses:
         200:
           description: Sleep and fetch.

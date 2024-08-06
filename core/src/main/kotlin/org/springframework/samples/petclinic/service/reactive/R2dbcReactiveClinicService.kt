@@ -125,7 +125,16 @@ class R2dbcReactiveClinicService(
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): Mono<List<String>> {
-        return sleepRepository.sleepAndFetch(millis, strings, length).repeat(times - 1L).last()
+    override fun sleepAndFetchWithDb(
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int, jooq: Boolean
+    ): Mono<List<String>> {
+        return sleepRepository.sleepAndFetch(sleep, millis, strings, length, jooq, db = true).repeat(times - 1L).last()
+    }
+
+    override fun sleepAndFetchWithoutDb(
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int
+    ): Mono<List<String>> {
+        return sleepRepository.sleepAndFetch(sleep, millis, strings, length, jooq = false, db = false)
+            .repeat(times - 1L).last()
     }
 }

@@ -10,7 +10,6 @@ import org.jooq.conf.Settings
 import org.jooq.impl.DSL
 import org.reactivestreams.Publisher
 import org.springframework.r2dbc.core.DatabaseClient
-import org.springframework.samples.petclinic.service.exception.OwnerNotFoundException
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono

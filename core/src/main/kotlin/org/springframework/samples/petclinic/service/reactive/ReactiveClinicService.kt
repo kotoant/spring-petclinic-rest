@@ -50,5 +50,6 @@ interface ReactiveClinicService {
 
     fun sleep(times: Int, millis: Int, zip: Boolean): Mono<Unit>
 
-    fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): Mono<List<String>>
+    fun sleepAndFetchWithDb(times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int, jooq: Boolean): Mono<List<String>>
+    fun sleepAndFetchWithoutDb(times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int): Mono<List<String>>
 }

@@ -9,6 +9,9 @@ import org.jooq.impl.DSL.multiset
 import org.jooq.impl.DSL.noCondition
 import org.jooq.impl.DSL.row
 import org.reactivestreams.Publisher
+import org.springframework.jdbc.core.RowMapper
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.samples.petclinic.jooq.pg_catalog.Routines
 import org.springframework.samples.petclinic.jooq.public_.Tables.OWNERS
@@ -29,6 +32,7 @@ import org.springframework.samples.petclinic.service.exception.PetTypeNotFoundEx
 import org.springframework.samples.petclinic.service.exception.VisitNotFoundException
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
+import java.sql.ResultSet
 
 fun <R : Record, E : Any> Publisher<R>.fetchOneReactive(mapper: RecordMapper<in R, E>) = toMono().map(mapper)
 
@@ -311,15 +315,42 @@ fun DSLContext.deletePetTypeById(id: Int) = delete(TYPES).where(TYPES.ID.eq(id))
 
 fun DSLContext.sleep(millis: Int) = Routines.pgSleep(configuration(), millis / 1000.0)
 
-fun DSLContext.sleepAndFetch(millis: Int, strings: Int, length: Int): List<String> = select(SLEEP_AND_FETCH.STRING)
-    .from(org.springframework.samples.petclinic.jooq.public_.Routines.sleepAndFetch(millis / 1000.0, strings, length))
-    .fetch { it.value1() }
+fun DSLContext.selectSleepAndFetch(sleep: Boolean, millis: Int, strings: Int, length: Int) =
+    select(SLEEP_AND_FETCH.STRING)
+        .from(
+            org.springframework.samples.petclinic.jooq.public_.Routines.sleepAndFetch(
+                sleep,
+                millis / 1000.0,
+                strings,
+                length
+            )
+        )
+
+fun DSLContext.sleepAndFetch(sleep: Boolean, millis: Int, strings: Int, length: Int): List<String> =
+    selectSleepAndFetch(sleep, millis, strings, length).fetch { it.value1() }
+
+fun DSLContext.sleepAndFetchReactive(sleep: Boolean, millis: Int, strings: Int, length: Int): Mono<List<String>> =
+    selectSleepAndFetch(sleep, millis, strings, length).fetchReactive { it.value1() }
 
 fun DatabaseClient.sleep(millis: Int) =
     sql("select pg_sleep(:seconds)").bind("seconds", millis / 1000.0).then().then(Unit.toMono())
 
-fun DatabaseClient.sleepAndFetch(millis: Int, strings: Int, length: Int) =
-    sql("select * from sleep_and_fetch(:seconds, :strings, :length)")
+fun NamedParameterJdbcTemplate.sleepAndFetch(sleep: Boolean, millis: Int, strings: Int, length: Int): List<String> {
+    val params = MapSqlParameterSource()
+        .addValue("sleep", sleep)
+        .addValue("seconds", millis / 1000.0)
+        .addValue("strings", strings)
+        .addValue("length", length)
+    return query("select * from sleep_and_fetch(:sleep, :seconds, :strings, :length)", params, StringRowMapper)
+}
+
+object StringRowMapper : RowMapper<String> {
+    override fun mapRow(rs: ResultSet, rowNum: Int): String?  = rs.getString(1)
+}
+
+fun DatabaseClient.sleepAndFetch(sleep: Boolean, millis: Int, strings: Int, length: Int) =
+    sql("select * from sleep_and_fetch(:sleep, :seconds, :strings, :length)")
+        .bind("sleep", sleep)
         .bind("seconds", millis / 1000.0)
         .bind("strings", strings)
         .bind("length", length)

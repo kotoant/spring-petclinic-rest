@@ -11,12 +11,18 @@ import reactor.core.publisher.Mono
 
 @RestController
 @Profile("reactive")
-class ReactiveSleepController(private val clinicService: ReactiveClinicService) : SleepReactiveApi, SleepAndFetchReactiveApi {
+class ReactiveSleepController(private val clinicService: ReactiveClinicService) : SleepReactiveApi,
+    SleepAndFetchReactiveApi {
     override fun sleep(times: Int, millis: Int, zip: Boolean): Mono<ResponseEntity<Unit>> {
         return clinicService.sleep(times, millis, zip).map { ResponseEntity(HttpStatus.OK) }
     }
 
-    override fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): Mono<ResponseEntity<List<String>>> {
-        return clinicService.sleepAndFetch(times, millis, strings, length).map { ResponseEntity(it, HttpStatus.OK) }
+    override fun sleepAndFetch(
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int, jooq: Boolean, db: Boolean
+    ): Mono<ResponseEntity<List<String>>> {
+        return (if (db) clinicService.sleepAndFetchWithDb(times, sleep, millis, strings, length, jooq)
+        else clinicService.sleepAndFetchWithoutDb(times, sleep, millis, strings, length)).map {
+            ResponseEntity(it, HttpStatus.OK)
+        }
     }
 }

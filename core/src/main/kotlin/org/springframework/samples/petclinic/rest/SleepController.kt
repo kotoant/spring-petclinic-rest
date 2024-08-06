@@ -19,7 +19,14 @@ class SleepController(private val clinicService: JdbcClinicService) : SleepApi, 
         return ResponseEntity(HttpStatus.OK)
     }
 
-    override fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): ResponseEntity<List<String>> {
-        return ResponseEntity(clinicService.sleepAndFetch(times, millis, strings, length), HttpStatus.OK)
+    override fun sleepAndFetch(
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int, jooq: Boolean, db: Boolean
+    ): ResponseEntity<List<String>> {
+        return ResponseEntity(
+            if (db) clinicService.sleepAndFetchWithDb(
+                times, sleep, millis, strings, length, jooq
+            ) else clinicService.sleepAndFetchWithoutDb(times, sleep, millis, strings, length),
+            HttpStatus.OK
+        )
     }
 }

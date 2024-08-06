@@ -18,9 +18,10 @@ class CoroutineSleepController(private val clinicService: CoroutineClinicService
     }
 
     override suspend fun sleepAndFetch(
-        times: Int, millis: Int, strings: Int, length: Int
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int, jooq: Boolean, db: Boolean
     ): ResponseEntity<List<String>> {
-        val result = clinicService.sleepAndFetch(times, millis, strings, length)
+        val result = if (db) clinicService.sleepAndFetchWithDb(times, sleep, millis, strings, length, jooq)
+        else clinicService.sleepAndFetchWithoutDb(times, sleep, millis, strings, length)
         return ResponseEntity(result, HttpStatus.OK)
     }
 }

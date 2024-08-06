@@ -129,10 +129,22 @@ class R2dbcCoroutineClinicService(
     }
 
     @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
-    override suspend fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): List<String> {
+    override suspend fun sleepAndFetchWithDb(
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int, jooq: Boolean
+    ): List<String> {
         var result = listOf<String>()
         for (i in 1..times) {
-            result = sleepRepository.sleepAndFetch(millis, strings, length)
+            result = sleepRepository.sleepAndFetch(sleep, millis, strings, length, jooq, db = true)
+        }
+        return result
+    }
+
+    override suspend fun sleepAndFetchWithoutDb(
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int
+    ): List<String> {
+        var result = listOf<String>()
+        for (i in 1..times) {
+            result = sleepRepository.sleepAndFetch(sleep, millis, strings, length, jooq = false, db = false)
         }
         return result
     }

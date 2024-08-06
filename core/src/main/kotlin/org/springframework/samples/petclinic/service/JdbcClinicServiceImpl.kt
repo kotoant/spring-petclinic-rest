@@ -120,10 +120,22 @@ class JdbcClinicServiceImpl(
     }
 
     @Transactional(transactionManager = "transactionManager", readOnly = true)
-    override fun sleepAndFetch(times: Int, millis: Int, strings: Int, length: Int): List<String> {
+    override fun sleepAndFetchWithDb(
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int, jooq: Boolean
+    ): List<String> {
         var res = listOf<String>()
         for (i in 1..times) {
-            res = sleepRepository.sleepAndFetch(millis, strings, length)
+            res = sleepRepository.sleepAndFetch(sleep, millis, strings, length, jooq, db = true)
+        }
+        return res
+    }
+
+    override fun sleepAndFetchWithoutDb(
+        times: Int, sleep: Boolean, millis: Int, strings: Int, length: Int
+    ): List<String> {
+        var res = listOf<String>()
+        for (i in 1..times) {
+            res = sleepRepository.sleepAndFetch(sleep, millis, strings, length, jooq = false, db = false)
         }
         return res
     }
