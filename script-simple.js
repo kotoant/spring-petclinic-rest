@@ -135,6 +135,6 @@ export default function () {
         timeout: '30s',
     };
 
-    const getSleepRes = http.get(http.url`${BASE_API_URL}/sleep-and-fetch?times=1&millis=0&strings=10&length=10&sleep=false&db=true`, params);
+    const getSleepRes = http.get(http.url`${BASE_API_URL}/sleep-and-fetch?times=1&millis=0&strings=10&length=10&sleep=true&db=true`, params);
     check(getSleepRes, { 'get sleep status was 200': (r) => r.status === 200 });
 }
